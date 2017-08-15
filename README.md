@@ -1,6 +1,6 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/appscode/voyager)](https://goreportcard.com/report/github.com/appscode/voyager)
 
-[Website](https://appscode.com) • [Slack](https://slack.appscode.com) • [Forum](https://discuss.appscode.com) • [Twitter](https://twitter.com/AppsCodeHQ)
+[Website](https://appscode.com) • [Slack](https://slack.appscode.com) • [Twitter](https://twitter.com/AppsCodeHQ)
 
 # voyager
 Voyager is a [HAProxy](http://www.haproxy.org/) backed [secure](#certificate) L7 and L4 [ingress](#ingress) controller for Kubernetes developed by
@@ -126,6 +126,5 @@ To disable stats collection, run the operator with the flag** `--analytics=false
 ## Support
 If you have any questions, you can reach out to us.
 * [Slack](https://slack.appscode.com)
-* [Forum](https://discuss.appscode.com)
 * [Twitter](https://twitter.com/AppsCodeHQ)
 * [Website](https://appscode.com)
