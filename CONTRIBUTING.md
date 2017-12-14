@@ -15,7 +15,7 @@ contribution. See the [DCO](DCO) file for details.
 
 ## Developer Guide
 
-We have a [Developer Guide](/docs/developer-guide/README.md) that outlines everything you need to know from setting up your
+We have a [Developer Guide](/docs/setup/developer-guide/README.md) that outlines everything you need to know from setting up your
 dev environment to how to build and test Voyager. If you find something undocumented or incorrect along the way,
 please feel free to send a Pull Request.
 
