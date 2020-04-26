@@ -23,7 +23,7 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v1
 
-    - name: Run checks
+    - name: Prepare Host
       run: |
         sudo apt-get -qq update || true
         sudo apt-get install -y bzr
@@ -35,7 +35,9 @@ jobs:
         curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.17.0/bin/linux/amd64/kubectl
         chmod +x ./kubectl
         sudo mv ./kubectl /usr/local/bin/kubectl
-        # run checks
+
+    - name: Run checks
+      run: |
         make ci
 
   kubernetes:
@@ -80,6 +82,6 @@ jobs:
     - name: Test charts
       run: |
         export KUBECONFIG="${HOME}/.kube/config"
-        make ct TEST_CHARTS=charts/kubepack-operator
+        make ct TEST_CHARTS=charts/voyager
         echo
         kubectl delete crds --all
