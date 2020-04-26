@@ -1,6 +1,6 @@
 # Voyager
 
-[Voyager by AppsCode](https://github.com/appscode/voyager) - Secure HAProxy Ingress Controller for Kubernetes
+[Voyager by AppsCode](https://github.com/voyagermesh/voyager) - Secure HAProxy Ingress Controller for Kubernetes
 
 ## TL;DR;
 
@@ -12,7 +12,7 @@ $ helm install voyager-operator appscode/voyager -n kube-system
 
 ## Introduction
 
-This chart bootstraps an [ingress controller](https://github.com/appscode/voyager) deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+This chart bootstraps an [ingress controller](https://github.com/voyagermesh/voyager) deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
 ## Prerequisites
 
