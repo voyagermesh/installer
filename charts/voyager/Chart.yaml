@@ -3,10 +3,10 @@ description: 'Voyager by AppsCode - Secure HAProxy Ingress Controller for Kubern
 name: voyager
 version: v12.0.0-rc.2
 appVersion: v12.0.0-rc.2
-home: https://appscode.com/products/voyager/
+home: https://voyagermesh.com/
 icon: https://cdn.appscode.com/images/products/voyager/icons/android-icon-192x192.png
 sources:
-  - https://github.com/appscode/voyager
+  - https://github.com/voyagermesh/voyager
 maintainers:
   - name: appscode
     email: support@appscode.com
