@@ -2,81 +2,94 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# Overrides name template
 nameOverride: ""
+# Overrides fullname template
 fullnameOverride: ""
 
+# Number of operator replicas to create (only 1 is supported)
 replicaCount: 1
 
 # Docker registry containing Voyager & HAProxy images
 voyager:
+  # Docker registry used to pull Voyager operator image
   registry: appscode
+  # Voyager operator container image
   repository: voyager
+  # Voyager operator container image tag
   tag: v12.0.0-rc.2
+  # Compute Resources required by the operator container
   resources: {}
+  # Security options the operator container should run with
   securityContext: {}
+
 haproxy:
+  # Docker registry used to pull HAProxy image
   registry: appscode
+  # HAProxy container image
   repository: haproxy
+  # HAProxy container image tag
   tag: 1.9.15-v12.0.0-rc.2-alpine
+
 cleaner:
+  # Docker registry used to pull Webhook cleaner image
   registry: appscode
+  # Webhook cleaner container image
   repository: kubectl
+  # Webhook cleaner container image tag
   tag: v1.16
 
-## Optionally specify an array of imagePullSecrets.
-## Secrets must be manually created in the namespace.
-## ref: https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
-## example: helm template charts/voyager \
-##            --set imagePullSecrets[0].name=abc,imagePullSecrets[1].name=xyz
+# Specify an array of imagePullSecrets.
+# Secrets must be manually created in the namespace.
+#
+# Example:
+# helm template charts/Voyager \
+#   --set imagePullSecrets[0].name=sec0 \
+#   --set imagePullSecrets[1].name=sec1
 imagePullSecrets: []
 
-## Specify a imagePullPolicy
-## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
-##
+# Container image pull policy
 imagePullPolicy: IfNotPresent
 
-## Use cloud provider here.
+# Name of cloud provider
 cloudProvider:
 
-## The path to the cloud provider configuration file. Empty string for no configuration file.
-## ie. for azure use /etc/kubernetes/azure.json
+# Path to the cloud provider configuration file.
+# Empty string for no configuration file.
+# For azure use /etc/kubernetes/azure.json
 cloudConfig: ''
 
-## Installs voyager operator as critical addon
-## https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/
+# If true, installs Voyager operator as critical addon
 criticalAddon: false
-## Log level for voyager
+
+# Log level for operator
 logLevel: 3
+
 persistence:
+  # Enable mounting cloud config
   enabled: false
+  # Host mount path for cloud config
   hostPath: /etc/kubernetes
 
-## Annotations passed to operator deployment.
-##
+# Annotations applied to operator deployment
 annotations: {}
 
-## Annotations passed to operator pod(s).
-##
+# Annotations passed to operator pod(s).
 podAnnotations: {}
 
-## Node labels for pod assignment
-## Ref: https://kubernetes.io/docs/user-guide/node-selection/
-##
-nodeSelector:
+# Node labels for pod assignment
+nodeSelector:  # +doc-gen:break
   beta.kubernetes.io/os: linux
   beta.kubernetes.io/arch: amd64
 
-## Tolerations for pod assignment
-## Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
-##
+# Tolerations for pod assignment
 tolerations: []
 
-## Affinity for pod assignment
-## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
-##
+# Affinity rules for pod assignment
 affinity: {}
 
-podSecurityContext:
+# Security options the operator pod should run with.
+podSecurityContext:  # +doc-gen:break
   fsGroup: 65535
 
 serviceAccount:
@@ -88,44 +101,48 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name:
 
-# this flag can be set to 'voyager' to handle only ingress
-# with annotation kubernetes.io/ingress.class=voyager.
+# Ingress class to watch for. If empty, it handles all ingress.
+# Set this flag to 'voyager' to handle only ingresses with annotation kubernetes.io/ingress.class=voyager.
 ingressClass:
 
 apiserver:
-  # groupPriorityMinimum is the minimum priority the group should have. Please see
+  # The minimum priority the webhook api group should have at least. Please see
   # https://github.com/kubernetes/kube-aggregator/blob/release-1.9/pkg/apis/apiregistration/v1beta1/types.go#L58-L64
   # for more information on proper values of this field.
   groupPriorityMinimum: 10000
-  # versionPriority is the ordering of this API inside of the group. Please see
+  # The ordering of the webhook api inside of the group. Please see
   # https://github.com/kubernetes/kube-aggregator/blob/release-1.9/pkg/apis/apiregistration/v1beta1/types.go#L66-L70
   # for more information on proper values of this field
   versionPriority: 15
-  # enableValidatingWebhook is used to configure apiserver as ValidationWebhook for Voyager CRDs
+  # If true, validating webhook is configured for Voyager CRDss
   enableValidatingWebhook: true
-  # CA certificate used by main Kubernetes api server
+  # CA certificate used by the Kubernetes api server. This field is automatically assigned by the operator.
   ca: not-ca-cert
-  # If true, bypasses validating webhook xray checks
+  # If true, bypasses checks that validating webhook is actually enabled in the Kubernetes cluster.
   bypassValidatingWebhookXray: false
   # If true, uses kube-apiserver FQDN for AKS cluster to workaround https://github.com/Azure/AKS/issues/522 (default true)
   useKubeapiserverFqdnForAks: true
-  # healthcheck configures the readiness and liveliness probes for the operator pod.
   healthcheck:
+    # Healthcheck configures the readiness and liveliness probes for the operator pod.
     enabled: false
   servingCerts:
-    # If true, generate on install/upgrade the certs that allow the kube-apiserver (and potentially ServiceMonitor) to authenticate vault-operator pods.
-    # Otherwise specify in `apiserver.servingCerts.{caCrt, serverCrt, serverKey}`.
+    # If true, generates on install/upgrade the certs that allow the kube-apiserver (and potentially ServiceMonitor)
+    # to authenticate operators pods. Otherwise specify certs in `apiserver.servingCerts.{caCrt, serverCrt, serverKey}`.
     generate: true
+    # CA certficate used by serving certificate of webhook server.
     caCrt: ""
+    # Serving certficate used by webhook server.
     serverCrt: ""
+    # Private key for the serving certificate used by webhook server.
     serverKey: ""
 
-# Send usage events to Google Analytics
+# If true, sends usage analytics
 enableAnalytics: true
 
+# If true, voyager operator will only handle Kubernetes objects in its own namespace.
 restrictToOperatorNamespace: false
 
 # Customization of templates
 templates:
-  # name of configmap with custom templates
+  # Name of configmap with custom templates
   cfgmap:

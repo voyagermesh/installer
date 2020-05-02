@@ -1,6 +1,6 @@
 # Voyager
 
-[Voyager by AppsCode](https://github.com/voyagermesh/voyager) - Secure HAProxy Ingress Controller for Kubernetes
+[Voyager by AppsCode](https://github.com/voyagermesh) - Secure HAProxy Ingress Controller for Kubernetes
 
 ## TL;DR;
 
@@ -12,7 +12,7 @@ $ helm install voyager-operator appscode/voyager -n kube-system
 
 ## Introduction
 
-This chart bootstraps an [ingress controller](https://github.com/voyagermesh/voyager) deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+This chart deploys a Voyager operator on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
 ## Prerequisites
 
@@ -20,82 +20,89 @@ This chart bootstraps an [ingress controller](https://github.com/voyagermesh/voy
 
 ## Installing the Chart
 
-To install the chart with the release name `my-release`:
+To install the chart with the release name `voyager-operator`:
 
 ```console
-$ helm install my-release appscode/voyager -n kube-system
+$ helm install voyager-operator appscode/voyager -n kube-system
 ```
 
-The command deploys Voyager Controller on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
+The command deploys a Voyager operator on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
 
 > **Tip**: List all releases using `helm list`
 
 ## Uninstalling the Chart
 
-To uninstall/delete the `my-release`:
+To uninstall/delete the `voyager-operator`:
 
 ```console
-$ helm delete my-release -n kube-system
+$ helm delete voyager-operator -n kube-system
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.
 
 ## Configuration
 
-The following tables lists the configurable parameters of the Voyager chart and their default values.
+The following table lists the configurable parameters of the `voyager` chart and their default values.
 
-
-| Parameter                            | Description                                                   | Default               |
-| ------------------------------------ | ------------------------------------------------------------- | ----------------------|
-| `replicaCount`                       | Number of operator replicas to create (only 1 is supported)   | `1`                   |
-| `voyager.registry`                   | Docker registry used to pull Voyager image                    | `appscode`            |
-| `voyager.repository`                 | Voyager container image                                       | `voyager`             |
-| `voyager.tag`                        | Voyager container image tag                                   | `v12.0.0-rc.2`        |
-| `haproxy.registry`                   | Docker registry used to pull HAProxy image                    | `appscode`            |
-| `haproxy.repository`                 | HAProxy container image                                       | `haproxy`             |
-| `haproxy.tag`                        | HAProxy container image tag                                   | `1.9.15-v12.0.0-rc.2-alpine` |
-| `cleaner.registry`                   | Docker registry used to pull Webhook cleaner image            | `appscode`            |
-| `cleaner.repository`                 | Webhook cleaner container image                               | `kubectl`             |
-| `cleaner.tag`                        | Webhook cleaner container image tag                           | `v1.11`               |
-| `imagePullSecrets`                   | Specify image pull secrets                                    | `[]`                  |
-| `imagePullPolicy`                    | Image pull policy                                             | `IfNotPresent`        |
-| `cloudProvider`                      | Name of cloud provider                                        | `nil`                 |
-| `cloudConfig`                        | Path to cloud config                                          | ``                    |
-| `criticalAddon`                      | If true, installs Voyager operator as critical addon          | `false`               |
-| `logLevel`                           | Log level for operator                                        | `3`                   |
-| `persistence.enabled`                | Enable mounting cloud config                                  | `false`               |
-| `persistence.hostPath`               | Host mount path for cloud config                              | `/etc/kubernetes`     |
-| `affinity`                           | Affinity rules for pod assignment                             | `{}`                  |
-| `annotations`                        | Annotations applied to operator deployment                    | `{}`                  |
-| `podAnnotations`                     | Annotations applied to operator pod(s)                        | `{}`                  |
-| `nodeSelector`                       | Node labels for pod assignment                                | `{}`                  |
-| `tolerations`                        | Tolerations used pod assignment                               | `{}`                  |
-| `rbac.create`                        | If `true`, create and use RBAC resources                      | `true`                |
-| `serviceAccount.create`              | If `true`, create a new service account                       | `true`                |
-| `serviceAccount.name`                | Service account to be used. If not set and `serviceAccount.create` is `true`, a name is generated using the fullname template | `` |
-| `ingressClass`                       | Ingress class to watch for. If empty, it handles all ingress  | ``                    |
-| `templates.cfgmap`                   | Name of configmap with custom templates                       | ``                    |
-| `apiserver.groupPriorityMinimum`     | The minimum priority the group should have.                   | 10000                 |
-| `apiserver.versionPriority`          | The ordering of this API inside of the group.                 | 15                    |
-| `apiserver.enableValidatingWebhook`  | Configure apiserver as admission webhooks for Voyager CRDs    | `true`                |
-| `apiserver.ca`                       | CA certificate used by main Kubernetes api server             | `not-ca-cert`         |
-| `apiserver.bypassValidatingWebhookXray` | If true, bypasses validating webhook xray checks           | `false`               |
-| `apiserver.useKubeapiserverFqdnForAks`  | If true, uses kube-apiserver FQDN for AKS cluster to workaround https://github.com/Azure/AKS/issues/522 | `true`             |
-| `apiserver.healthcheck.enabled`         | Enable readiness and liveliness probes                     | `false`               |
-| `apiserver.servingCerts.generate`       | If true, generate on install/upgrade the certs that allow the kube-apiserver (and potentially ServiceMonitor) to authenticate Stash operator pods. Otherwise specify in `apiserver.servingCerts.{caCrt, serverCrt, serverKey}`.  | `true`                                                    |
-| `enableAnalytics`                       | Send usage events to Google Analytics                      | `true`                |
-| `restrictToOperatorNamespace`           | If true, voyager operator will only handle Kubernetes objects in its own namespace.   | `false`                |
+|               Parameter               |                                                                                                                    Description                                                                                                                    |                                Default                                |
+|---------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
+| nameOverride                          | Overrides name template                                                                                                                                                                                                                           | `""`                                                                  |
+| fullnameOverride                      | Overrides fullname template                                                                                                                                                                                                                       | `""`                                                                  |
+| replicaCount                          | Number of operator replicas to create (only 1 is supported)                                                                                                                                                                                       | `1`                                                                   |
+| voyager.registry                      | Docker registry used to pull Voyager operator image                                                                                                                                                                                               | `appscode`                                                            |
+| voyager.repository                    | Voyager operator container image                                                                                                                                                                                                                  | `voyager`                                                             |
+| voyager.tag                           | Voyager operator container image tag                                                                                                                                                                                                              | `v12.0.0-rc.2`                                                        |
+| voyager.resources                     | Compute Resources required by the operator container                                                                                                                                                                                              | `{}`                                                                  |
+| voyager.securityContext               | Security options the operator container should run with                                                                                                                                                                                           | `{}`                                                                  |
+| haproxy.registry                      | Docker registry used to pull HAProxy image                                                                                                                                                                                                        | `appscode`                                                            |
+| haproxy.repository                    | HAProxy container image                                                                                                                                                                                                                           | `haproxy`                                                             |
+| haproxy.tag                           | HAProxy container image tag                                                                                                                                                                                                                       | `1.9.15-v12.0.0-rc.2-alpine`                                          |
+| cleaner.registry                      | Docker registry used to pull Webhook cleaner image                                                                                                                                                                                                | `appscode`                                                            |
+| cleaner.repository                    | Webhook cleaner container image                                                                                                                                                                                                                   | `kubectl`                                                             |
+| cleaner.tag                           | Webhook cleaner container image tag                                                                                                                                                                                                               | `v1.16`                                                               |
+| imagePullSecrets                      | Specify an array of imagePullSecrets. Secrets must be manually created in the namespace. <br> Example: <br> `helm template charts/Voyager \` <br> `--set imagePullSecrets[0].name=sec0 \` <br> `--set imagePullSecrets[1].name=sec1`              | `[]`                                                                  |
+| imagePullPolicy                       | Container image pull policy                                                                                                                                                                                                                       | `IfNotPresent`                                                        |
+| cloudProvider                         | Name of cloud provider                                                                                                                                                                                                                            | ``                                                                    |
+| cloudConfig                           | Path to the cloud provider configuration file. Empty string for no configuration file. For azure use /etc/kubernetes/azure.json                                                                                                                   | `''`                                                                  |
+| criticalAddon                         | If true, installs Voyager operator as critical addon                                                                                                                                                                                              | `false`                                                               |
+| logLevel                              | Log level for operator                                                                                                                                                                                                                            | `3`                                                                   |
+| persistence.enabled                   | Enable mounting cloud config                                                                                                                                                                                                                      | `false`                                                               |
+| persistence.hostPath                  | Host mount path for cloud config                                                                                                                                                                                                                  | `/etc/kubernetes`                                                     |
+| annotations                           | Annotations applied to operator deployment                                                                                                                                                                                                        | `{}`                                                                  |
+| podAnnotations                        | Annotations passed to operator pod(s).                                                                                                                                                                                                            | `{}`                                                                  |
+| nodeSelector                          | Node labels for pod assignment                                                                                                                                                                                                                    | `{"beta.kubernetes.io/arch":"amd64","beta.kubernetes.io/os":"linux"}` |
+| tolerations                           | Tolerations for pod assignment                                                                                                                                                                                                                    | `[]`                                                                  |
+| affinity                              | Affinity rules for pod assignment                                                                                                                                                                                                                 | `{}`                                                                  |
+| podSecurityContext                    | Security options the operator pod should run with.                                                                                                                                                                                                | `{"fsGroup":65535}`                                                   |
+| serviceAccount.create                 | Specifies whether a service account should be created                                                                                                                                                                                             | `true`                                                                |
+| serviceAccount.annotations            | Annotations to add to the service account                                                                                                                                                                                                         | `{}`                                                                  |
+| serviceAccount.name                   | The name of the service account to use. If not set and create is true, a name is generated using the fullname template                                                                                                                            | ``                                                                    |
+| ingressClass                          | Ingress class to watch for. If empty, it handles all ingress. Set this flag to 'voyager' to handle only ingresses with annotation kubernetes.io/ingress.class=voyager.                                                                            | ``                                                                    |
+| apiserver.groupPriorityMinimum        | The minimum priority the webhook api group should have at least. Please see https://github.com/kubernetes/kube-aggregator/blob/release-1.9/pkg/apis/apiregistration/v1beta1/types.go#L58-L64 for more information on proper values of this field. | `10000`                                                               |
+| apiserver.versionPriority             | The ordering of the webhook api inside of the group. Please see https://github.com/kubernetes/kube-aggregator/blob/release-1.9/pkg/apis/apiregistration/v1beta1/types.go#L66-L70 for more information on proper values of this field              | `15`                                                                  |
+| apiserver.enableValidatingWebhook     | If true, validating webhook is configured for Voyager CRDss                                                                                                                                                                                       | `true`                                                                |
+| apiserver.ca                          | CA certificate used by the Kubernetes api server. This field is automatically assigned by the operator.                                                                                                                                           | `not-ca-cert`                                                         |
+| apiserver.bypassValidatingWebhookXray | If true, bypasses checks that validating webhook is actually enabled in the Kubernetes cluster.                                                                                                                                                   | `false`                                                               |
+| apiserver.useKubeapiserverFqdnForAks  | If true, uses kube-apiserver FQDN for AKS cluster to workaround https://github.com/Azure/AKS/issues/522 (default true)                                                                                                                            | `true`                                                                |
+| apiserver.healthcheck.enabled         | Healthcheck configures the readiness and liveliness probes for the operator pod.                                                                                                                                                                  | `false`                                                               |
+| apiserver.servingCerts.generate       | If true, generates on install/upgrade the certs that allow the kube-apiserver (and potentially ServiceMonitor) to authenticate operators pods. Otherwise specify certs in `apiserver.servingCerts.{caCrt, serverCrt, serverKey}`.                 | `true`                                                                |
+| apiserver.servingCerts.caCrt          | CA certficate used by serving certificate of webhook server.                                                                                                                                                                                      | `""`                                                                  |
+| apiserver.servingCerts.serverCrt      | Serving certficate used by webhook server.                                                                                                                                                                                                        | `""`                                                                  |
+| apiserver.servingCerts.serverKey      | Private key for the serving certificate used by webhook server.                                                                                                                                                                                   | `""`                                                                  |
+| enableAnalytics                       | If true, sends usage analytics                                                                                                                                                                                                                    | `true`                                                                |
+| restrictToOperatorNamespace           | If true, voyager operator will only handle Kubernetes objects in its own namespace.                                                                                                                                                               | `false`                                                               |
+| templates.cfgmap                      | Name of configmap with custom templates                                                                                                                                                                                                           | ``                                                                    |
 
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 
 ```console
-$ helm install my-release appscode/voyager -n kube-system --set image.tag=v0.2.1
+$ helm install voyager-operator appscode/voyager -n kube-system --set replicaCount=1
 ```
 
 Alternatively, a YAML file that specifies the values for the parameters can be provided while
 installing the chart. For example:
 
 ```console
-$ helm install my-release appscode/voyager -n kube-system --values values.yaml
+$ helm install voyager-operator appscode/voyager -n kube-system --values values.yaml
 ```
