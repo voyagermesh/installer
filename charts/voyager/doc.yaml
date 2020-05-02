@@ -1,0 +1,18 @@
+project:
+  name: Voyager by AppsCode
+  shortName: Voyager
+  url: https://github.com/voyagermesh
+  description: Secure HAProxy Ingress Controller for Kubernetes
+  app: a Voyager operator
+repository:
+  url: https://charts.appscode.com/stable/
+  name: appscode
+chart:
+  name: voyager
+  values: "-- generate from values file --"
+  valuesExample: "-- generate from values file --"
+prerequisites:
+- Kubernetes 1.11+
+release:
+  name: voyager-operator
+  namespace: kube-system
