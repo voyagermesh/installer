@@ -17,7 +17,7 @@ voyager:
   # Voyager operator container image
   repository: voyager
   # Voyager operator container image tag
-  tag: v13.0.0-beta.0
+  tag: v13.0.0-beta.1
   # Compute Resources required by the operator container
   resources: {}
   # Security options the operator container should run with
@@ -29,7 +29,7 @@ haproxy:
   # HAProxy container image
   repository: haproxy
   # HAProxy container image tag
-  tag: 1.9.15-v13.0.0-beta.0-alpine
+  tag: 1.9.15-v13.0.0-beta.1-alpine
 
 cleaner:
   # Docker registry used to pull Webhook cleaner image
