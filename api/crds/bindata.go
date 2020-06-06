@@ -215,8 +215,8 @@ type bintree struct {
 }
 
 var _bintree = &bintree{nil, map[string]*bintree{
-	"installer.voyagermesh.com_voyageroperators.v1.yaml": {installerVoyagermeshCom_voyageroperatorsV1Yaml, map[string]*bintree{}},
-	"installer.voyagermesh.com_voyageroperators.yaml":    {installerVoyagermeshCom_voyageroperatorsYaml, map[string]*bintree{}},
+	"installer.voyagermesh.com_voyageroperators.v1.yaml": &bintree{installerVoyagermeshCom_voyageroperatorsV1Yaml, map[string]*bintree{}},
+	"installer.voyagermesh.com_voyageroperators.yaml":    &bintree{installerVoyagermeshCom_voyageroperatorsYaml, map[string]*bintree{}},
 }}
 
 // RestoreAsset restores an asset under the given directory
