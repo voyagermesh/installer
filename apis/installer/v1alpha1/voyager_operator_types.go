@@ -42,14 +42,14 @@ type VoyagerOperator struct {
 	Spec              VoyagerOperatorSpec `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
 }
 
-// VoyagerOperatorSpec is the schema for Voyager Operator values file
+// VoyagerOperatorSpec is the schema for Operator Operator values file
 type VoyagerOperatorSpec struct {
 	//+optional
 	NameOverride string `json:"nameOverride" protobuf:"bytes,1,opt,name=nameOverride"`
 	//+optional
 	FullnameOverride string       `json:"fullnameOverride" protobuf:"bytes,2,opt,name=fullnameOverride"`
 	ReplicaCount     int32        `json:"replicaCount" protobuf:"varint,3,opt,name=replicaCount"`
-	Voyager          ContianerRef `json:"voyager" protobuf:"bytes,4,opt,name=voyager"`
+	Operator         ContianerRef `json:"operator" protobuf:"bytes,4,opt,name=operator"`
 	Haproxy          ImageRef     `json:"haproxy" protobuf:"bytes,5,opt,name=haproxy"`
 	Cleaner          ImageRef     `json:"cleaner" protobuf:"bytes,6,opt,name=cleaner"`
 	ImagePullPolicy  string       `json:"imagePullPolicy" protobuf:"bytes,7,opt,name=imagePullPolicy"`

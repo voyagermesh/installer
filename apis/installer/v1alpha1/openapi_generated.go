@@ -15831,7 +15831,7 @@ func schema_installer_apis_installer_v1alpha1_VoyagerOperatorSpec(ref common.Ref
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
-				Description: "VoyagerOperatorSpec is the schema for Voyager Operator values file",
+				Description: "VoyagerOperatorSpec is the schema for Operator Operator values file",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"nameOverride": {
@@ -15852,7 +15852,7 @@ func schema_installer_apis_installer_v1alpha1_VoyagerOperatorSpec(ref common.Ref
 							Format: "int32",
 						},
 					},
-					"voyager": {
+					"operator": {
 						SchemaProps: spec.SchemaProps{
 							Ref: ref("voyagermesh.dev/installer/apis/installer/v1alpha1.ContianerRef"),
 						},
@@ -16016,7 +16016,7 @@ func schema_installer_apis_installer_v1alpha1_VoyagerOperatorSpec(ref common.Ref
 						},
 					},
 				},
-				Required: []string{"replicaCount", "voyager", "haproxy", "cleaner", "imagePullPolicy", "persistence", "serviceAccount", "apiserver", "templates"},
+				Required: []string{"replicaCount", "operator", "haproxy", "cleaner", "imagePullPolicy", "persistence", "serviceAccount", "apiserver", "templates"},
 			},
 		},
 		Dependencies: []string{

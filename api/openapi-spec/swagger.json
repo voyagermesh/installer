@@ -1277,11 +1277,11 @@
       ]
     },
     "dev.voyagermesh.installer.apis.installer.v1alpha1.VoyagerOperatorSpec": {
-      "description": "VoyagerOperatorSpec is the schema for Voyager Operator values file",
+      "description": "VoyagerOperatorSpec is the schema for Operator Operator values file",
       "type": "object",
       "required": [
         "replicaCount",
-        "voyager",
+        "operator",
         "haproxy",
         "cleaner",
         "imagePullPolicy",
@@ -1350,6 +1350,9 @@
             "type": "string"
           }
         },
+        "operator": {
+          "$ref": "#/definitions/dev.voyagermesh.installer.apis.installer.v1alpha1.ContianerRef"
+        },
         "persistence": {
           "$ref": "#/definitions/dev.voyagermesh.installer.apis.installer.v1alpha1.CloudConfig"
         },
@@ -1382,9 +1385,6 @@
           "items": {
             "$ref": "#/definitions/io.k8s.api.core.v1.Toleration"
           }
-        },
-        "voyager": {
-          "$ref": "#/definitions/dev.voyagermesh.installer.apis.installer.v1alpha1.ContianerRef"
         }
       }
     },
