@@ -104,7 +104,7 @@ message VoyagerOperatorList {
   repeated VoyagerOperator items = 2;
 }
 
-// VoyagerOperatorSpec is the schema for Voyager Operator values file
+// VoyagerOperatorSpec is the schema for Operator Operator values file
 message VoyagerOperatorSpec {
   // +optional
   optional string nameOverride = 1;
@@ -114,7 +114,7 @@ message VoyagerOperatorSpec {
 
   optional int32 replicaCount = 3;
 
-  optional ContianerRef voyager = 4;
+  optional ContianerRef operator = 4;
 
   optional ImageRef haproxy = 5;
 

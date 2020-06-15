@@ -230,7 +230,7 @@ gen-values-schema:
 	@yq d /tmp/voyager-values.openapiv3_schema.yaml description > charts/voyager/values.openapiv3_schema.yaml
 
 .PHONY: gen-chart-doc
-gen-chart-doc: gen-chart-doc-voyager
+gen-chart-doc: $(shell find $$(pwd)/charts -maxdepth 1 -mindepth 1 -type d -printf 'gen-chart-doc-%f ')
 
 gen-chart-doc-%:
 	@echo "Generate $* chart docs"
@@ -249,6 +249,28 @@ manifests: gen-crds patch-crds label-crds gen-bindata gen-values-schema gen-char
 
 .PHONY: gen
 gen: clientset gen-crd-protos manifests openapi
+
+CHART_VERSION    ?=
+APP_VERSION      ?= $(CHART_VERSION)
+HAPROXY_VERSION  ?=
+
+.PHONY: update-charts
+update-charts: $(shell find $$(pwd)/charts -maxdepth 1 -mindepth 1 -type d -printf 'chart-%f ')
+
+chart-%:
+	@$(MAKE) chart-contents-$* gen-chart-doc-$* --no-print-directory
+
+chart-contents-%:
+	@if [ ! -z "$(CHART_VERSION)" ]; then \
+		yq w -i ./charts/$*/Chart.yaml version $(CHART_VERSION); \
+	fi
+	@if [ ! -z "$(APP_VERSION)" ]; then \
+		yq w -i ./charts/$*/Chart.yaml appVersion $(APP_VERSION); \
+		yq w -i ./charts/$*/values.yaml operator.tag $(APP_VERSION); \
+	fi
+	@if [ ! -z "$(HAPROXY_VERSION)" ]; then \
+		yq w -i ./charts/$*/values.yaml haproxy.tag $(HAPROXY_VERSION); \
+	fi
 
 fmt: $(BUILD_DIRS)
 	@docker run                                                 \

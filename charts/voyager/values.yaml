@@ -6,12 +6,9 @@
 nameOverride: ""
 # Overrides fullname template
 fullnameOverride: ""
-
 # Number of operator replicas to create (only 1 is supported)
 replicaCount: 1
-
-# Docker registry containing Voyager & HAProxy images
-voyager:
+operator:
   # Docker registry used to pull Voyager operator image
   registry: appscode
   # Voyager operator container image
@@ -22,7 +19,6 @@ voyager:
   resources: {}
   # Security options the operator container should run with
   securityContext: {}
-
 haproxy:
   # Docker registry used to pull HAProxy image
   registry: appscode
@@ -30,7 +26,6 @@ haproxy:
   repository: haproxy
   # HAProxy container image tag
   tag: 1.9.15-v13.0.0-beta.1-alpine
-
 cleaner:
   # Docker registry used to pull Webhook cleaner image
   registry: appscode
@@ -38,7 +33,6 @@ cleaner:
   repository: kubectl
   # Webhook cleaner container image tag
   tag: v1.16
-
 # Specify an array of imagePullSecrets.
 # Secrets must be manually created in the namespace.
 #
@@ -47,51 +41,38 @@ cleaner:
 #   --set imagePullSecrets[0].name=sec0 \
 #   --set imagePullSecrets[1].name=sec1
 imagePullSecrets: []
-
 # Container image pull policy
 imagePullPolicy: IfNotPresent
-
 # Name of cloud provider
 cloudProvider:
-
 # Path to the cloud provider configuration file.
 # Empty string for no configuration file.
 # For azure use /etc/kubernetes/azure.json
 cloudConfig: ''
-
 # If true, installs Voyager operator as critical addon
 criticalAddon: false
-
 # Log level for operator
 logLevel: 3
-
 persistence:
   # Enable mounting cloud config
   enabled: false
   # Host mount path for cloud config
   hostPath: /etc/kubernetes
-
 # Annotations applied to operator deployment
 annotations: {}
-
 # Annotations passed to operator pod(s).
 podAnnotations: {}
-
 # Node labels for pod assignment
-nodeSelector:  # +doc-gen:break
+nodeSelector: # +doc-gen:break
   beta.kubernetes.io/os: linux
   beta.kubernetes.io/arch: amd64
-
 # Tolerations for pod assignment
 tolerations: []
-
 # Affinity rules for pod assignment
 affinity: {}
-
 # Security options the operator pod should run with.
-podSecurityContext:  # +doc-gen:break
+podSecurityContext: # +doc-gen:break
   fsGroup: 65535
-
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -100,11 +81,9 @@ serviceAccount:
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name:
-
 # Ingress class to watch for. If empty, it handles all ingress.
 # Set this flag to 'voyager' to handle only ingresses with annotation kubernetes.io/ingress.class=voyager.
 ingressClass:
-
 apiserver:
   # The minimum priority the webhook api group should have at least. Please see
   # https://github.com/kubernetes/kube-aggregator/blob/release-1.9/pkg/apis/apiregistration/v1beta1/types.go#L58-L64
@@ -135,13 +114,10 @@ apiserver:
     serverCrt: ""
     # Private key for the serving certificate used by webhook server.
     serverKey: ""
-
 # If true, sends usage analytics
 enableAnalytics: true
-
 # If true, voyager operator will only handle Kubernetes objects in its own namespace.
 restrictToOperatorNamespace: false
-
 # Customization of templates
 templates:
   # Name of configmap with custom templates

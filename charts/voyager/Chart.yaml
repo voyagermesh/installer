@@ -6,7 +6,7 @@ appVersion: v13.0.0-beta.1
 home: https://voyagermesh.com/
 icon: https://cdn.appscode.com/images/products/voyager/icons/android-icon-192x192.png
 sources:
-  - https://github.com/voyagermesh/voyager
+- https://github.com/voyagermesh/voyager
 maintainers:
-  - name: appscode
-    email: support@appscode.com
+- name: appscode
+  email: support@appscode.com
