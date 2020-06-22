@@ -252,7 +252,7 @@ gen: clientset gen-crd-protos manifests openapi
 
 CHART_VERSION    ?=
 APP_VERSION      ?= $(CHART_VERSION)
-HAPROXY_VERSION  ?=
+HAPROXY_VERSION  ?= 1.9.15-$(CHART_VERSION)-alpine
 
 .PHONY: update-charts
 update-charts: $(shell find $$(pwd)/charts -maxdepth 1 -mindepth 1 -type d -printf 'chart-%f ')
@@ -261,15 +261,15 @@ chart-%:
 	@$(MAKE) chart-contents-$* gen-chart-doc-$* --no-print-directory
 
 chart-contents-%:
-	@if [ ! -z "$(CHART_VERSION)" ]; then \
-		yq w -i ./charts/$*/Chart.yaml version $(CHART_VERSION); \
+	@if [ ! -z "$(CHART_VERSION)" ]; then                                             \
+		yq w -i ./charts/$*/Chart.yaml version --tag '!!str' $(CHART_VERSION);        \
 	fi
-	@if [ ! -z "$(APP_VERSION)" ]; then \
-		yq w -i ./charts/$*/Chart.yaml appVersion $(APP_VERSION); \
-		yq w -i ./charts/$*/values.yaml operator.tag $(APP_VERSION); \
+	@if [ ! -z "$(APP_VERSION)" ]; then                                               \
+		yq w -i ./charts/$*/Chart.yaml appVersion --tag '!!str' $(APP_VERSION);       \
+		yq w -i ./charts/$*/values.yaml operator.tag --tag '!!str' $(APP_VERSION);    \
 	fi
-	@if [ ! -z "$(HAPROXY_VERSION)" ]; then \
-		yq w -i ./charts/$*/values.yaml haproxy.tag $(HAPROXY_VERSION); \
+	@if [ ! -z "$(HAPROXY_VERSION)" ]; then                                           \
+		yq w -i ./charts/$*/values.yaml haproxy.tag --tag '!!str' $(HAPROXY_VERSION); \
 	fi
 
 fmt: $(BUILD_DIRS)
