@@ -8,7 +8,6 @@ nameOverride: ""
 fullnameOverride: ""
 # Number of operator replicas to create (only 1 is supported)
 replicaCount: 1
-
 # License for the product.
 # Get a license by following the steps from [here](https://voyagermesh.com/docs/latest/setup/install#get-a-trial-license).
 # Example:
@@ -18,14 +17,13 @@ replicaCount: 1
 # helm install appscode/voyager \
 #   --set license=<license file content>
 license: ""
-
 operator:
   # Docker registry used to pull Voyager operator image
   registry: appscode
   # Voyager operator container image
   repository: voyager
   # Voyager operator container image tag
-  tag: v13.0.0-beta.1
+  tag: v2021.04.20-beta.2
   # Compute Resources required by the operator container
   resources: {}
   # Security options the operator container should run with
@@ -36,7 +34,7 @@ haproxy:
   # HAProxy container image
   repository: haproxy
   # HAProxy container image tag
-  tag: 1.9.15-v13.0.0-beta.1-alpine
+  tag: 1.9.15-v2021.04.20-beta.2-alpine
 cleaner:
   # Docker registry used to pull Webhook cleaner image
   registry: appscode

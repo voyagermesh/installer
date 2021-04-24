@@ -5,9 +5,9 @@
 ## TL;DR;
 
 ```console
-$ helm repo add appscode https://charts.appscode.com/stable/
+$ helm repo add appscode-testing https://charts.appscode.com/testing/
 $ helm repo update
-$ helm install voyager-crds appscode/voyager-crds -n kube-system
+$ helm install voyager-crds appscode-testing/voyager-crds -n kube-system
 ```
 
 ## Introduction
@@ -23,7 +23,7 @@ This chart deploys Voyager crds on a [Kubernetes](http://kubernetes.io) cluster 
 To install the chart with the release name `voyager-crds`:
 
 ```console
-$ helm install voyager-crds appscode/voyager-crds -n kube-system
+$ helm install voyager-crds appscode-testing/voyager-crds -n kube-system
 ```
 
 The command deploys Voyager crds on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
