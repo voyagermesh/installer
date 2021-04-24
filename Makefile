@@ -1,5 +1,4 @@
-# Copyright 2019 AppsCode Inc.
-# Copyright 2016 The Kubernetes Authors.
+# Copyright AppsCode Inc. and Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 SHELL=/bin/bash -o pipefail
 
 GO_PKG   := voyagermesh.dev
@@ -49,8 +47,8 @@ endif
 ### These variables should not need tweaking.
 ###
 
-SRC_PKGS := api apis # directories which hold app source (not vendored)
-SRC_DIRS := $(SRC_PKGS) hack/gencrd
+SRC_PKGS := api apis hack # directories which hold app source (not vendored)
+SRC_DIRS := $(SRC_PKGS)
 
 DOCKER_PLATFORMS := linux/amd64 linux/arm linux/arm64
 BIN_PLATFORMS    := $(DOCKER_PLATFORMS)
@@ -225,10 +223,10 @@ gen-chart-doc-%:
 		chart-doc-gen -d ./charts/$*/doc.yaml -v ./charts/$*/values.yaml > ./charts/$*/README.md
 
 .PHONY: manifests
-manifests: gen-crds patch-crds label-crds gen-bindata gen-values-schema gen-chart-doc
+manifests: gen-crds gen-bindata gen-values-schema gen-chart-doc
 
 .PHONY: gen
-gen: clientset manifests openapi
+gen: clientset manifests
 
 CHART_REGISTRY     ?= appscode
 CHART_REGISTRY_URL ?= https://charts.appscode.com/stable/

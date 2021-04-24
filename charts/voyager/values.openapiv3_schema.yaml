@@ -628,6 +628,8 @@ properties:
     type: array
   ingressClass:
     type: string
+  license:
+    type: string
   logLevel:
     format: int32
     type: integer

@@ -8,6 +8,17 @@ nameOverride: ""
 fullnameOverride: ""
 # Number of operator replicas to create (only 1 is supported)
 replicaCount: 1
+
+# License for the product.
+# Get a license by following the steps from [here](https://voyagermesh.com/docs/latest/setup/install#get-a-trial-license).
+# Example:
+# helm install appscode/voyager \
+#   --set-file license=/path/to/license/file
+# or
+# helm install appscode/voyager \
+#   --set license=<license file content>
+license: ""
+
 operator:
   # Docker registry used to pull Voyager operator image
   registry: appscode

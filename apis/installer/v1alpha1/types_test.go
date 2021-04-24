@@ -1,5 +1,5 @@
 /*
-Copyright The Kubeshield Authors.
+Copyright AppsCode Inc. and Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import (
 
 func TestDefaultValues(t *testing.T) {
 	checker := schemachecker.New("../../..", []interface{}{
-		v1alpha1.VoyagerOperatorSpec{},
+		v1alpha1.VoyagerSpec{},
 	})
 	checker.TestAll(t)
 }

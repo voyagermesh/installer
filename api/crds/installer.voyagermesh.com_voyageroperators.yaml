@@ -1,9 +1,9 @@
+
+---
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   creationTimestamp: null
-  labels:
-    app.kubernetes.io/name: voyager
   name: voyageroperators.installer.voyagermesh.com
 spec:
   group: installer.voyagermesh.com
@@ -11,8 +11,8 @@ spec:
     categories:
     - voyager
     - appscode
-    kind: VoyagerOperator
-    listKind: VoyagerOperatorList
+    kind: Voyager
+    listKind: VoyagerList
     plural: voyageroperators
     singular: voyageroperator
   preserveUnknownFields: false
@@ -31,15 +31,9 @@ spec:
             submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           type: string
         metadata:
-          properties:
-            name:
-              maxLength: 63
-              pattern: ^[a-z]([-a-z0-9]*[a-z0-9])?$
-              type: string
           type: object
         spec:
-          description: VoyagerOperatorSpec is the schema for Operator Operator values
-            file
+          description: VoyagerSpec is the schema for Operator Operator values file
           properties:
             affinity:
               description: If specified, the pod's scheduling constraints
@@ -703,6 +697,8 @@ spec:
                 type: string
               type: array
             ingressClass:
+              type: string
+            license:
               type: string
             logLevel:
               format: int32
