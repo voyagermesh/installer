@@ -5,8 +5,8 @@ project:
   description: Secure HAProxy Ingress Controller for Kubernetes
   app: a Voyager operator
 repository:
-  url: https://charts.appscode.com/stable/
-  name: appscode
+  url: https://charts.appscode.com/testing/
+  name: appscode-testing
 chart:
   name: voyager
   values: "-- generate from values file --"

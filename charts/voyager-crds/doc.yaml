@@ -5,8 +5,8 @@ project:
   description: Voyager Custom Resource Definitions
   app: Voyager crds
 repository:
-  url: https://charts.appscode.com/stable/
-  name: appscode
+  url: https://charts.appscode.com/testing/
+  name: appscode-testing
 chart:
   name: voyager-crds
   values: "-- generate from values file --"
