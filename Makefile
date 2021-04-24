@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 SHELL=/bin/bash -o pipefail
 
 GO_PKG   := voyagermesh.dev
@@ -246,12 +247,20 @@ chart-contents-%:
 	@if [ ! -z "$(CHART_VERSION)" ]; then                                             \
 		yq w -i ./charts/$*/Chart.yaml version --tag '!!str' $(CHART_VERSION);        \
 	fi
-	@if [ ! -z "$(APP_VERSION)" ]; then                                               \
-		yq w -i ./charts/$*/Chart.yaml appVersion --tag '!!str' $(APP_VERSION);       \
-		yq w -i ./charts/$*/values.yaml operator.tag --tag '!!str' $(APP_VERSION);    \
+	@if [ ! -z "$(APP_VERSION)" ]; then                                                \
+		yq w -i ./charts/$*/Chart.yaml appVersion --tag '!!str' $(APP_VERSION);        \
+		case "$*" in                                                                   \
+		  voyager)                                                                     \
+		    yq w -i ./charts/$*/values.yaml operator.tag --tag '!!str' $(APP_VERSION); \
+		    ;;                                                                         \
+		esac;                                                                          \
 	fi
-	@if [ ! -z "$(HAPROXY_VERSION)" ]; then                                           \
-		yq w -i ./charts/$*/values.yaml haproxy.tag --tag '!!str' $(HAPROXY_VERSION); \
+	@if [ ! -z "$(HAPROXY_VERSION)" ]; then                                            \
+		case "$*" in                                                                   \
+		  voyager)                                                                     \
+		    yq w -i ./charts/$*/values.yaml haproxy.tag --tag '!!str' $(HAPROXY_VERSION); \
+		    ;;                                                                         \
+		esac;                                                                          \
 	fi
 
 fmt: $(BUILD_DIRS)
@@ -325,12 +334,18 @@ unit-tests: $(BUILD_DIRS)
 	        ./hack/test.sh $(SRC_PKGS)                          \
 	    "
 
-TEST_CHARTS ?=
+CT_COMMAND     ?= lint-and-install
+TEST_CHARTS    ?=
+KUBE_NAMESPACE ?=
+
+ifeq ($(CT_COMMAND),lint-and-install)
+	ct_namespace = --namespace=$(KUBE_NAMESPACE)
+endif
 
 ifeq ($(strip $(TEST_CHARTS)),)
-	CT_ARGS = --all
+	CT_ARGS = --all $(ct_namespace)
 else
-	CT_ARGS = --charts=$(TEST_CHARTS)
+	CT_ARGS = --charts=$(TEST_CHARTS) $(ct_namespace)
 endif
 
 .PHONY: ct
@@ -338,6 +353,7 @@ ct: $(BUILD_DIRS)
 	@docker run                                                 \
 	    -i                                                      \
 	    --rm                                                    \
+	    -u $$(id -u):$$(id -g)                                  \
 	    -v $$(pwd):/src                                         \
 	    -w /src                                                 \
 	    --net=host                                              \
@@ -351,7 +367,10 @@ ct: $(BUILD_DIRS)
 	    --env HTTPS_PROXY=$(HTTPS_PROXY)                        \
 	    --env KUBECONFIG=$(subst $(HOME),,$(KUBECONFIG))        \
 	    $(CHART_TEST_IMAGE)                                     \
-	    ct lint-and-install --debug $(CT_ARGS)
+	    /bin/sh -c "                                            \
+	        kubectl delete crds --selector=app.kubernetes.io/name=voyager; \
+	        ct $(CT_COMMAND) --debug $(CT_ARGS)                           \
+	    "
 
 ADDTL_LINTERS   := goconst,gofmt,goimports,unparam
 
