@@ -1,7 +1,8 @@
+{{- if eq "true" ( include "cleaner.generate" . ) }}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Release.Name }}-cleaner
+  name: {{ include "voyager.fullname" . }}-cleaner
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "voyager.labels" . | nindent 4 }}
@@ -25,3 +26,4 @@ spec:
           kubectl delete apiservice v1alpha1.admission.voyager.appscode.com || true"
         imagePullPolicy: {{ .Values.imagePullPolicy  }}
       restartPolicy: Never
+{{ end }}

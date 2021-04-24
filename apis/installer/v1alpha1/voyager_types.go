@@ -51,7 +51,7 @@ type VoyagerSpec struct {
 	ReplicaCount     int32        `json:"replicaCount"`
 	Operator         ContianerRef `json:"operator"`
 	Haproxy          ImageRef     `json:"haproxy"`
-	Cleaner          ImageRef     `json:"cleaner"`
+	Cleaner          CleanerRef   `json:"cleaner"`
 	ImagePullPolicy  string       `json:"imagePullPolicy"`
 	//+optional
 	ImagePullSecrets []string `json:"imagePullSecrets"`
@@ -97,6 +97,11 @@ type ImageRef struct {
 	Registry   string `json:"registry"`
 	Repository string `json:"repository"`
 	Tag        string `json:"tag"`
+}
+
+type CleanerRef struct {
+	ImageRef `json:",inline"`
+	Skip     bool `json:"skip"`
 }
 
 type ContianerRef struct {
