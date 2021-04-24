@@ -38,73 +38,73 @@ const (
 // +kubebuilder:resource:path=voyageroperators,singular=voyageroperator,categories={voyager,appscode}
 type VoyagerOperator struct {
 	metav1.TypeMeta   `json:",inline,omitempty"`
-	metav1.ObjectMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
-	Spec              VoyagerOperatorSpec `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              VoyagerOperatorSpec `json:"spec,omitempty"`
 }
 
 // VoyagerOperatorSpec is the schema for Operator Operator values file
 type VoyagerOperatorSpec struct {
 	//+optional
-	NameOverride string `json:"nameOverride" protobuf:"bytes,1,opt,name=nameOverride"`
+	NameOverride string `json:"nameOverride"`
 	//+optional
-	FullnameOverride string       `json:"fullnameOverride" protobuf:"bytes,2,opt,name=fullnameOverride"`
-	ReplicaCount     int32        `json:"replicaCount" protobuf:"varint,3,opt,name=replicaCount"`
-	Operator         ContianerRef `json:"operator" protobuf:"bytes,4,opt,name=operator"`
-	Haproxy          ImageRef     `json:"haproxy" protobuf:"bytes,5,opt,name=haproxy"`
-	Cleaner          ImageRef     `json:"cleaner" protobuf:"bytes,6,opt,name=cleaner"`
-	ImagePullPolicy  string       `json:"imagePullPolicy" protobuf:"bytes,7,opt,name=imagePullPolicy"`
+	FullnameOverride string       `json:"fullnameOverride"`
+	ReplicaCount     int32        `json:"replicaCount"`
+	Operator         ContianerRef `json:"operator"`
+	Haproxy          ImageRef     `json:"haproxy"`
+	Cleaner          ImageRef     `json:"cleaner"`
+	ImagePullPolicy  string       `json:"imagePullPolicy"`
 	//+optional
-	ImagePullSecrets []string `json:"imagePullSecrets" protobuf:"bytes,8,rep,name=imagePullSecrets"`
+	ImagePullSecrets []string `json:"imagePullSecrets"`
 	//+optional
-	CloudProvider *string `json:"cloudProvider" protobuf:"bytes,9,opt,name=cloudProvider"`
+	CloudProvider *string `json:"cloudProvider"`
 	//+optional
-	CloudConfig string `json:"cloudConfig" protobuf:"bytes,10,opt,name=cloudConfig"`
+	CloudConfig string `json:"cloudConfig"`
 	//+optional
-	CriticalAddon bool `json:"criticalAddon" protobuf:"varint,11,opt,name=criticalAddon"`
+	CriticalAddon bool `json:"criticalAddon"`
 	//+optional
-	LogLevel    int32       `json:"logLevel" protobuf:"varint,12,opt,name=logLevel"`
-	Persistence CloudConfig `json:"persistence" protobuf:"bytes,13,opt,name=persistence"`
+	LogLevel    int32       `json:"logLevel"`
+	Persistence CloudConfig `json:"persistence"`
 	//+optional
-	Annotations map[string]string `json:"annotations" protobuf:"bytes,14,rep,name=annotations"`
+	Annotations map[string]string `json:"annotations"`
 	//+optional
-	PodAnnotations map[string]string `json:"podAnnotations" protobuf:"bytes,15,rep,name=podAnnotations"`
+	PodAnnotations map[string]string `json:"podAnnotations"`
 	//+optional
-	NodeSelector map[string]string `json:"nodeSelector" protobuf:"bytes,16,rep,name=nodeSelector"`
+	NodeSelector map[string]string `json:"nodeSelector"`
 	// If specified, the pod's tolerations.
 	// +optional
-	Tolerations []core.Toleration `json:"tolerations" protobuf:"bytes,17,rep,name=tolerations"`
+	Tolerations []core.Toleration `json:"tolerations"`
 	// If specified, the pod's scheduling constraints
 	// +optional
-	Affinity *core.Affinity `json:"affinity" protobuf:"bytes,18,opt,name=affinity"`
+	Affinity *core.Affinity `json:"affinity"`
 	// PodSecurityContext holds pod-level security attributes and common container settings.
 	// Optional: Defaults to empty.  See type description for default values of each field.
 	// +optional
-	PodSecurityContext *core.PodSecurityContext `json:"podSecurityContext" protobuf:"bytes,19,opt,name=podSecurityContext"`
-	ServiceAccount     ServiceAccountSpec       `json:"serviceAccount" protobuf:"bytes,20,opt,name=serviceAccount"`
+	PodSecurityContext *core.PodSecurityContext `json:"podSecurityContext"`
+	ServiceAccount     ServiceAccountSpec       `json:"serviceAccount"`
 	// +optional
-	IngressClass *string     `json:"ingressClass" protobuf:"bytes,21,opt,name=ingressClass"`
-	Apiserver    WebHookSpec `json:"apiserver" protobuf:"bytes,22,opt,name=apiserver"`
+	IngressClass *string     `json:"ingressClass"`
+	Apiserver    WebHookSpec `json:"apiserver"`
 	//+optional
-	EnableAnalytics bool `json:"enableAnalytics" protobuf:"varint,23,opt,name=enableAnalytics"`
+	EnableAnalytics bool `json:"enableAnalytics"`
 	// +optional
-	RestrictToOperatorNamespace bool      `json:"restrictToOperatorNamespace" protobuf:"varint,24,opt,name=restrictToOperatorNamespace"`
-	Templates                   Templates `json:"templates" protobuf:"bytes,25,opt,name=templates"`
+	RestrictToOperatorNamespace bool      `json:"restrictToOperatorNamespace"`
+	Templates                   Templates `json:"templates"`
 }
 
 type ImageRef struct {
-	Registry   string `json:"registry" protobuf:"bytes,1,opt,name=registry"`
-	Repository string `json:"repository" protobuf:"bytes,2,opt,name=repository"`
-	Tag        string `json:"tag" protobuf:"bytes,3,opt,name=tag"`
+	Registry   string `json:"registry"`
+	Repository string `json:"repository"`
+	Tag        string `json:"tag"`
 }
 
 type ContianerRef struct {
-	ImageRef `json:",inline" protobuf:"bytes,1,opt,name=imageRef"`
+	ImageRef `json:",inline"`
 	// Compute Resources required by the sidecar container.
 	// +optional
-	Resources core.ResourceRequirements `json:"resources" protobuf:"bytes,2,opt,name=resources"`
+	Resources core.ResourceRequirements `json:"resources"`
 	// Security options the pod should run with.
 	// +optional
-	SecurityContext *core.SecurityContext `json:"securityContext" protobuf:"bytes,3,opt,name=securityContext"`
+	SecurityContext *core.SecurityContext `json:"securityContext"`
 }
 
 type CloudConfig struct {
@@ -114,42 +114,42 @@ type CloudConfig struct {
 }
 
 type ServiceAccountSpec struct {
-	Create bool `json:"create" protobuf:"varint,1,opt,name=create"`
+	Create bool `json:"create"`
 	//+optional
-	Name *string `json:"name" protobuf:"bytes,2,opt,name=name"`
+	Name *string `json:"name"`
 	//+optional
-	Annotations map[string]string `json:"annotations" protobuf:"bytes,3,rep,name=annotations"`
+	Annotations map[string]string `json:"annotations"`
 }
 
 type WebHookSpec struct {
-	GroupPriorityMinimum    int32  `json:"groupPriorityMinimum" protobuf:"varint,1,opt,name=groupPriorityMinimum"`
-	VersionPriority         int32  `json:"versionPriority" protobuf:"varint,2,opt,name=versionPriority"`
-	EnableValidatingWebhook bool   `json:"enableValidatingWebhook" protobuf:"varint,3,opt,name=enableValidatingWebhook"`
-	CA                      string `json:"ca" protobuf:"bytes,4,opt,name=ca"`
+	GroupPriorityMinimum    int32  `json:"groupPriorityMinimum"`
+	VersionPriority         int32  `json:"versionPriority"`
+	EnableValidatingWebhook bool   `json:"enableValidatingWebhook"`
+	CA                      string `json:"ca"`
 	//+optional
-	BypassValidatingWebhookXray bool            `json:"bypassValidatingWebhookXray" protobuf:"varint,5,opt,name=bypassValidatingWebhookXray"`
-	UseKubeapiserverFqdnForAks  bool            `json:"useKubeapiserverFqdnForAks" protobuf:"varint,6,opt,name=useKubeapiserverFqdnForAks"`
-	Healthcheck                 HealthcheckSpec `json:"healthcheck" protobuf:"bytes,7,opt,name=healthcheck"`
-	ServingCerts                ServingCerts    `json:"servingCerts" protobuf:"bytes,8,opt,name=servingCerts"`
+	BypassValidatingWebhookXray bool            `json:"bypassValidatingWebhookXray"`
+	UseKubeapiserverFqdnForAks  bool            `json:"useKubeapiserverFqdnForAks"`
+	Healthcheck                 HealthcheckSpec `json:"healthcheck"`
+	ServingCerts                ServingCerts    `json:"servingCerts"`
 }
 
 type HealthcheckSpec struct {
 	//+optional
-	Enabled bool `json:"enabled" protobuf:"varint,1,opt,name=enabled"`
+	Enabled bool `json:"enabled"`
 }
 
 type ServingCerts struct {
-	Generate bool `json:"generate" protobuf:"varint,1,opt,name=generate"`
+	Generate bool `json:"generate"`
 	//+optional
-	CaCrt string `json:"caCrt" protobuf:"bytes,2,opt,name=caCrt"`
+	CaCrt string `json:"caCrt"`
 	//+optional
-	ServerCrt string `json:"serverCrt" protobuf:"bytes,3,opt,name=serverCrt"`
+	ServerCrt string `json:"serverCrt"`
 	//+optional
-	ServerKey string `json:"serverKey" protobuf:"bytes,4,opt,name=serverKey"`
+	ServerKey string `json:"serverKey"`
 }
 
 type Templates struct {
-	Cfgmap *string `json:"cfgmap" protobuf:"bytes,1,opt,name=cfgmap"`
+	Cfgmap *string `json:"cfgmap"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -157,7 +157,7 @@ type Templates struct {
 // VoyagerOperatorList is a list of VoyagerOperators
 type VoyagerOperatorList struct {
 	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
+	metav1.ListMeta `json:"metadata,omitempty"`
 	// Items is a list of VoyagerOperator CRD objects
-	Items []VoyagerOperator `json:"items,omitempty" protobuf:"bytes,2,rep,name=items"`
+	Items []VoyagerOperator `json:"items,omitempty"`
 }

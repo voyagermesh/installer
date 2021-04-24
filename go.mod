@@ -23,21 +23,16 @@ require (
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/kr/pretty v0.2.0 // indirect
 	github.com/mitchellh/mapstructure v1.2.2 // indirect
-	github.com/onsi/gomega v1.8.1 // indirect
 	github.com/prometheus/client_golang v1.6.0 // indirect
 	github.com/yudai/gojsondiff v1.0.0
 	go.uber.org/atomic v1.6.0 // indirect
 	go.uber.org/zap v1.13.0 // indirect
 	golang.org/x/lint v0.0.0-20200302205851-738671d3881b // indirect
-	golang.org/x/net v0.0.0-20200625001655-4c5254603344 // indirect
-	golang.org/x/sync v0.0.0-20200317015054-43a5402ce75a // indirect
 	golang.org/x/time v0.0.0-20200416051211-89c76fbcd5d1 // indirect
-	golang.org/x/tools v0.0.0-20200603131246-cc40288be839 // indirect
 	gomodules.xyz/pointer v0.0.0-20201105071923-daf60fa55209 // indirect
 	gomodules.xyz/runtime v0.0.0-20201104200926-d838b09dda8b
 	google.golang.org/appengine v1.6.6 // indirect
 	google.golang.org/genproto v0.0.0-20200603110839-e855014d5736 // indirect
-	gopkg.in/yaml.v2 v2.3.0 // indirect
 	k8s.io/api v0.18.9
 	k8s.io/apimachinery v0.18.9
 	k8s.io/client-go v0.18.9
@@ -45,6 +40,7 @@ require (
 	k8s.io/utils v0.0.0-20200414100711-2df71ebbae66 // indirect
 	kmodules.xyz/client-go v0.0.0-20210218100652-8f345ddfe801
 	kmodules.xyz/crd-schema-fuzz v0.0.0-20200922204806-c1426cd7fcf4
+	kmodules.xyz/schema-checker v0.1.2
 	sigs.k8s.io/yaml v1.2.0
 )
 
