@@ -68,3 +68,10 @@ Returns the appscode license
 {{- define "appscode.license" -}}
 {{- .Values.license }}
 {{- end }}
+
+{{/*
+Returns whether the cleaner job YAML will be generated or not
+*/}}
+{{- define "cleaner.generate" -}}
+{{- ternary "false" "true" .Values.cleaner.skip -}}
+{{- end }}
