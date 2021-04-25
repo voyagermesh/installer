@@ -233,7 +233,7 @@ CHART_REGISTRY     ?= appscode
 CHART_REGISTRY_URL ?= https://charts.appscode.com/stable/
 CHART_VERSION      ?=
 APP_VERSION        ?= $(CHART_VERSION)
-HAPROXY_VERSION    ?= 1.9.15-$(CHART_VERSION)-alpine
+HAPROXY_VERSION    ?= 1.9.15-$(APP_VERSION)-alpine
 
 .PHONY: update-charts
 update-charts: $(shell find $$(pwd)/charts -maxdepth 1 -mindepth 1 -type d -printf 'chart-%f ')
@@ -252,12 +252,6 @@ chart-contents-%:
 		case "$*" in                                                                   \
 		  voyager)                                                                     \
 		    yq w -i ./charts/$*/values.yaml operator.tag --tag '!!str' $(APP_VERSION); \
-		    ;;                                                                         \
-		esac;                                                                          \
-	fi
-	@if [ ! -z "$(HAPROXY_VERSION)" ]; then                                            \
-		case "$*" in                                                                   \
-		  voyager)                                                                     \
 		    yq w -i ./charts/$*/values.yaml haproxy.tag --tag '!!str' $(HAPROXY_VERSION); \
 		    ;;                                                                         \
 		esac;                                                                          \
