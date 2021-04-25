@@ -5,9 +5,9 @@
 ## TL;DR;
 
 ```console
-$ helm repo add appscode-testing https://charts.appscode.com/testing/
+$ helm repo add appscode https://charts.appscode.com/stable/
 $ helm repo update
-$ helm install voyager-operator appscode-testing/voyager -n kube-system
+$ helm install voyager-operator appscode/voyager -n kube-system
 ```
 
 ## Introduction
@@ -23,7 +23,7 @@ This chart deploys a Voyager operator on a [Kubernetes](http://kubernetes.io) cl
 To install the chart with the release name `voyager-operator`:
 
 ```console
-$ helm install voyager-operator appscode-testing/voyager -n kube-system
+$ helm install voyager-operator appscode/voyager -n kube-system
 ```
 
 The command deploys a Voyager operator on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
@@ -52,12 +52,12 @@ The following table lists the configurable parameters of the `voyager` chart and
 | license                               | License for the product. Get a license by following the steps from [here](https://voyagermesh.com/docs/latest/setup/install#get-a-trial-license). <br> Example: <br> `helm install appscode/voyager \` <br> `--set-file license=/path/to/license/file` <br> `or` <br> `helm install appscode/voyager \` <br> `--set license=<license file content>` | `""`                                                                  |
 | operator.registry                     | Docker registry used to pull Voyager operator image                                                                                                                                                                                                                                                                                                 | `appscode`                                                            |
 | operator.repository                   | Voyager operator container image                                                                                                                                                                                                                                                                                                                    | `voyager`                                                             |
-| operator.tag                          | Voyager operator container image tag                                                                                                                                                                                                                                                                                                                | `v13.0.0-beta.2`                                                      |
+| operator.tag                          | Voyager operator container image tag                                                                                                                                                                                                                                                                                                                | `v13.0.0-rc.0`                                                        |
 | operator.resources                    | Compute Resources required by the operator container                                                                                                                                                                                                                                                                                                | `{}`                                                                  |
 | operator.securityContext              | Security options the operator container should run with                                                                                                                                                                                                                                                                                             | `{}`                                                                  |
 | haproxy.registry                      | Docker registry used to pull HAProxy image                                                                                                                                                                                                                                                                                                          | `appscode`                                                            |
 | haproxy.repository                    | HAProxy container image                                                                                                                                                                                                                                                                                                                             | `haproxy`                                                             |
-| haproxy.tag                           | HAProxy container image tag                                                                                                                                                                                                                                                                                                                         | `1.9.15-v13.0.0-beta.2-alpine`                                        |
+| haproxy.tag                           | HAProxy container image tag                                                                                                                                                                                                                                                                                                                         | `1.9.15-v13.0.0-rc.0-alpine`                                          |
 | cleaner.registry                      | Docker registry used to pull Webhook cleaner image                                                                                                                                                                                                                                                                                                  | `appscode`                                                            |
 | cleaner.repository                    | Webhook cleaner container image                                                                                                                                                                                                                                                                                                                     | `kubectl`                                                             |
 | cleaner.tag                           | Webhook cleaner container image tag                                                                                                                                                                                                                                                                                                                 | `v1.16`                                                               |
@@ -99,12 +99,12 @@ The following table lists the configurable parameters of the `voyager` chart and
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 
 ```console
-$ helm install voyager-operator appscode-testing/voyager -n kube-system --set replicaCount=1
+$ helm install voyager-operator appscode/voyager -n kube-system --set replicaCount=1
 ```
 
 Alternatively, a YAML file that specifies the values for the parameters can be provided while
 installing the chart. For example:
 
 ```console
-$ helm install voyager-operator appscode-testing/voyager -n kube-system --values values.yaml
+$ helm install voyager-operator appscode/voyager -n kube-system --values values.yaml
 ```
