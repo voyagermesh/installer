@@ -7,7 +7,7 @@
 ```console
 $ helm repo add appscode https://charts.appscode.com/stable/
 $ helm repo update
-$ helm install voyager-operator appscode/voyager -n kube-system
+$ helm install voyager-operator appscode/voyager -n voyager
 ```
 
 ## Introduction
@@ -23,7 +23,7 @@ This chart deploys a Voyager operator on a [Kubernetes](http://kubernetes.io) cl
 To install the chart with the release name `voyager-operator`:
 
 ```console
-$ helm install voyager-operator appscode/voyager -n kube-system
+$ helm install voyager-operator appscode/voyager -n voyager
 ```
 
 The command deploys a Voyager operator on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
@@ -35,7 +35,7 @@ The command deploys a Voyager operator on the Kubernetes cluster in the default 
 To uninstall/delete the `voyager-operator`:
 
 ```console
-$ helm delete voyager-operator -n kube-system
+$ helm delete voyager-operator -n voyager
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.
@@ -99,12 +99,12 @@ The following table lists the configurable parameters of the `voyager` chart and
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 
 ```console
-$ helm install voyager-operator appscode/voyager -n kube-system --set replicaCount=1
+$ helm install voyager-operator appscode/voyager -n voyager --set replicaCount=1
 ```
 
 Alternatively, a YAML file that specifies the values for the parameters can be provided while
 installing the chart. For example:
 
 ```console
-$ helm install voyager-operator appscode/voyager -n kube-system --values values.yaml
+$ helm install voyager-operator appscode/voyager -n voyager --values values.yaml
 ```

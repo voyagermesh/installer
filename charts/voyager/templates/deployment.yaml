@@ -30,16 +30,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-    {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
+      {{- include "appscode.imagePullSecrets" . | nindent 6 }}
       serviceAccountName: {{ include "voyager.serviceAccountName" . }}
       containers:
       - name: voyager
         securityContext:
           {{- toYaml .Values.operator.securityContext | nindent 10 }}
-        image: {{ .Values.operator.registry }}/{{ .Values.operator.repository }}:{{ .Values.operator.tag }}
+        image: {{ include "operator.registry" . }}/{{ .Values.operator.repository }}:{{ .Values.operator.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy  }}
         args:
         - run
@@ -48,7 +45,7 @@ spec:
         - --v={{ .Values.logLevel }}
         - --ingress-class={{ .Values.ingressClass }}
         - --operator-service={{ include "voyager.fullname" . }}
-        - --docker-registry={{ .Values.haproxy.registry }}
+        - --docker-registry={{ include "haproxy.registry" . }}
         - --haproxy-image-tag={{ .Values.haproxy.tag }}
         - --haproxy-image-repository={{ .Values.haproxy.repository }}
         - --exporter-image-tag={{ .Values.operator.tag }}

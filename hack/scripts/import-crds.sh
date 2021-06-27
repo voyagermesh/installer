@@ -47,6 +47,7 @@ fi
 
 crd-importer \
     --input=${crd_dir} \
+    --input=https://github.com/kmodules/custom-resources/raw/kubernetes-1.21.1/crds/metrics.appscode.com_metricsconfigurations.v1.yaml \
     --out=./charts/voyager-crds/crds
 
 crd-importer \

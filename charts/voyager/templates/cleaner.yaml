@@ -14,10 +14,11 @@ spec:
   activeDeadlineSeconds: 120
   template:
     spec:
+      {{- include "appscode.imagePullSecrets" . | nindent 6 }}
       serviceAccountName: {{ include "voyager.serviceAccountName" . }}
       containers:
-      - name: busybox
-        image: {{ .Values.cleaner.registry }}/{{ .Values.cleaner.repository }}:{{ .Values.cleaner.tag }}
+      - name: kubectl
+        image: {{ include "cleaner.registry" . }}/{{ .Values.cleaner.repository }}:{{ .Values.cleaner.tag }}
         command:
           - sh
           - -c

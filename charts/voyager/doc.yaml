@@ -15,4 +15,4 @@ prerequisites:
 - Kubernetes 1.11+
 release:
   name: voyager-operator
-  namespace: kube-system
+  namespace: voyager
