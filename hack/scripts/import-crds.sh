@@ -52,4 +52,4 @@ crd-importer \
 
 crd-importer \
     --input=${crd_dir} \
-    --out=. --output-yaml=voyager-crds.yaml
+    --out=. --output-yaml=crds/voyager-crds.yaml

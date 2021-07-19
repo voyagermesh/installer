@@ -16,7 +16,7 @@ This chart deploys a Voyager operator on a [Kubernetes](http://kubernetes.io) cl
 
 ## Prerequisites
 
-- Kubernetes 1.11+
+- Kubernetes 1.16+
 
 ## Installing the Chart
 
