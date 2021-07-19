@@ -16,7 +16,7 @@ This chart deploys Voyager crds on a [Kubernetes](http://kubernetes.io) cluster 
 
 ## Prerequisites
 
-- Kubernetes 1.16+
+- Kubernetes 1.19+
 
 ## Installing the Chart
 
