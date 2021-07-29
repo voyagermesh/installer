@@ -2,7 +2,7 @@ project:
   name: Voyager by AppsCode
   shortName: Voyager
   url: https://github.com/voyagermesh
-  description: Secure HAProxy Ingress Controller for Kubernetes
+  description: Secure L7/L4 Ingress Controller for Kubernetes
   app: a Voyager operator
 repository:
   url: https://charts.appscode.com/stable/
