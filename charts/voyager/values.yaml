@@ -17,6 +17,9 @@ replicaCount: 1
 # helm install appscode/voyager \
 #   --set license=<license file content>
 license: ""
+# Docker registry fqdn used to pull KubeDB related images
+# Set this to use docker registry hosted at ${registryFQDN}/${registry}/${image}
+registryFQDN: ""
 operator:
   # Docker registry used to pull Voyager operator image
   registry: appscode
@@ -34,7 +37,7 @@ haproxy:
   # HAProxy container image
   repository: haproxy
   # HAProxy container image tag
-  tag: 1.9.15-v13.0.0-rc.0-alpine
+  tag: 2.4.4-alpine
 cleaner:
   # Docker registry used to pull Webhook cleaner image
   registry: appscode
@@ -127,8 +130,6 @@ apiserver:
     serverKey: ""
 # If true, sends usage analytics
 enableAnalytics: true
-# If true, voyager operator will only handle Kubernetes objects in its own namespace.
-restrictToOperatorNamespace: false
 # Customization of templates
 templates:
   # Name of configmap with custom templates
