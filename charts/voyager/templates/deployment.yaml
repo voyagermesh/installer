@@ -33,10 +33,10 @@ spec:
       {{- include "appscode.imagePullSecrets" . | nindent 6 }}
       serviceAccountName: {{ include "voyager.serviceAccountName" . }}
       containers:
-      - name: voyager
+      - name: operator
         securityContext:
           {{- toYaml .Values.operator.securityContext | nindent 10 }}
-        image: {{ include "operator.registry" . }}/{{ .Values.operator.repository }}:{{ .Values.operator.tag }}
+        image: {{ list (include "operator.registry" .) .Values.operator.repository | compact | join "/" }}:{{ .Values.operator.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy  }}
         args:
         - run
@@ -44,12 +44,8 @@ spec:
         - --cloud-config={{ .Values.cloudConfig }}
         - --v={{ .Values.logLevel }}
         - --ingress-class={{ .Values.ingressClass }}
-        - --operator-service={{ include "voyager.fullname" . }}
-        - --docker-registry={{ include "haproxy.registry" . }}
-        - --haproxy-image-tag={{ .Values.haproxy.tag }}
-        - --haproxy-image-repository={{ .Values.haproxy.repository }}
-        - --exporter-image-tag={{ .Values.operator.tag }}
-        - --exporter-image-repository={{ .Values.operator.repository }}
+        - --haproxy-image={{ list (include "haproxy.registry" .) .Values.haproxy.repository | compact | join "/" }}:{{ .Values.haproxy.tag }}
+        - --coordinator-image={{ list (include "operator.registry" .) .Values.operator.repository | compact | join "/" }}:{{ .Values.operator.tag }}
         - --secure-port=8443
         - --audit-log-path=-
         - --tls-cert-file=/var/serving-cert/tls.crt
@@ -58,9 +54,6 @@ spec:
         - --bypass-validating-webhook-xray={{ .Values.apiserver.bypassValidatingWebhookXray }}
         - --use-kubeapiserver-fqdn-for-aks={{ .Values.apiserver.useKubeapiserverFqdnForAks }}
         - --enable-analytics={{ .Values.enableAnalytics }}
-      {{- with .Values.restrictToOperatorNamespace }}
-        - --restrict-to-operator-namespace={{ . }}
-      {{- end }}
       {{- if .Values.templates.cfgmap }}
         - --custom-templates=/srv/voyager/custom/*.cfg
       {{- end }}

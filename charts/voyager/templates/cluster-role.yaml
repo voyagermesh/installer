@@ -44,6 +44,13 @@ rules:
   - ingresses
   - ingresses/status
   verbs: ["*"]
+- apiGroups:
+  - extensions
+  - networking.k8s.io
+  - voyager.appscode.com
+  resources:
+  - ingresses/finalizers
+  verbs: ["update"]
 - apiGroups: [""]
   resources:
   - replicationcontrollers
@@ -51,6 +58,11 @@ rules:
   - endpoints
   - configmaps
   verbs: ["*"]
+- apiGroups:
+  - ""
+  resources:
+  - services/finalizers
+  verbs: ["update"]
 - apiGroups: [""]
   resources:
   - secrets
@@ -67,6 +79,11 @@ rules:
   resources:
   - pods
   verbs: ["get", "list", "watch", "delete", "deletecollection"]
+- apiGroups:
+  - ""
+  resources:
+  - "pods/exec"
+  verbs: ["create"]
 - apiGroups: [""]
   resources:
   - nodes
