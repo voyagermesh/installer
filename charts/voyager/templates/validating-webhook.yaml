@@ -14,7 +14,7 @@ webhooks:
     service:
       namespace: default
       name: kubernetes
-      path: /apis/admission.voyager.appscode.com/v1beta1/admissionreviews
+      path: /apis/admission.voyager.appscode.com/v1/admissionreviews
     caBundle: {{ b64enc .Values.apiserver.ca }}
   rules:
   - operations:
