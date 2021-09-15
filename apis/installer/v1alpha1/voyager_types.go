@@ -127,10 +127,9 @@ type ServiceAccountSpec struct {
 }
 
 type WebHookSpec struct {
-	GroupPriorityMinimum    int32  `json:"groupPriorityMinimum"`
-	VersionPriority         int32  `json:"versionPriority"`
-	EnableValidatingWebhook bool   `json:"enableValidatingWebhook"`
-	CA                      string `json:"ca"`
+	GroupPriorityMinimum int32  `json:"groupPriorityMinimum"`
+	VersionPriority      int32  `json:"versionPriority"`
+	CA                   string `json:"ca"`
 	//+optional
 	BypassValidatingWebhookXray bool            `json:"bypassValidatingWebhookXray"`
 	UseKubeapiserverFqdnForAks  bool            `json:"useKubeapiserverFqdnForAks"`
