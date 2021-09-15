@@ -19,12 +19,12 @@
 apiVersion: apiregistration.k8s.io/v1
 kind: APIService
 metadata:
-  name: v1beta1.admission.voyager.appscode.com
+  name: v1.admission.voyager.appscode.com
   labels:
     {{- include "voyager.labels" . | nindent 4 }}
 spec:
   group: admission.voyager.appscode.com
-  version: v1beta1
+  version: v1
   service:
     namespace: {{ .Release.Namespace }}
     name: {{ include "voyager.fullname" . }}
