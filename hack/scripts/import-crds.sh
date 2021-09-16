@@ -18,8 +18,8 @@ set -eou pipefail
 
 crd_dir=${1:-}
 
-api_repo_url=https://github.com/voyagermesh/voyager.git
-api_repo_tag=${VOYAGERMESH_VOYAGER_TAG:-master}
+api_repo_url=https://github.com/voyagermesh/apimachinery.git
+api_repo_tag=${VOYAGERMESH_APIMACHINERY_TAG:-master}
 
 if [ "$#" -ne 1 ]; then
     if [ "${api_repo_tag}" == "master" ]; then
