@@ -15,13 +15,6 @@ Want to learn how to use Voyager? Please start [here](https://voyagermesh.com/la
 ## Contribution guidelines
 Want to help improve Voyager? Please start [here](https://voyagermesh.com/latest/welcome/contributing/).
 
----
-
-**Voyager binaries collects anonymous usage statistics to help us learn how the software is being used and how we can improve it.
-To disable stats collection, run the operator with the flag** `--enable-analytics=false`.
-
----
-
 ## Support
 
 We use Slack for public discussions. To chit chat with us or the rest of the community, join us in the [AppsCode Slack team](https://appscode.slack.com/messages/C0XQFLGRM/details/) channel `#general`. To sign up, use our [Slack inviter](https://slack.appscode.com/).
