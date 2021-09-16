@@ -26,7 +26,7 @@ operator:
   # Voyager operator container image
   repository: voyager
   # Voyager operator container image tag
-  tag: v13.0.0-rc.0
+  tag: v13.0.0
   # Compute Resources required by the operator container
   resources: {}
   # Security options the operator container should run with
