@@ -1,9 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "voyager.fullname" . }}
+  name: {{ include "voyager.fullname" . }}-webhook-server
   namespace: {{ .Release.Namespace }}
   labels:
+    voyager.appscode.com/component: webhook-server
     {{- include "voyager.labels" . | nindent 4 }}
 spec:
   ports:
@@ -16,4 +17,5 @@ spec:
     port: 56791
     targetPort: 56791
   selector:
+    voyager.appscode.com/component: webhook-server
     {{- include "voyager.selectorLabels" . | nindent 4 }}
