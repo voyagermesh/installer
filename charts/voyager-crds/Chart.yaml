@@ -2,8 +2,8 @@ apiVersion: v2
 name: voyager-crds
 description: Voyager Custom Resource Definitions
 type: application
-version: v2021.10.17
-appVersion: v13.0.2
+version: v2021.10.18
+appVersion: v13.0.3
 home: https://voyager.com
 icon: https://cdn.appscode.com/images/products/voyager/voyager-community-icon.png
 sources:
