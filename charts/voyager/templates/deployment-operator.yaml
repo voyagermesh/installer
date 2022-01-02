@@ -50,7 +50,6 @@ spec:
         - --coordinator-image={{ list (include "operator.registry" .) .Values.operator.repository | compact | join "/" }}:{{ .Values.operator.tag }}
         - --bypass-validating-webhook-xray={{ .Values.apiserver.bypassValidatingWebhookXray }}
         - --use-kubeapiserver-fqdn-for-aks={{ .Values.apiserver.useKubeapiserverFqdnForAks }}
-        - --enable-analytics={{ .Values.enableAnalytics }}
       {{- if .Values.templates.cfgmap }}
         - --custom-templates=/srv/voyager/custom/*.cfg
       {{- end }}

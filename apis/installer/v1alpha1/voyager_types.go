@@ -84,9 +84,7 @@ type VoyagerSpec struct {
 	// +optional
 	IngressClass *string     `json:"ingressClass"`
 	Apiserver    WebHookSpec `json:"apiserver"`
-	//+optional
-	EnableAnalytics bool      `json:"enableAnalytics"`
-	Templates       Templates `json:"templates"`
+	Templates    Templates   `json:"templates"`
 	// +optional
 	License string `json:"license"`
 }

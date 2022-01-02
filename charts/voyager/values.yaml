@@ -126,8 +126,6 @@ apiserver:
     serverCrt: ""
     # Private key for the serving certificate used by webhook server.
     serverKey: ""
-# If true, sends usage analytics
-enableAnalytics: true
 # Customization of templates
 templates:
   # Name of configmap with custom templates
