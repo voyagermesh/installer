@@ -37,14 +37,14 @@ haproxy:
   # HAProxy container image
   repository: haproxy
   # HAProxy container image tag
-  tag: 2.4.4-alpine
+  tag: 2.5.0-alpine
 cleaner:
   # Docker registry used to pull Webhook cleaner image
   registry: appscode
   # Webhook cleaner container image
   repository: kubectl
   # Webhook cleaner container image tag
-  tag: v1.16
+  tag: v1.22
   # Skip generating cleaner YAML
   skip: false
 # Specify an array of imagePullSecrets.
