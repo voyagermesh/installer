@@ -63,7 +63,7 @@ BASEIMAGE_DBG    ?= debian:bullseye
 
 GO_VERSION       ?= 1.17
 BUILD_IMAGE      ?= appscode/golang-dev:$(GO_VERSION)
-CHART_TEST_IMAGE ?= quay.io/helmpack/chart-testing:v3.4.0
+CHART_TEST_IMAGE ?= quay.io/helmpack/chart-testing:v3.5.0
 
 OUTBIN = bin/$(OS)_$(ARCH)/$(BIN)
 ifeq ($(OS),windows)
