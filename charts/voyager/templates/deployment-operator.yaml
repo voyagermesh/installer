@@ -73,6 +73,8 @@ spec:
         volumeMounts:
         - mountPath: /var/serving-cert
           name: serving-cert
+        - mountPath: /tmp
+          name: tmp-dir
       {{- if .Values.persistence.enabled }}
         - mountPath: {{ dir .Values.cloudConfig | quote }}
           name: cloudconfig
@@ -92,6 +94,8 @@ spec:
         secret:
           defaultMode: 420
           secretName: {{ include "voyager.fullname" . }}-apiserver-cert
+      - name: tmp-dir
+        emptyDir: {}
     {{- if .Values.persistence.enabled }}
       - hostPath:
           path: {{ .Values.persistence.hostPath | quote }}
