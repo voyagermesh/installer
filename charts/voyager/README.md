@@ -4,10 +4,11 @@
 
 ## TL;DR;
 
-```console
+```bash
 $ helm repo add appscode https://charts.appscode.com/stable/
 $ helm repo update
-$ helm install voyager-operator appscode/voyager -n voyager
+$ helm search repo appscode/voyager --version=v2022.02.22
+$ helm upgrade -i voyager-operator appscode/voyager -n voyager --create-namespace --version=v2022.02.22
 ```
 
 ## Introduction
@@ -20,10 +21,10 @@ This chart deploys a Voyager operator on a [Kubernetes](http://kubernetes.io) cl
 
 ## Installing the Chart
 
-To install the chart with the release name `voyager-operator`:
+To install/upgrade the chart with the release name `voyager-operator`:
 
-```console
-$ helm install voyager-operator appscode/voyager -n voyager
+```bash
+$ helm upgrade -i voyager-operator appscode/voyager -n voyager --create-namespace --version=v2022.02.22
 ```
 
 The command deploys a Voyager operator on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
@@ -32,10 +33,10 @@ The command deploys a Voyager operator on the Kubernetes cluster in the default 
 
 ## Uninstalling the Chart
 
-To uninstall/delete the `voyager-operator`:
+To uninstall the `voyager-operator`:
 
-```console
-$ helm delete voyager-operator -n voyager
+```bash
+$ helm uninstall voyager-operator -n voyager
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.
@@ -94,15 +95,15 @@ The following table lists the configurable parameters of the `voyager` chart and
 | templates.cfgmap                      | Name of configmap with custom templates                                                                                                                                                                                                                                                                                                             | <code></code>                             |
 
 
-Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
+Specify each parameter using the `--set key=value[,key=value]` argument to `helm upgrade -i`. For example:
 
-```console
-$ helm install voyager-operator appscode/voyager -n voyager --set replicaCount=1
+```bash
+$ helm upgrade -i voyager-operator appscode/voyager -n voyager --create-namespace --version=v2022.02.22 --set replicaCount=1
 ```
 
 Alternatively, a YAML file that specifies the values for the parameters can be provided while
 installing the chart. For example:
 
-```console
-$ helm install voyager-operator appscode/voyager -n voyager --values values.yaml
+```bash
+$ helm upgrade -i voyager-operator appscode/voyager -n voyager --create-namespace --version=v2022.02.22 --values values.yaml
 ```
