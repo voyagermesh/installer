@@ -35,7 +35,6 @@ const (
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // +kubebuilder:object:root=true
-// +kubebuilder:resource:path=voyageroperators,singular=voyageroperator,categories={voyager,appscode}
 type Voyager struct {
 	metav1.TypeMeta   `json:",inline,omitempty"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -85,8 +84,8 @@ type VoyagerSpec struct {
 	IngressClass *string     `json:"ingressClass"`
 	Apiserver    WebHookSpec `json:"apiserver"`
 	Templates    Templates   `json:"templates"`
-	// +optional
-	License string `json:"license"`
+	License      string      `json:"license"`
+	RegistryFQDN string      `json:"registryFQDN"`
 }
 
 type ImageRef struct {

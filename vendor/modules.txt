@@ -1,8 +1,6 @@
 # github.com/davecgh/go-spew v1.1.1
 ## explicit
 github.com/davecgh/go-spew/spew
-# github.com/fsnotify/fsnotify v1.5.1
-## explicit; go 1.13
 # github.com/go-logr/logr v0.4.0
 ## explicit; go 1.14
 github.com/go-logr/logr
@@ -26,17 +24,12 @@ github.com/google/go-cmp/cmp/internal/diff
 github.com/google/go-cmp/cmp/internal/flags
 github.com/google/go-cmp/cmp/internal/function
 github.com/google/go-cmp/cmp/internal/value
-# github.com/google/gofuzz v1.2.0
+# github.com/google/gofuzz v1.1.0
 ## explicit; go 1.12
 github.com/google/gofuzz
-github.com/google/gofuzz/bytesource
 # github.com/json-iterator/go v1.1.11
 ## explicit; go 1.12
 github.com/json-iterator/go
-# github.com/mattn/go-colorable v0.1.9
-## explicit; go 1.13
-# github.com/mattn/go-isatty v0.0.14
-## explicit; go 1.12
 # github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
 ## explicit
 github.com/modern-go/concurrent
@@ -65,8 +58,6 @@ golang.org/x/net/http/httpguts
 golang.org/x/net/http2
 golang.org/x/net/http2/hpack
 golang.org/x/net/idna
-# golang.org/x/sys v0.0.0-20210817190340-bfb29a6856f2
-## explicit; go 1.17
 # golang.org/x/text v0.3.7
 ## explicit; go 1.17
 golang.org/x/text/secure/bidirule
@@ -108,10 +99,10 @@ gopkg.in/inf.v0
 # gopkg.in/yaml.v2 v2.4.0 => gopkg.in/yaml.v2 v2.3.0
 ## explicit
 gopkg.in/yaml.v2
-# k8s.io/api v0.21.2 => k8s.io/api v0.21.0
+# k8s.io/api v0.21.1 => k8s.io/api v0.21.0
 ## explicit; go 1.16
 k8s.io/api/core/v1
-# k8s.io/apimachinery v0.21.2 => github.com/kmodules/apimachinery v0.21.1-rc.0.0.20210405112358-ad4c2289ba4c
+# k8s.io/apimachinery v0.21.1 => github.com/kmodules/apimachinery v0.21.1-rc.0.0.20210405112358-ad4c2289ba4c
 ## explicit; go 1.16
 k8s.io/apimachinery/pkg/api/apitesting
 k8s.io/apimachinery/pkg/api/apitesting/fuzzer
@@ -153,7 +144,7 @@ k8s.io/apimachinery/third_party/forked/golang/reflect
 # k8s.io/klog/v2 v2.9.0
 ## explicit; go 1.13
 k8s.io/klog/v2
-# kmodules.xyz/schema-checker v0.2.0
+# kmodules.xyz/schema-checker v0.2.1
 ## explicit; go 1.15
 kmodules.xyz/schema-checker
 # sigs.k8s.io/structured-merge-diff/v4 v4.1.2

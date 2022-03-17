@@ -4,22 +4,19 @@ go 1.17
 
 require (
 	github.com/gogo/protobuf v1.3.2
-	github.com/google/gofuzz v1.2.0
-	k8s.io/api v0.21.2
-	k8s.io/apimachinery v0.21.2
-	kmodules.xyz/schema-checker v0.2.0
+	github.com/google/gofuzz v1.1.0
+	k8s.io/api v0.21.1
+	k8s.io/apimachinery v0.21.1
+	kmodules.xyz/schema-checker v0.2.1
 )
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/fsnotify/fsnotify v1.5.1 // indirect
 	github.com/go-logr/logr v0.4.0 // indirect
 	github.com/gobuffalo/flect v0.2.3 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/json-iterator/go v1.1.11 // indirect
-	github.com/mattn/go-colorable v0.1.9 // indirect
-	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
@@ -28,7 +25,6 @@ require (
 	github.com/yudai/gojsondiff v1.0.0 // indirect
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	golang.org/x/net v0.0.0-20210428140749-89ef3d95e781 // indirect
-	golang.org/x/sys v0.0.0-20210817190340-bfb29a6856f2 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/protobuf v1.26.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
