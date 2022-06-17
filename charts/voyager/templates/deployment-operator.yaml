@@ -47,7 +47,7 @@ spec:
         - --v={{ .Values.logLevel }}
         - --ingress-class={{ .Values.ingressClass }}
         - --haproxy-image={{ list (include "haproxy.registry" .) .Values.haproxy.repository | compact | join "/" }}:{{ .Values.haproxy.tag }}
-        - --coordinator-image={{ list (include "operator.registry" .) .Values.operator.repository | compact | join "/" }}:{{ .Values.operator.tag }}
+        - --coordinator-image={{ list (include "operator.registry" .) .Values.operator.repository | compact | join "/" }}:{{ .Values.operator.tag | default .Chart.AppVersion }}
         - --bypass-validating-webhook-xray={{ .Values.apiserver.bypassValidatingWebhookXray }}
         - --use-kubeapiserver-fqdn-for-aks={{ .Values.apiserver.useKubeapiserverFqdnForAks }}
       {{- if .Values.templates.cfgmap }}
