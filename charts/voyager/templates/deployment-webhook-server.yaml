@@ -38,7 +38,7 @@ spec:
       - name: operator
         securityContext:
           {{- toYaml .Values.operator.securityContext | nindent 10 }}
-        image: {{ list (include "operator.registry" .) .Values.operator.repository | compact | join "/" }}:{{ .Values.operator.tag }}
+        image: {{ list (include "operator.registry" .) .Values.operator.repository | compact | join "/" }}:{{ .Values.operator.tag | default .Chart.AppVersion }}
         imagePullPolicy: {{ .Values.imagePullPolicy  }}
         args:
         - run
