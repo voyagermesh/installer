@@ -243,7 +243,6 @@ chart-contents-%:
 		yq -y --indentless -i '.appVersion="$(APP_VERSION)"' ./charts/$*/Chart.yaml;       \
 		case "$*" in                                                                       \
 		  voyager)                                                                         \
-		    yqq w -i ./charts/$*/values.yaml operator.tag --tag '!!str' $(APP_VERSION);    \
 		    yqq w -i ./charts/$*/values.yaml haproxy.tag --tag '!!str' $(HAPROXY_VERSION); \
 		    ;;                                                                             \
 		esac;                                                                              \
