@@ -27,7 +27,7 @@ import (
 
 func TestDefaultValues(t *testing.T) {
 	checker := schemachecker.New(os.DirFS("../../.."),
-		v1alpha1.VoyagerSpec{},
+		schemachecker.TestCase{Obj: v1alpha1.VoyagerSpec{}},
 	)
 	checker.TestAll(t)
 }
