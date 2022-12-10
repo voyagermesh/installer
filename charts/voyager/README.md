@@ -7,8 +7,8 @@
 ```bash
 $ helm repo add appscode https://charts.appscode.com/stable/
 $ helm repo update
-$ helm search repo appscode/voyager --version=v2022.08.17
-$ helm upgrade -i voyager-operator appscode/voyager -n voyager --create-namespace --version=v2022.08.17
+$ helm search repo appscode/voyager --version=v2022.12.11
+$ helm upgrade -i voyager-operator appscode/voyager -n voyager --create-namespace --version=v2022.12.11
 ```
 
 ## Introduction
@@ -24,7 +24,7 @@ This chart deploys a Voyager operator on a [Kubernetes](http://kubernetes.io) cl
 To install/upgrade the chart with the release name `voyager-operator`:
 
 ```bash
-$ helm upgrade -i voyager-operator appscode/voyager -n voyager --create-namespace --version=v2022.08.17
+$ helm upgrade -i voyager-operator appscode/voyager -n voyager --create-namespace --version=v2022.12.11
 ```
 
 The command deploys a Voyager operator on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
@@ -62,7 +62,7 @@ The following table lists the configurable parameters of the `voyager` chart and
 | haproxy.tag                           | HAProxy container image tag                                                                                                                                                                                                                                                                                                                         | <code>2.5-alpine</code>                   |
 | cleaner.registry                      | Docker registry used to pull Webhook cleaner image                                                                                                                                                                                                                                                                                                  | <code>appscode</code>                     |
 | cleaner.repository                    | Webhook cleaner container image                                                                                                                                                                                                                                                                                                                     | <code>kubectl</code>                      |
-| cleaner.tag                           | Webhook cleaner container image tag                                                                                                                                                                                                                                                                                                                 | <code>v1.22</code>                        |
+| cleaner.tag                           | Webhook cleaner container image tag                                                                                                                                                                                                                                                                                                                 | <code>v1.24</code>                        |
 | cleaner.skip                          | Skip generating cleaner YAML                                                                                                                                                                                                                                                                                                                        | <code>false</code>                        |
 | imagePullSecrets                      | Specify an array of imagePullSecrets. Secrets must be manually created in the namespace. <br> Example: <br> `helm template charts/Voyager \` <br> `--set imagePullSecrets[0].name=sec0 \` <br> `--set imagePullSecrets[1].name=sec1`                                                                                                                | <code>[]</code>                           |
 | imagePullPolicy                       | Container image pull policy                                                                                                                                                                                                                                                                                                                         | <code>IfNotPresent</code>                 |
@@ -98,12 +98,12 @@ The following table lists the configurable parameters of the `voyager` chart and
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm upgrade -i`. For example:
 
 ```bash
-$ helm upgrade -i voyager-operator appscode/voyager -n voyager --create-namespace --version=v2022.08.17 --set replicaCount=1
+$ helm upgrade -i voyager-operator appscode/voyager -n voyager --create-namespace --version=v2022.12.11 --set replicaCount=1
 ```
 
 Alternatively, a YAML file that specifies the values for the parameters can be provided while
 installing the chart. For example:
 
 ```bash
-$ helm upgrade -i voyager-operator appscode/voyager -n voyager --create-namespace --version=v2022.08.17 --values values.yaml
+$ helm upgrade -i voyager-operator appscode/voyager -n voyager --create-namespace --version=v2022.12.11 --values values.yaml
 ```
