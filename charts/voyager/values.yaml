@@ -19,10 +19,10 @@ replicaCount: 1
 license: ""
 # Docker registry fqdn used to pull KubeDB related images
 # Set this to use docker registry hosted at ${registryFQDN}/${registry}/${image}
-registryFQDN: ""
+registryFQDN: ghcr.io
 operator:
   # Docker registry used to pull Voyager operator image
-  registry: appscode
+  registry: voyagermesh
   # Voyager operator container image
   repository: voyager
   # Voyager operator container image tag
@@ -33,7 +33,7 @@ operator:
   securityContext: {}
 haproxy:
   # Docker registry used to pull HAProxy image
-  registry: appscode
+  registry: voyagermesh
   # HAProxy container image
   repository: haproxy
   # HAProxy container image tag
@@ -44,7 +44,7 @@ cleaner:
   # Webhook cleaner container image
   repository: kubectl
   # Webhook cleaner container image tag
-  tag: v1.24
+  tag: v1.22
   # Skip generating cleaner YAML
   skip: false
 # Specify an array of imagePullSecrets.
