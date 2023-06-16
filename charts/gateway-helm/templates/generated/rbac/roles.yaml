@@ -1,0 +1,97 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: {{ include "eg.fullname" . }}-envoy-gateway-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  - nodes
+  - secrets
+  - services
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - config.gateway.envoyproxy.io
+  resources:
+  - envoyproxies
+  verbs:
+  - get
+  - list
+  - update
+  - watch
+- apiGroups:
+  - gateway.envoyproxy.io
+  resources:
+  - authenticationfilters
+  - ratelimitfilters
+  verbs:
+  - get
+  - list
+  - update
+  - watch
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gatewayclasses
+  - gateways
+  - grpcroutes
+  - httproutes
+  - referencegrants
+  - referencepolicies
+  - tcproutes
+  - tlsroutes
+  - udproutes
+  verbs:
+  - get
+  - list
+  - update
+  - watch
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gatewayclasses/status
+  - gateways/status
+  - grpcroutes/status
+  - httproutes/status
+  - tcproutes/status
+  - tlsroutes/status
+  - udproutes/status
+  verbs:
+  - update
+- apiGroups:
+  - gateway.voyagermesh.com
+  resources:
+  - kafkaroutes
+  - mongodbroutes
+  - mysqlroutes
+  - postgresroutes
+  - redisroutes
+  verbs:
+  - get
+  - list
+  - update
+  - watch
+- apiGroups:
+  - gateway.voyagermesh.com
+  resources:
+  - kafkaroutes/status
+  - mongodbroutes/status
+  - mysqlroutes/status
+  - postgresroutes/status
+  - redisroutes/status
+  verbs:
+  - update
