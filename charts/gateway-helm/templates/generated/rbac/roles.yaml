@@ -34,15 +34,31 @@ rules:
   - update
   - watch
 - apiGroups:
+  - discovery.k8s.io
+  resources:
+  - endpointslices
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
   - gateway.envoyproxy.io
   resources:
   - authenticationfilters
+  - envoypatchpolicies
   - ratelimitfilters
   verbs:
   - get
   - list
+  - patch
   - update
   - watch
+- apiGroups:
+  - gateway.envoyproxy.io
+  resources:
+  - envoypatchpolicies/status
+  verbs:
+  - update
 - apiGroups:
   - gateway.networking.k8s.io
   resources:
@@ -58,6 +74,7 @@ rules:
   verbs:
   - get
   - list
+  - patch
   - update
   - watch
 - apiGroups:
