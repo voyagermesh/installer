@@ -206,7 +206,8 @@ gen-chart-doc: $(shell find $$(pwd)/charts -maxdepth 1 -mindepth 1 -type d -prin
 
 gen-chart-doc-%:
 	@echo "Generate $* chart docs"
-	@docker run --rm 	                                 \
+	@test ! -f ./charts/$*/doc.yaml ||                 \
+	docker run --rm 	                                 \
 		-u $$(id -u):$$(id -g)                           \
 		-v /tmp:/.cache                                  \
 		-v $$(pwd):$(DOCKER_REPO_ROOT)                   \
@@ -231,11 +232,13 @@ APP_VERSION        ?= $(CHART_VERSION)
 update-charts: $(shell find $$(pwd)/charts -maxdepth 1 -mindepth 1 -type d -printf 'chart-%f ')
 
 chart-%:
-	@$(MAKE) chart-contents-$* gen-chart-doc-$* --no-print-directory
+	@$(MAKE) contents-$* gen-chart-doc-$* --no-print-directory
 
-chart-contents-%:
-	@yq -y --indentless -i '.repository.name="$(CHART_REGISTRY)"' ./charts/$*/doc.yaml
-	@yq -y --indentless -i '.repository.url="$(CHART_REGISTRY_URL)"' ./charts/$*/doc.yaml
+contents-%:
+	@test ! -f ./charts/$*/doc.yaml || { \
+	  yq -y --indentless -i '.repository.name="$(CHART_REGISTRY)"' ./charts/$*/doc.yaml; \
+	  yq -y --indentless -i '.repository.url="$(CHART_REGISTRY_URL)"' ./charts/$*/doc.yaml; \
+	}
 	@if [ -n "$(CHART_VERSION)" ]; then                                                  \
 	  yq -y --indentless -i '.version="$(CHART_VERSION)"' ./charts/$*/Chart.yaml;        \
 	fi
