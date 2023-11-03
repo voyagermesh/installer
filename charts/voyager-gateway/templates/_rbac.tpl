@@ -9,8 +9,8 @@ All namespaced resources for Envoy Gateway RBAC.
 - {{ include "eg.rbac.namespaced.gateway.envoyproxy.status" . | nindent 2 | trim }}
 - {{ include "eg.rbac.namespaced.gateway.networking" . | nindent 2 | trim }}
 - {{ include "eg.rbac.namespaced.gateway.networking.status" . | nindent 2 | trim }}
-- {{ include "eg.rbac.namespaced.voyager.networking" . | nindent 2 | trim }}
-- {{ include "eg.rbac.namespaced.voyager.networking.status" . | nindent 2 | trim }}
+- {{ include "eg.rbac.namespaced.gateway.voyagermesh" . | nindent 2 | trim }}
+- {{ include "eg.rbac.namespaced.gateway.voyagermesh.status" . | nindent 2 | trim }}
 {{- end }}
 
 {{/*
@@ -33,6 +33,7 @@ apiGroups:
 resources:
 - secrets
 - services
+- configmaps
 verbs:
 - get
 - list
@@ -145,6 +146,7 @@ apiGroups:
 - gateway.networking.k8s.io
 resources:
 - gatewayclasses
+- backendtlspolicies
 verbs:
 - get
 - list
@@ -170,11 +172,12 @@ apiGroups:
 - gateway.networking.k8s.io
 resources:
 - gatewayclasses/status
+- backendtlspolicies/status
 verbs:
 - update
 {{- end }}
 
-{{- define "eg.rbac.namespaced.voyager.networking" -}}
+{{- define "eg.rbac.namespaced.gateway.voyagermesh" -}}
 apiGroups:
 - gateway.voyagermesh.com
 resources:
@@ -191,7 +194,7 @@ verbs:
 - watch
 {{- end }}
 
-{{- define "eg.rbac.namespaced.voyager.networking.status" -}}
+{{- define "eg.rbac.namespaced.gateway.voyagermesh.status" -}}
 apiGroups:
 - gateway.voyagermesh.com
 resources:
