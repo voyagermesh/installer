@@ -1,21 +1,8 @@
-# gateway-helm
+# voyager-gateway
 
-![Version: v0.0.0-latest](https://img.shields.io/badge/Version-v0.0.0--latest-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+The Helm chart for Voyager Gateway
 
-The Helm chart for Envoy Gateway
-
-**Homepage:** <https://gateway.envoyproxy.io/>
-
-## Maintainers
-
-| Name                             | Email | Url                                                             |
-| -------------------------------- | ----- | --------------------------------------------------------------- |
-| envoy-gateway-steering-committee |       | <https://github.com/envoyproxy/gateway/blob/main/GOVERNANCE.md> |
-| envoy-gateway-maintainers        |       | <https://github.com/envoyproxy/gateway/blob/main/CODEOWNERS>    |
-
-## Source Code
-
-* <https://github.com/envoyproxy/gateway>
+**Homepage:** <https://gateway.voyagermesh.com/>
 
 ## Usage
 
@@ -27,25 +14,15 @@ Helm's [documentation](https://helm.sh/docs) to get started.
 Once Helm has been set up correctly, install the chart from dockerhub:
 
 ``` shell
-  helm install eg oci://docker.io/envoyproxy/gateway-helm -n envoy-gateway-system --create-namespace
-```
-
-### Install from Source Code
-
-You can also install the helm chart from the source code:
-
-To install the eg chart along with Gateway API CRDs and Envoy Gateway CRDs:
-
-``` shell
-    make kube-deploy TAG=latest
+  helm install eg oci://ghcr.io/voyagermesh/voyager-gateway -n envoy-gateway-system --create-namespace
 ```
 
 ### Skip install CRDs
 
-You can install the eg chart along without Gateway API CRDs and Envoy Gateway CRDs, make sure CRDs exist in Cluster first if you want to skip to install them, otherwise EG may fail to start:
+You can install the eg chart along without Gateway API CRDs and Voyager Gateway CRDs, make sure CRDs exist in Cluster first if you want to skip to install them, otherwise EG may fail to start:
 
 ``` shell
-    helm install eg --create-namespace oci://docker.io/envoyproxy/gateway-helm -n envoy-gateway-system --skip-crds
+    helm install eg --create-namespace oci://ghcr.io/voyagermesh/voyager-gateway -n envoy-gateway-system --skip-crds
 ```
 
 To uninstall the chart:
@@ -57,8 +34,8 @@ To uninstall the chart:
 ## Values
 
 | Key                                                | Type   | Default                                           | Description |
-| -------------------------------------------------- | ------ | ------------------------------------------------- | ----------- |
-| config.envoyGateway.gateway.controllerName         | string | `"gateway.envoyproxy.io/gatewayclass-controller"` |             |
+|----------------------------------------------------| ------ |---------------------------------------------------| ----------- |
+| config.envoyGateway.gateway.controllerName         | string | `"gateway.voyagermesh.com/gatewayclass-controller"` |             |
 | config.envoyGateway.provider.type                  | string | `"Kubernetes"`                                    |             |
 | deployment.envoyGateway.image.repository           | string | `"docker.io/envoyproxy/gateway-dev"`              |             |
 | deployment.envoyGateway.image.tag                  | string | `"latest"`                                        |             |
@@ -69,6 +46,7 @@ To uninstall the chart:
 | deployment.envoyGateway.resources.requests.memory  | string | `"64Mi"`                                          |             |
 | deployment.kubeRbacProxy.image.repository          | string | `"gcr.io/kubebuilder/kube-rbac-proxy"`            |             |
 | deployment.kubeRbacProxy.image.tag                 | string | `"v0.11.0"`                                       |             |
+| deployment.kubeRbacProxy.imagePullPolicy           | string | `"IfNotPresent"`                                  |             |
 | deployment.kubeRbacProxy.resources.limits.cpu      | string | `"500m"`                                          |             |
 | deployment.kubeRbacProxy.resources.limits.memory   | string | `"128Mi"`                                         |             |
 | deployment.kubeRbacProxy.resources.requests.cpu    | string | `"5m"`                                            |             |
@@ -76,7 +54,12 @@ To uninstall the chart:
 | deployment.ports[0].name                           | string | `"grpc"`                                          |             |
 | deployment.ports[0].port                           | int    | `18000`                                           |             |
 | deployment.ports[0].targetPort                     | int    | `18000`                                           |             |
+| deployment.ports[1].name                           | string | `"ratelimit"`                                     |             |
+| deployment.ports[1].port                           | int    | `18001`                                           |             |
+| deployment.ports[1].targetPort                     | int    | `18001`                                           |             |
 | deployment.replicas                                | int    | `1`                                               |             |
+| deployment.pod.annotations                         | object | `{}`                                              |             |
+| deployment.pod.labels                              | object | `{}`                                              |             |
 | envoyGatewayMetricsService.ports[0].name           | string | `"https"`                                         |             |
 | envoyGatewayMetricsService.ports[0].port           | int    | `8443`                                            |             |
 | envoyGatewayMetricsService.ports[0].protocol       | string | `"TCP"`                                           |             |

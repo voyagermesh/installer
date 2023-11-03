@@ -1,20 +1,19 @@
----
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.11.1
   creationTimestamp: null
-  name: mysqlroutes.gateway.voyagermesh.com
+  name: postgresroutes.gateway.voyagermesh.com
 spec:
   group: gateway.voyagermesh.com
   names:
     categories:
     - gateway-api
-    kind: MySQLRoute
-    listKind: MySQLRouteList
-    plural: mysqlroutes
-    singular: mysqlroute
+    kind: PostgresRoute
+    listKind: PostgresRouteList
+    plural: postgresroutes
+    singular: postgresroute
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -24,9 +23,9 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: MySQLRoute provides a way to route TCP requests. When combined
+        description: PostgresRoute provides a way to route TCP requests. When combined
           with a Gateway listener, it can be used to forward connections on the port
-          specified by the listener to a set of backends specified by the MySQLRoute.
+          specified by the listener to a set of backends specified by the PostgresRoute.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -41,7 +40,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: Spec defines the desired state of MySQLRoute.
+            description: Spec defines the desired state of PostgresRoute.
             properties:
               hostnames:
                 description: "Hostnames defines a set of SNI names that should match
@@ -212,7 +211,8 @@ spec:
               rules:
                 description: Rules are a list of TCP matchers and actions.
                 items:
-                  description: MySQLRouteRule is the configuration for a given rule.
+                  description: PostgresRouteRule is the configuration for a given
+                    rule.
                   properties:
                     backendRefs:
                       description: "BackendRefs defines the backend(s) where matching
@@ -341,7 +341,7 @@ spec:
             - rules
             type: object
           status:
-            description: Status defines the current state of MySQLRoute.
+            description: Status defines the current state of PostgresRoute.
             properties:
               parents:
                 description: "Parents is a list of parent resources (usually Gateways)

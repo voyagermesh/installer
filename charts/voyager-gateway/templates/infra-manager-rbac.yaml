@@ -25,19 +25,6 @@ rules:
   - get
   - update
   - delete
-- apiGroups:
-  - gateway.voyagermesh.com
-  resources:
-  - mysqlroutes
-  - postgresroutes
-  - mongodbroutes
-  - redisroutes
-  - kafkaroutes
-  verbs:
-  - create
-  - get
-  - update
-  - delete
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
