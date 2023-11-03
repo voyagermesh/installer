@@ -9,6 +9,8 @@ All namespaced resources for Envoy Gateway RBAC.
 - {{ include "eg.rbac.namespaced.gateway.envoyproxy.status" . | nindent 2 | trim }}
 - {{ include "eg.rbac.namespaced.gateway.networking" . | nindent 2 | trim }}
 - {{ include "eg.rbac.namespaced.gateway.networking.status" . | nindent 2 | trim }}
+- {{ include "eg.rbac.namespaced.voyager.networking" . | nindent 2 | trim }}
+- {{ include "eg.rbac.namespaced.voyager.networking.status" . | nindent 2 | trim }}
 {{- end }}
 
 {{/*
@@ -168,6 +170,36 @@ apiGroups:
 - gateway.networking.k8s.io
 resources:
 - gatewayclasses/status
+verbs:
+- update
+{{- end }}
+
+{{- define "eg.rbac.namespaced.voyager.networking" -}}
+apiGroups:
+- gateway.voyagermesh.com
+resources:
+- kafkaroutes
+- mongodbroutes
+- mysqlroutes
+- postgresroutes
+- redisroutes
+verbs:
+- get
+- list
+- patch
+- update
+- watch
+{{- end }}
+
+{{- define "eg.rbac.namespaced.voyager.networking.status" -}}
+apiGroups:
+- gateway.voyagermesh.com
+resources:
+- kafkaroutes/status
+- mongodbroutes/status
+- mysqlroutes/status
+- postgresroutes/status
+- redisroutes/status
 verbs:
 - update
 {{- end }}
