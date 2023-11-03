@@ -53,3 +53,11 @@ crd-importer \
 crd-importer \
     --input=${crd_dir} \
     --out=. --output-yaml=crds/voyager-crds.yaml
+
+crd-importer \
+    --input=https://github.com/voyagermesh/gateway-api/raw/v0.0.1/config/crd/bases/gateway.voyagermesh.com_kafkaroutes.yaml \
+    --input=https://github.com/voyagermesh/gateway-api/raw/v0.0.1/config/crd/bases/gateway.voyagermesh.com_mongodbroutes.yaml \
+    --input=https://github.com/voyagermesh/gateway-api/raw/v0.0.1/config/crd/bases/gateway.voyagermesh.com_mysqlroutes.yaml \
+    --input=https://github.com/voyagermesh/gateway-api/raw/v0.0.1/config/crd/bases/gateway.voyagermesh.com_postgresroutes.yaml \
+    --input=https://github.com/voyagermesh/gateway-api/raw/v0.0.1/config/crd/bases/gateway.voyagermesh.com_redisroutes.yaml \
+    --out=./charts/voyager-gateway/crds

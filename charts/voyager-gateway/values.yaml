@@ -1,32 +1,29 @@
 deployment:
   envoyGateway:
+    cert:
+      expiryDays: 365
     image:
       repository: ghcr.io/voyagermesh/gateway
-      tag: v0.0.2
-    imagePullPolicy: IfNotPresent
+      tag: 'v0.6.0'
+    imagePullPolicy: Always
     resources:
       limits:
         cpu: 500m
-        memory: 128Mi
+        memory: 1024Mi
       requests:
-        cpu: 10m
-        memory: 64Mi
-  kubeRbacProxy:
-    image:
-      repository: gcr.io/kubebuilder/kube-rbac-proxy
-      tag: v0.11.0
-    resources:
-      limits:
-        cpu: 500m
-        memory: 128Mi
-      requests:
-        cpu: 5m
-        memory: 64Mi
+        cpu: 100m
+        memory: 256Mi
   ports:
     - name: grpc
       port: 18000
       targetPort: 18000
+    - name: ratelimit
+      port: 18001
+      targetPort: 18001
   replicas: 1
+  pod:
+    annotations: {}
+    labels: {}
 
 config:
   envoyGateway:
@@ -34,14 +31,25 @@ config:
       controllerName: gateway.envoyproxy.io/gatewayclass-controller
     provider:
       type: Kubernetes
+    logging:
+      level:
+        default: info
 
 envoyGatewayMetricsService:
   ports:
-    - name: https
-      port: 8443
+    - name: http
+      port: 19001
       protocol: TCP
-      targetPort: https
+      targetPort: 19001
 
 createNamespace: false
 
 kubernetesClusterDomain: cluster.local
+
+certgen:
+  job:
+    annotations: {}
+    ttlSecondsAfterFinished: 0
+  rbac:
+    annotations: {}
+    labels: {}
