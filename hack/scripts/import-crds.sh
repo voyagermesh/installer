@@ -54,6 +54,14 @@ crd-importer \
     --input=${crd_dir} \
     --out=. --output-yaml=crds/voyager-crds.yaml
 
+# only add v1 apis
+crd-importer \
+    --input=https://github.com/kubernetes-sigs/gateway-api/raw/v1.0.0/config/crd/standard/gateway.networking.k8s.io_gatewayclasses.yaml \
+    --input=https://github.com/kubernetes-sigs/gateway-api/raw/v1.0.0/config/crd/standard/gateway.networking.k8s.io_gateways.yaml \
+    --input=https://github.com/kubernetes-sigs/gateway-api/raw/v1.0.0/config/crd/standard/gateway.networking.k8s.io_httproutes.yaml \
+    --input=https://github.com/kubernetes-sigs/gateway-api/raw/v1.0.0/config/crd/standard/gateway.networking.k8s.io_referencegrants.yaml \
+    --out=./charts/gateway-api/crds
+
 crd-importer \
     --input=https://github.com/voyagermesh/gateway-api/raw/v0.0.1/config/crd/bases/gateway.voyagermesh.com_kafkaroutes.yaml \
     --input=https://github.com/voyagermesh/gateway-api/raw/v0.0.1/config/crd/bases/gateway.voyagermesh.com_mongodbroutes.yaml \
