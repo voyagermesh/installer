@@ -2,21 +2,16 @@ apiVersion: v2
 name: voyager-gateway
 description: The Helm chart for Voyager Gateway
 type: application
-
-version: v2024.1.29
-appVersion: "v0.6.2"
-
+version: v2024.3.18
+appVersion: v17.1.0
 maintainers:
 - name: appscode
   email: support@appscode.com
-
 keywords:
-  - gateway-api
-  - envoyproxy
-  - envoy-gateway
-  - eg
-
+- gateway-api
+- envoyproxy
+- envoy-gateway
+- eg
 home: https://gateway.voyagermesh.com/
-
 sources:
-  - https://github.com/voyagermesh/gateway
+- https://github.com/voyagermesh/gateway
