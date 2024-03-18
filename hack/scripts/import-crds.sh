@@ -52,6 +52,10 @@ crd-importer \
 
 crd-importer \
     --input=${crd_dir} \
+    --out=./charts/voyager/crds
+
+crd-importer \
+    --input=${crd_dir} \
     --out=. --output-yaml=crds/voyager-crds.yaml
 
 # only add v1 apis
