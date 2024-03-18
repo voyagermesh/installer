@@ -2,8 +2,8 @@ apiVersion: v2
 name: gateway-api
 description: Kubernetes Gateway API
 type: application
-version: v1.0.0
-appVersion: v1.0.0
+version: v2024.3.18
+appVersion: v17.1.0
 home: https://gateway-api.sigs.k8s.io
 icon: https://cdn.appscode.com/images/products/voyager/voyager-community-icon.png
 sources:
