@@ -4,7 +4,7 @@ deployment:
       expiryDays: 365
     image:
       repository: ghcr.io/voyagermesh/gateway
-      tag: 'v0.6.2'
+      tag: 'v0.6.3'
     imagePullPolicy: Always
     resources:
       limits:
