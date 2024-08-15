@@ -31,9 +31,9 @@ Namespaced
 apiGroups:
 - ""
 resources:
+- configmaps
 - secrets
 - services
-- configmaps
 verbs:
 - get
 - list
@@ -71,11 +71,11 @@ resources:
 - clienttrafficpolicies
 - backendtrafficpolicies
 - securitypolicies
+- envoyextensionpolicies
+- backends
 verbs:
 - get
 - list
-- patch
-- update
 - watch
 {{- end }}
 
@@ -87,6 +87,8 @@ resources:
 - clienttrafficpolicies/status
 - backendtrafficpolicies/status
 - securitypolicies/status
+- envoyextensionpolicies/status
+- backends/status
 verbs:
 - update
 {{- end }}
@@ -99,15 +101,13 @@ resources:
 - grpcroutes
 - httproutes
 - referencegrants
-- referencepolicies
 - tcproutes
 - tlsroutes
 - udproutes
+- backendtlspolicies
 verbs:
 - get
 - list
-- patch
-- update
 - watch
 {{- end }}
 
@@ -121,6 +121,7 @@ resources:
 - tcproutes/status
 - tlsroutes/status
 - udproutes/status
+- backendtlspolicies/status
 verbs:
 - update
 {{- end }}
@@ -146,7 +147,6 @@ apiGroups:
 - gateway.networking.k8s.io
 resources:
 - gatewayclasses
-- backendtlspolicies
 verbs:
 - get
 - list

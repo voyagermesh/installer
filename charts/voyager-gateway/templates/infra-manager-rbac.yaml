@@ -14,17 +14,29 @@ rules:
   verbs:
   - create
   - get
-  - update
   - delete
+  - patch
 - apiGroups:
   - apps
   resources:
   - deployments
+  - daemonsets
   verbs:
   - create
   - get
-  - update
   - delete
+  - patch
+- apiGroups:
+  - autoscaling
+  - policy
+  resources:
+  - horizontalpodautoscalers
+  - poddisruptionbudgets
+  verbs:
+  - create
+  - get
+  - delete
+  - patch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
