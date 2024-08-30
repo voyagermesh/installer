@@ -2,8 +2,8 @@ apiVersion: v2
 name: voyager-gateway
 description: The Helm chart for Voyager Gateway
 type: application
-version: v2024.8.14
-appVersion: v1.1.0
+version: v2024.8.30
+appVersion: v17.2.0
 maintainers:
 - name: appscode
   email: support@appscode.com
