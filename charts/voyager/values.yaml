@@ -37,7 +37,7 @@ haproxy:
   # HAProxy container image
   repository: haproxy
   # HAProxy container image tag
-  tag: 2.6-alpine
+  tag: 2.9-alpine
 cleaner:
   # Docker registry used to pull Webhook cleaner image
   registry: appscode
