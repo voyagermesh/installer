@@ -15,3 +15,8 @@ keywords:
 home: https://gateway.voyagermesh.com/
 sources:
 - https://github.com/voyagermesh/gateway
+dependencies:
+- name: gateway-converter
+  repository: file://../gateway-converter
+  condition: gateway-converter.enabled
+  version: v2024.8.30

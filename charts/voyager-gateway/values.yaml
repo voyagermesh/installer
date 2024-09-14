@@ -80,3 +80,6 @@ certgen:
   rbac:
     annotations: {}
     labels: {}
+
+gateway-converter:
+  enabled: true
