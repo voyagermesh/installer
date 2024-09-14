@@ -357,8 +357,9 @@ ct: $(BUILD_DIRS)
 	    --env KUBECONFIG=$(subst $(HOME),,$(KUBECONFIG))        \
 	    $(CHART_TEST_IMAGE)                                     \
 	    /bin/sh -c "                                            \
-	        kubectl delete crds --selector=app.kubernetes.io/name=voyager; \
-	        ct $(CT_COMMAND) --debug --validate-maintainers=false $(CT_ARGS) \
+	      kubectl delete crds --selector=app.kubernetes.io/name=voyager; \
+	      ./hack/scripts/update-chart-dependencies.sh; \
+	      ct $(CT_COMMAND) --debug --validate-maintainers=false $(CT_ARGS) \
 	    "
 
 ADDTL_LINTERS   := gofmt,goimports,unparam
