@@ -1,25 +1,28 @@
-##
-## Voyagermesh chart configuration
-##
+# Default values for gateway-converter.
+# This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 # Overrides name template
 nameOverride: ""
 # Overrides fullname template
 fullnameOverride: ""
-# Number of Gateway converted replicas to create (only 1 is supported)
+# Number of stash gateway converter replicas to create (only 1 is supported)
 replicaCount: 1
-# Docker registry fqdn used to pull Voyagermesh related images
+
+# Docker registry fqdn used to pull Stash related images.
 # Set this to use docker registry hosted at ${registryFQDN}/${registry}/${image}
 registryFQDN: ghcr.io
-# Docker registry containing Voyagermesh images
 server:
-  # Docker registry used to pull Gateway converted image
+  # Docker registry used to pull gateway converter image
   registry: voyagermesh
-  # Gateway converted container image
+  # Name of gateway converter container image
   repository: gateway-converter
-  # Gateway converted container image tag
+  # Gateway converter container image tag
   tag: ""
+  # Compute Resources required by the gateway converter container
+  resources: # +doc-gen:break
+    requests:
+      cpu: "100m"
   # Security options this container should run with
   securityContext: # +doc-gen:break
     allowPrivilegeEscalation: false
@@ -28,54 +31,29 @@ server:
     readOnlyRootFilesystem: true
     runAsNonRoot: true
     runAsUser: 65534
-    # seccompProfile:
-    #   type: RuntimeDefault
-  # Compute Resources required by this container
-  resources: {}
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
-
-featureGates:
-  ClickHouse: false
-  Druid: false
-  Elasticsearch: true
-  FerretDB: false
-  Kafka: true
-  MariaDB: true
-  Memcached: false
-  MongoDB: true
-  MSSQLServer: false
-  MySQL: true
-  PerconaXtraDB: true
-  PgBouncer: false
-  Pgpool: false
-  Postgres: true
-  ProxySQL: true
-  RabbitMQ: false
-  Redis: true
-  Singlestore: false
-  Solr: false
-  ZooKeeper: false
+    seccompProfile:
+      type: RuntimeDefault
 
 # Specify an array of imagePullSecrets.
 # Secrets must be manually created in the namespace.
 #
 # Example:
-# helm template charts/gateway-converter \
+# helm template charts/stash \
 #   --set imagePullSecrets[0].name=sec0 \
 #   --set imagePullSecrets[1].name=sec1
 imagePullSecrets: []
 # Container image pull policy
 imagePullPolicy: IfNotPresent
-# If true, installs Gateway converted as critical addon
+# If true, installs Stash gateway converter as critical addon
 criticalAddon: false
-# Log level for webhook server
+# Log level for gateway converter
 logLevel: 3
-# Annotations applied to webhook server deployment
+# Annotations applied to gateway converter deployment
 annotations: {}
-# Annotations passed to webhook server pod(s).
+# Annotations passed to gateway converter pod(s).
 podAnnotations: {}
+# Labels passed to gateway converter pod(s)
+podLabels: {}
 # Node labels for pod assignment
 nodeSelector: # +doc-gen:break
   kubernetes.io/os: linux
@@ -83,8 +61,9 @@ nodeSelector: # +doc-gen:break
 tolerations: []
 # Affinity rules for pod assignment
 affinity: {}
-# Security options the webhook server pod should run with.
-podSecurityContext: {}
+# Security options the gateway converter pod should run with.
+podSecurityContext: # +doc-gen:break
+  fsGroup: 65535
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -94,27 +73,12 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name:
 apiserver:
-  # The minimum priority the webhook api group should have at least. Please see
-  # https://github.com/kubernetes/kube-aggregator/blob/release-1.9/pkg/apis/apiregistration/v1beta1/types.go#L58-L64
-  # for more information on proper values of this field.
-  groupPriorityMinimum: 10000
-  # The ordering of the webhook api inside of the group. Please see
-  # https://github.com/kubernetes/kube-aggregator/blob/release-1.9/pkg/apis/apiregistration/v1beta1/types.go#L66-L70
-  # for more information on proper values of this field
-  versionPriority: 15
-  # If true, mutating webhook is configured for Voyagermesh CRDs
-  enableMutatingWebhook: true
-  # If true, validating webhook is configured for Voyagermesh CRDs
-  enableValidatingWebhook: true
-  # CA certificate used by the Kubernetes api server. This field is automatically assigned by the webhook server.
-  ca: not-ca-cert
-  # If true, uses kube-apiserver FQDN for AKS cluster to workaround https://github.com/Azure/AKS/issues/522 (default true)
-  useKubeapiserverFqdnForAks: true
-  # Port used to expose the webhook server apiserver
-  port: 8443
+  healthcheck:
+    # If true, enables the readiness and liveliness probes for the gateway converter pod.
+    enabled: false
   servingCerts:
     # If true, generates on install/upgrade the certs that allow the kube-apiserver (and potentially ServiceMonitor)
-    # to authenticate webhook servers pods. Otherwise specify certs in `apiserver.servingCerts.{caCrt, serverCrt, serverKey}`.
+    # to authenticate gateway converter pods. Otherwise specify certs in `apiserver.servingCerts.{caCrt, serverCrt, serverKey}`.
     generate: true
     # CA certficate used by serving certificate of webhook server.
     caCrt: ""
@@ -122,12 +86,16 @@ apiserver:
     serverCrt: ""
     # Private key for the serving certificate used by webhook server.
     serverKey: ""
-  webhook:
-    failurePolicy: Ignore
-
 
 # If true, uses HostNetwork for pods.
 # This is required in EKS using Cilium with VxLAN overlay
 hostNetwork: false
 
-defaultSeccompProfileType: ""
+monitoring:
+  # Name of monitoring agent (either "prometheus.io/operator" or "prometheus.io/builtin")
+  agent: "none"
+  serviceMonitor:
+    # Specify the labels for ServiceMonitor.
+    # Prometheus crd will select ServiceMonitor using these labels.
+    # Only usable when monitoring agent is `prometheus.io/operator`.
+    labels: {}

@@ -38,7 +38,7 @@ spec:
       labels:
         {{- include "gateway-converter.selectorLabels" . | nindent 8 }}
       annotations:
-        reload: {{ randAlpha 8 }}
+        checksum/apiregistration.yaml: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
       {{- if $criticalAddon }}
         scheduler.alpha.kubernetes.io/critical-pod: ''
       {{- end }}
@@ -51,16 +51,21 @@ spec:
       {{- include "docker.imagePullSecrets" . | nindent 6 }}
       serviceAccountName: {{ include "gateway-converter.serviceAccountName" . }}
       containers:
-      - name: operator
+      - name: webhook-server
+        image: "{{ include "server.registry" . }}/{{ .Values.server.repository }}:{{ .Values.server.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
         securityContext:
           {{- toYaml .Values.server.securityContext | nindent 10 }}
-        image: {{ include "server.registry" . }}/{{ .Values.server.repository }}:{{ .Values.server.tag | default .Chart.AppVersion }}
-#        image: arnobkumarsaha/test
-        imagePullPolicy: {{ .Values.imagePullPolicy  }}
-        command:
-        - /manager
         args:
-        - --leader-elect
+          - webhook
+          - --leader-elect
+        ports:
+        - name: metrics
+          containerPort: 8443
+          protocol: TCP
+        - name: probe
+          containerPort: 8081
+          protocol: TCP
         env:
         - name: POD_NAME
           valueFrom:
@@ -70,21 +75,31 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        ports:
-        - name: https
-          containerPort: {{ .Values.apiserver.port }}
-        - name: crd
-          containerPort: 9443
-        volumeMounts:
-        - mountPath: /var/serving-cert
-          name: serving-cert
+      {{- if .Values.apiserver.healthcheck.enabled }}
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
+      {{- end }}
         resources:
           {{- toYaml .Values.server.resources | nindent 10 }}
+        volumeMounts:
+        - name: serving-cert
+          mountPath: /var/serving-cert
+          readOnly: true
       volumes:
       - name: serving-cert
         secret:
           defaultMode: 420
-          secretName: {{ include "gateway-converter.fullname" . }}-apiserver-cert
+          secretName: {{ include "gateway-converter.fullname" . }}-webhook-cert
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
     {{- if or $tolerations $criticalAddon }}
@@ -111,3 +126,4 @@ spec:
     {{- if .Values.hostNetwork }}
       hostNetwork: true
     {{- end }}
+

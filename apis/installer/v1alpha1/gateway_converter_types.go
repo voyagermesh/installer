@@ -22,12 +22,12 @@ import (
 )
 
 const (
-	ResourceKindKubedbWebhookServer = "KubedbWebhookServer"
-	ResourceKubedbWebhookServer     = "kubedbwebhookserver"
-	ResourceKubedbWebhookServers    = "kubedbwebhookservers"
+	ResourceKindGatewayConverter = "GatewayConverter"
+	ResourceGatewayConverter     = "gatewayconverter"
+	ResourceGatewayConverters    = "gatewayconverters"
 )
 
-// KubedbWebhookServer defines the schama for ui server installer.
+// GatewayConverter defines the schama for GatewayConverter operator installer.
 
 // +genclient
 // +genclient:skipVerbs=updateStatus
@@ -35,24 +35,22 @@ const (
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // +kubebuilder:object:root=true
-// +kubebuilder:resource:path=kubedbwebhookservers,singular=kubedbwebhookserver,categories={kubedb,appscode}
-type KubedbWebhookServer struct {
+type GatewayConverter struct {
 	metav1.TypeMeta   `json:",inline,omitempty"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              KubedbWebhookServerSpec `json:"spec,omitempty"`
+	Spec              GatewayConverterSpec `json:"spec,omitempty"`
 }
 
-// KubedbWebhookServerSpec is the schema for Identity Server values file
-type KubedbWebhookServerSpec struct {
+// GatewayConverterSpec is the schema for Operator Operator values file
+type GatewayConverterSpec struct {
 	//+optional
 	NameOverride string `json:"nameOverride"`
 	//+optional
-	FullnameOverride string          `json:"fullnameOverride"`
-	ReplicaCount     int32           `json:"replicaCount"`
-	RegistryFQDN     string          `json:"registryFQDN"`
-	Server           Container       `json:"server"`
-	FeatureGates     map[string]bool `json:"featureGates"`
-	ImagePullPolicy  string          `json:"imagePullPolicy"`
+	FullnameOverride string    `json:"fullnameOverride"`
+	RegistryFQDN     string    `json:"registryFQDN"`
+	ReplicaCount     int32     `json:"replicaCount"`
+	Server           Container `json:"server"`
+	ImagePullPolicy  string    `json:"imagePullPolicy"`
 	//+optional
 	ImagePullSecrets []string `json:"imagePullSecrets"`
 	//+optional
@@ -63,6 +61,8 @@ type KubedbWebhookServerSpec struct {
 	Annotations map[string]string `json:"annotations"`
 	//+optional
 	PodAnnotations map[string]string `json:"podAnnotations"`
+	//+optional
+	PodLabels map[string]string `json:"podLabels"`
 	//+optional
 	NodeSelector map[string]string `json:"nodeSelector"`
 	// If specified, the pod's tolerations.
@@ -76,26 +76,10 @@ type KubedbWebhookServerSpec struct {
 	// +optional
 	PodSecurityContext *core.PodSecurityContext `json:"podSecurityContext"`
 	ServiceAccount     ServiceAccountSpec       `json:"serviceAccount"`
-	Apiserver          WebhookAPIServerSpec     `json:"apiserver"`
 	HostNetwork        bool                     `json:"hostNetwork"`
 	// +optional
-	DefaultSeccompProfileType string `json:"defaultSeccompProfileType"`
-}
-
-type WebhookAPIServerSpec struct {
-	GroupPriorityMinimum       int32        `json:"groupPriorityMinimum"`
-	VersionPriority            int32        `json:"versionPriority"`
-	EnableMutatingWebhook      bool         `json:"enableMutatingWebhook"`
-	EnableValidatingWebhook    bool         `json:"enableValidatingWebhook"`
-	CA                         string       `json:"ca"`
-	UseKubeapiserverFqdnForAks bool         `json:"useKubeapiserverFqdnForAks"`
-	Port                       int32        `json:"port"`
-	ServingCerts               ServingCerts `json:"servingCerts"`
-	Webhook                    WebhookSpec  `json:"webhook"`
-}
-
-type WebhookSpec struct {
-	FailurePolicy string `json:"failurePolicy"`
+	Apiserver  GatewayConverterApiserver `json:"apiserver"`
+	Monitoring Monitoring                `json:"monitoring"`
 }
 
 type Container struct {
@@ -108,12 +92,30 @@ type Container struct {
 	SecurityContext *core.SecurityContext `json:"securityContext"`
 }
 
+type GatewayConverterApiserver struct {
+	Healthcheck  HealthcheckSpec `json:"healthcheck"`
+	ServingCerts ServingCerts    `json:"servingCerts"`
+}
+
+// +kubebuilder:validation:Enum=prometheus.io;prometheus.io/operator;prometheus.io/builtin
+type MonitoringAgent string
+
+type Monitoring struct {
+	Agent          MonitoringAgent      `json:"agent"`
+	ServiceMonitor ServiceMonitorLabels `json:"serviceMonitor"`
+}
+
+type ServiceMonitorLabels struct {
+	// +optional
+	Labels map[string]string `json:"labels"`
+}
+
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// KubedbWebhookServerList is a list of KubedbWebhookServers
-type KubedbWebhookServerList struct {
+// GatewayConverterList is a list of GatewayConverters
+type GatewayConverterList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	// Items is a list of KubedbWebhookServer CRD objects
-	Items []KubedbWebhookServer `json:"items,omitempty"`
+	// Items is a list of GatewayConverter CRD objects
+	Items []GatewayConverter `json:"items,omitempty"`
 }
