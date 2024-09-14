@@ -1,0 +1,32 @@
+{{- if eq .Values.monitoring.agent "prometheus.io/operator" }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "gateway-converter.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+  {{- if .Values.monitoring.serviceMonitor.labels }}
+    {{- range $key, $val := .Values.monitoring.serviceMonitor.labels }}
+    {{ $key }}: {{ $val }}
+    {{- end }}
+  {{- else }}
+    {{- include "gateway-converter.selectorLabels" . | nindent 4 }}
+  {{- end }}
+spec:
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      {{- include "gateway-converter.selectorLabels" . | nindent 6 }}
+  endpoints:
+  - port: metrics
+    path: /metrics
+    scheme: https
+    tlsConfig:
+      ca:
+        secret:
+          name: {{ include "gateway-converter.fullname" . }}-webhook-cert
+          key: ca.crt
+      serverName: "{{ include "gateway-converter.fullname" . }}.{{ .Release.Namespace }}.svc"
+{{- end }}

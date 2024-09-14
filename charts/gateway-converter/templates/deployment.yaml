@@ -1,0 +1,129 @@
+{{- $major := default "0" .Capabilities.KubeVersion.Major | trimSuffix "+" | int64 }}
+{{- $minor := default "0" .Capabilities.KubeVersion.Minor | trimSuffix "+" | int64 }}
+{{- $criticalAddon := and .Values.criticalAddon (or (eq .Release.Namespace "kube-system") (and (ge $major 1) (ge $minor 17))) -}}
+
+{{- $nodeSelector := .Values.nodeSelector }}
+{{- if .Values.global }}
+  {{ $nodeSelector = default .Values.nodeSelector .Values.global.nodeSelector }}
+{{- end }}
+
+{{- $tolerations := .Values.tolerations }}
+{{- if .Values.global }}
+  {{ $tolerations = default .Values.tolerations .Values.global.tolerations }}
+{{- end }}
+
+{{- $affinity := .Values.affinity }}
+{{- if .Values.global }}
+  {{ $affinity = default .Values.affinity .Values.global.affinity }}
+{{- end }}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "gateway-converter.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "gateway-converter.labels" . | nindent 4 }}
+  {{- with .Values.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "gateway-converter.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "gateway-converter.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/apiregistration.yaml: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+      {{- if $criticalAddon }}
+        scheduler.alpha.kubernetes.io/critical-pod: ''
+      {{- end }}
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      readinessGates:
+      - conditionType: "gateway/conversion"
+      {{- include "docker.imagePullSecrets" . | nindent 6 }}
+      serviceAccountName: {{ include "gateway-converter.serviceAccountName" . }}
+      containers:
+      - name: webhook-server
+        image: "{{ include "server.registry" . }}/{{ .Values.server.repository }}:{{ .Values.server.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        securityContext:
+          {{- toYaml .Values.server.securityContext | nindent 10 }}
+        args:
+          - webhook
+          - --leader-elect
+        ports:
+        - name: metrics
+          containerPort: 8443
+          protocol: TCP
+        - name: probe
+          containerPort: 8081
+          protocol: TCP
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+      {{- if .Values.apiserver.healthcheck.enabled }}
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
+      {{- end }}
+        resources:
+          {{- toYaml .Values.server.resources | nindent 10 }}
+        volumeMounts:
+        - name: serving-cert
+          mountPath: /var/serving-cert
+          readOnly: true
+      volumes:
+      - name: serving-cert
+        secret:
+          defaultMode: 420
+          secretName: {{ include "gateway-converter.fullname" . }}-webhook-cert
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+    {{- if or $tolerations $criticalAddon }}
+      tolerations:
+      {{- with $tolerations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if $criticalAddon }}
+        - key: CriticalAddonsOnly
+          operator: Exists
+      {{- end -}}
+    {{- end -}}
+    {{- with $affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with $nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- if $criticalAddon }}
+      priorityClassName: system-cluster-critical
+    {{- end -}}
+    {{- if .Values.hostNetwork }}
+      hostNetwork: true
+    {{- end }}
+

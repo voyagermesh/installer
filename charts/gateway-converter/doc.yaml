@@ -1,0 +1,18 @@
+project:
+  name: Gateway Converter by AppsCode
+  shortName: Gateway Converter
+  url: https://github.com/voyagermesh
+  description: Community features for Gateway by AppsCode
+  app: a Gateway Converter operator
+repository:
+  url: https://charts.appscode.com/stable/
+  name: appscode
+chart:
+  name: gateway-converter
+  values: -- generate from values file --
+  valuesExample: -- generate from values file --
+prerequisites:
+- Kubernetes 1.25+
+release:
+  name: gateway-converter
+  namespace: voyagermesh

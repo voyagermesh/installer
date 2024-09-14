@@ -1,0 +1,101 @@
+# Default values for gateway-converter.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Overrides name template
+nameOverride: ""
+# Overrides fullname template
+fullnameOverride: ""
+# Number of stash gateway converter replicas to create (only 1 is supported)
+replicaCount: 1
+
+# Docker registry fqdn used to pull Stash related images.
+# Set this to use docker registry hosted at ${registryFQDN}/${registry}/${image}
+registryFQDN: ghcr.io
+server:
+  # Docker registry used to pull gateway converter image
+  registry: voyagermesh
+  # Name of gateway converter container image
+  repository: gateway-converter
+  # Gateway converter container image tag
+  tag: ""
+  # Compute Resources required by the gateway converter container
+  resources: # +doc-gen:break
+    requests:
+      cpu: "100m"
+  # Security options this container should run with
+  securityContext: # +doc-gen:break
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop: ["ALL"]
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 65534
+    seccompProfile:
+      type: RuntimeDefault
+
+# Specify an array of imagePullSecrets.
+# Secrets must be manually created in the namespace.
+#
+# Example:
+# helm template charts/stash \
+#   --set imagePullSecrets[0].name=sec0 \
+#   --set imagePullSecrets[1].name=sec1
+imagePullSecrets: []
+# Container image pull policy
+imagePullPolicy: IfNotPresent
+# If true, installs Stash gateway converter as critical addon
+criticalAddon: false
+# Log level for gateway converter
+logLevel: 3
+# Annotations applied to gateway converter deployment
+annotations: {}
+# Annotations passed to gateway converter pod(s).
+podAnnotations: {}
+# Labels passed to gateway converter pod(s)
+podLabels: {}
+# Node labels for pod assignment
+nodeSelector: # +doc-gen:break
+  kubernetes.io/os: linux
+# Tolerations for pod assignment
+tolerations: []
+# Affinity rules for pod assignment
+affinity: {}
+# Security options the gateway converter pod should run with.
+podSecurityContext: # +doc-gen:break
+  fsGroup: 65535
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+apiserver:
+  healthcheck:
+    # If true, enables the readiness and liveliness probes for the gateway converter pod.
+    enabled: false
+  servingCerts:
+    # If true, generates on install/upgrade the certs that allow the kube-apiserver (and potentially ServiceMonitor)
+    # to authenticate gateway converter pods. Otherwise specify certs in `apiserver.servingCerts.{caCrt, serverCrt, serverKey}`.
+    generate: true
+    # CA certficate used by serving certificate of webhook server.
+    caCrt: ""
+    # Serving certficate used by webhook server.
+    serverCrt: ""
+    # Private key for the serving certificate used by webhook server.
+    serverKey: ""
+
+# If true, uses HostNetwork for pods.
+# This is required in EKS using Cilium with VxLAN overlay
+hostNetwork: false
+
+monitoring:
+  # Name of monitoring agent (either "prometheus.io/operator" or "prometheus.io/builtin")
+  agent: "none"
+  serviceMonitor:
+    # Specify the labels for ServiceMonitor.
+    # Prometheus crd will select ServiceMonitor using these labels.
+    # Only usable when monitoring agent is `prometheus.io/operator`.
+    labels: {}
