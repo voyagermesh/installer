@@ -1,0 +1,14 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "gateway-converter.fullname" . }}-metrics-auth
+  labels:
+    {{- include "gateway-converter.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "gateway-converter.fullname" . }}-metrics-auth
+subjects:
+- kind: ServiceAccount
+  name: {{ include "gateway-converter.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}

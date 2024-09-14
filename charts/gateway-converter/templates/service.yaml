@@ -8,14 +8,17 @@ metadata:
   {{- if eq .Values.monitoring.agent "prometheus.io/builtin" }}
   annotations:
     prometheus.io/scrape: "true"
-    {{- if .Values.monitoring.operator }}
-    prometheus.io/operator_path: "/metrics"
-    prometheus.io/operator_port: "8443"
-    prometheus.io/operator_scheme: "https"
-    {{- end }}
+    prometheus.io/path: "/metrics"
+    prometheus.io/port: "8443"
+    prometheus.io/scheme: "https"
   {{- end }}
 spec:
+  publishNotReadyAddresses: true
   ports:
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: https
   - name: metrics
     port: 8443
     protocol: TCP

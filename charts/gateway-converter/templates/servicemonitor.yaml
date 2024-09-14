@@ -21,6 +21,7 @@ spec:
       {{- include "gateway-converter.selectorLabels" . | nindent 6 }}
   endpoints:
   - port: metrics
+    bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
     path: /metrics
     scheme: https
     tlsConfig:

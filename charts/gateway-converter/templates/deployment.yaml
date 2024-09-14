@@ -60,6 +60,9 @@ spec:
           - webhook
           - --leader-elect
         ports:
+        - name: https
+          containerPort: 9443
+          protocol: TCP
         - name: metrics
           containerPort: 8443
           protocol: TCP
