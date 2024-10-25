@@ -7,8 +7,8 @@
 ```bash
 $ helm repo add appscode https://charts.appscode.com/stable/
 $ helm repo update
-$ helm search repo appscode/gateway-api --version=v2024.8.30
-$ helm upgrade -i gateway-api appscode/gateway-api -n envoy-gateway-system --create-namespace --version=v2024.8.30
+$ helm search repo appscode/gateway-api --version=v2024.9.30
+$ helm upgrade -i gateway-api appscode/gateway-api -n envoy-gateway-system --create-namespace --version=v2024.9.30
 ```
 
 ## Introduction
@@ -24,7 +24,7 @@ This chart deploys Kubernetes Gateway API on a [Kubernetes](http://kubernetes.io
 To install/upgrade the chart with the release name `gateway-api`:
 
 ```bash
-$ helm upgrade -i gateway-api appscode/gateway-api -n envoy-gateway-system --create-namespace --version=v2024.8.30
+$ helm upgrade -i gateway-api appscode/gateway-api -n envoy-gateway-system --create-namespace --version=v2024.9.30
 ```
 
 The command deploys Kubernetes Gateway API on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.

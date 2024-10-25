@@ -1,6 +1,6 @@
 dependencies:
 - name: gateway-converter
   repository: file://../gateway-converter
-  version: v2024.8.30
-digest: sha256:5852e4fe0da5484e6cd4087cad8d71aca3b59ecb9ee1bcacd70e1d7990aea6ee
-generated: "2024-09-13T22:54:46.748243-07:00"
+  version: v2024.9.30
+digest: sha256:3f9562cae3be3a17915a2c1917b06f118bc9cefaf2d692db8b194260b6b07fed
+generated: "2024-10-25T19:18:18.735351348+06:00"

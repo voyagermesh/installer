@@ -2,7 +2,7 @@ apiVersion: v2
 name: voyager-gateway
 description: The Helm chart for Voyager Gateway
 type: application
-version: v2024.8.30
+version: v2024.9.30
 appVersion: v17.2.0
 maintainers:
 - name: appscode
@@ -19,4 +19,4 @@ dependencies:
 - name: gateway-converter
   repository: file://../gateway-converter
   condition: gateway-converter.enabled
-  version: v2024.8.30
+  version: v2024.9.30
