@@ -35,7 +35,7 @@ mv /tmp/crane .
 
 CMD="./crane"
 
-$CMD cp --allow-nondistributable-artifacts --insecure ghcr.io/appscode/kubectl:v1.24 $IMAGE_REGISTRY/appscode/kubectl:v1.24
+$CMD cp --allow-nondistributable-artifacts --insecure ghcr.io/appscode/kubectl:v1.31 $IMAGE_REGISTRY/appscode/kubectl:v1.31
 $CMD cp --allow-nondistributable-artifacts --insecure ghcr.io/voyagermesh/envoy:v1.29.9-ac $IMAGE_REGISTRY/voyagermesh/envoy:v1.29.9-ac
 $CMD cp --allow-nondistributable-artifacts --insecure ghcr.io/voyagermesh/gateway-converter:v0.0.1 $IMAGE_REGISTRY/voyagermesh/gateway-converter:v0.0.1
 $CMD cp --allow-nondistributable-artifacts --insecure ghcr.io/voyagermesh/gateway:v1.1.1 $IMAGE_REGISTRY/voyagermesh/gateway:v1.1.1
