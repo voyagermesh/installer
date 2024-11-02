@@ -1448,12 +1448,4 @@ properties:
           type: string
       type: object
     type: array
-required:
-- hostNetwork
-- imagePullPolicy
-- monitoring
-- registryFQDN
-- replicaCount
-- server
-- serviceAccount
 type: object
