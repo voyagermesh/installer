@@ -24,7 +24,7 @@ deployment:
   envoyGateway:
     image:
       repository: ghcr.io/voyagermesh/gateway
-      tag: v1.1.1
+      tag: ""
     imagePullPolicy: Always
     imagePullSecrets: []
     resources:
