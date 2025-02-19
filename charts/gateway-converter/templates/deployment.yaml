@@ -58,7 +58,6 @@ spec:
           {{- toYaml .Values.server.securityContext | nindent 10 }}
         args:
           - webhook
-          - --leader-elect
         ports:
         - name: https
           containerPort: 9443
