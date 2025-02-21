@@ -45,6 +45,7 @@ apiGroups:
 - apps
 resources:
 - deployments
+- daemonsets
 verbs:
 - get
 - list
@@ -73,6 +74,7 @@ resources:
 - securitypolicies
 - envoyextensionpolicies
 - backends
+- httproutefilters
 verbs:
 - get
 - list
