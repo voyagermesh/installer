@@ -45,9 +45,13 @@ if [ "$#" -ne 1 ]; then
     crd_dir=${tmp_dir}/${repo_dir}/crds
 fi
 
+KMODULES_CUSTOM_RESOURCES_TAG=${KMODULES_CUSTOM_RESOURCES_TAG:-v0.32.0}
+KUBERNETES_SIGS_GATEWAY_API_TAG=${KUBERNETES_SIGS_GATEWAY_API_TAG:-v1.2.1}
+VOYAGERMESH_GATEWAY_API_TAG=${VOYAGERMESH_GATEWAY_API_TAG:-v0.0.3}
+
 crd-importer \
     --input=${crd_dir} \
-    --input=https://github.com/kmodules/custom-resources/raw/kubernetes-1.21.1/crds/metrics.appscode.com_metricsconfigurations.v1.yaml \
+    --input=https://github.com/kmodules/custom-resources/raw/${KMODULES_CUSTOM_RESOURCES_TAG}/crds/metrics.appscode.com_metricsconfigurations.v1.yaml \
     --out=./charts/voyager-crds/crds
 
 crd-importer \
@@ -60,16 +64,16 @@ crd-importer \
 
 # only add v1 apis
 crd-importer \
-    --input=https://github.com/kubernetes-sigs/gateway-api/raw/v1.1.2/config/crd/standard/gateway.networking.k8s.io_gatewayclasses.yaml \
-    --input=https://github.com/kubernetes-sigs/gateway-api/raw/v1.1.2/config/crd/standard/gateway.networking.k8s.io_gateways.yaml \
-    --input=https://github.com/kubernetes-sigs/gateway-api/raw/v1.1.2/config/crd/standard/gateway.networking.k8s.io_httproutes.yaml \
-    --input=https://github.com/kubernetes-sigs/gateway-api/raw/v1.1.2/config/crd/standard/gateway.networking.k8s.io_referencegrants.yaml \
+    --input=https://github.com/kubernetes-sigs/gateway-api/raw/${KUBERNETES_SIGS_GATEWAY_API_TAG}/config/crd/standard/gateway.networking.k8s.io_gatewayclasses.yaml \
+    --input=https://github.com/kubernetes-sigs/gateway-api/raw/${KUBERNETES_SIGS_GATEWAY_API_TAG}/config/crd/standard/gateway.networking.k8s.io_gateways.yaml \
+    --input=https://github.com/kubernetes-sigs/gateway-api/raw/${KUBERNETES_SIGS_GATEWAY_API_TAG}/config/crd/standard/gateway.networking.k8s.io_httproutes.yaml \
+    --input=https://github.com/kubernetes-sigs/gateway-api/raw/${KUBERNETES_SIGS_GATEWAY_API_TAG}/config/crd/standard/gateway.networking.k8s.io_referencegrants.yaml \
     --out=./charts/gateway-api/crds
 
 crd-importer \
-    --input=https://github.com/voyagermesh/gateway-api/raw/v0.0.2/config/crd/bases/gateway.voyagermesh.com_kafkaroutes.yaml \
-    --input=https://github.com/voyagermesh/gateway-api/raw/v0.0.2/config/crd/bases/gateway.voyagermesh.com_mongodbroutes.yaml \
-    --input=https://github.com/voyagermesh/gateway-api/raw/v0.0.2/config/crd/bases/gateway.voyagermesh.com_mysqlroutes.yaml \
-    --input=https://github.com/voyagermesh/gateway-api/raw/v0.0.2/config/crd/bases/gateway.voyagermesh.com_postgresroutes.yaml \
-    --input=https://github.com/voyagermesh/gateway-api/raw/v0.0.2/config/crd/bases/gateway.voyagermesh.com_redisroutes.yaml \
+    --input=https://github.com/voyagermesh/gateway-api/raw/${VOYAGERMESH_GATEWAY_API_TAG}/config/crd/bases/gateway.voyagermesh.com_kafkaroutes.yaml \
+    --input=https://github.com/voyagermesh/gateway-api/raw/${VOYAGERMESH_GATEWAY_API_TAG}/config/crd/bases/gateway.voyagermesh.com_mongodbroutes.yaml \
+    --input=https://github.com/voyagermesh/gateway-api/raw/${VOYAGERMESH_GATEWAY_API_TAG}/config/crd/bases/gateway.voyagermesh.com_mysqlroutes.yaml \
+    --input=https://github.com/voyagermesh/gateway-api/raw/${VOYAGERMESH_GATEWAY_API_TAG}/config/crd/bases/gateway.voyagermesh.com_postgresroutes.yaml \
+    --input=https://github.com/voyagermesh/gateway-api/raw/${VOYAGERMESH_GATEWAY_API_TAG}/config/crd/bases/gateway.voyagermesh.com_redisroutes.yaml \
     --out=./charts/voyager-gateway/crds
