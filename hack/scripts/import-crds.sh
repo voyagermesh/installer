@@ -47,7 +47,7 @@ fi
 
 KMODULES_CUSTOM_RESOURCES_TAG=${KMODULES_CUSTOM_RESOURCES_TAG:-v0.32.0}
 KUBERNETES_SIGS_GATEWAY_API_TAG=${KUBERNETES_SIGS_GATEWAY_API_TAG:-v1.2.1}
-VOYAGERMESH_GATEWAY_API_TAG=${VOYAGERMESH_GATEWAY_API_TAG:-v0.0.3}
+VOYAGERMESH_GATEWAY_API_TAG=${VOYAGERMESH_GATEWAY_API_TAG:-v0.0.5}
 
 crd-importer \
     --input=${crd_dir} \
@@ -73,6 +73,7 @@ crd-importer \
 crd-importer \
     --input=https://github.com/voyagermesh/gateway-api/raw/${VOYAGERMESH_GATEWAY_API_TAG}/config/crd/bases/gateway.voyagermesh.com_kafkaroutes.yaml \
     --input=https://github.com/voyagermesh/gateway-api/raw/${VOYAGERMESH_GATEWAY_API_TAG}/config/crd/bases/gateway.voyagermesh.com_mongodbroutes.yaml \
+    --input=https://github.com/voyagermesh/gateway-api/raw/${VOYAGERMESH_GATEWAY_API_TAG}/config/crd/bases/gateway.voyagermesh.com_mssqlserverroutes.yaml \
     --input=https://github.com/voyagermesh/gateway-api/raw/${VOYAGERMESH_GATEWAY_API_TAG}/config/crd/bases/gateway.voyagermesh.com_mysqlroutes.yaml \
     --input=https://github.com/voyagermesh/gateway-api/raw/${VOYAGERMESH_GATEWAY_API_TAG}/config/crd/bases/gateway.voyagermesh.com_postgresroutes.yaml \
     --input=https://github.com/voyagermesh/gateway-api/raw/${VOYAGERMESH_GATEWAY_API_TAG}/config/crd/bases/gateway.voyagermesh.com_redisroutes.yaml \

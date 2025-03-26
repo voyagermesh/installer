@@ -26,5 +26,5 @@ tar -zxvf $TARBALL
 
 k3s ctr images import images/appscode-kubectl-v1.31.tar
 k3s ctr images import images/voyagermesh-gateway-converter-v0.0.1.tar
-k3s ctr images import images/voyagermesh-gateway-v1.1.2.tar
+k3s ctr images import images/voyagermesh-gateway-v1.3.1.tar
 k3s ctr images import images/voyagermesh-voyager-v17.2.0.tar
