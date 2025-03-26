@@ -185,6 +185,7 @@ apiGroups:
 resources:
 - kafkaroutes
 - mongodbroutes
+- mssqlserverroutes
 - mysqlroutes
 - postgresroutes
 - redisroutes
@@ -201,6 +202,7 @@ apiGroups:
 - gateway.voyagermesh.com
 resources:
 - kafkaroutes/status
+- mssqlserverroutes/status
 - mongodbroutes/status
 - mysqlroutes/status
 - postgresroutes/status
