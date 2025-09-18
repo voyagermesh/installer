@@ -1,4 +1,4 @@
 - ghcr.io/appscode/kubectl:v1.31
 - ghcr.io/voyagermesh/gateway-converter:v0.0.1
-- ghcr.io/voyagermesh/gateway:v1.4.1
-- ghcr.io/voyagermesh/voyager:v17.3.0
+- ghcr.io/voyagermesh/gateway:v17.4.0
+- ghcr.io/voyagermesh/voyager:v17.4.0
