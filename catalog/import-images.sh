@@ -29,4 +29,4 @@ CMD="./crane"
 $CMD push --allow-nondistributable-artifacts --insecure images/appscode-kubectl-v1.31.tar $IMAGE_REGISTRY/appscode/kubectl:v1.31
 $CMD push --allow-nondistributable-artifacts --insecure images/voyagermesh-gateway-converter-v0.0.1.tar $IMAGE_REGISTRY/voyagermesh/gateway-converter:v0.0.1
 $CMD push --allow-nondistributable-artifacts --insecure images/voyagermesh-gateway-v1.4.1.tar $IMAGE_REGISTRY/voyagermesh/gateway:v1.4.1
-$CMD push --allow-nondistributable-artifacts --insecure images/voyagermesh-voyager-v17.3.0.tar $IMAGE_REGISTRY/voyagermesh/voyager:v17.3.0
+$CMD push --allow-nondistributable-artifacts --insecure images/voyagermesh-voyager-v17.4.0.tar $IMAGE_REGISTRY/voyagermesh/voyager:v17.4.0
