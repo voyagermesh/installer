@@ -38,4 +38,4 @@ CMD="./crane"
 $CMD cp --allow-nondistributable-artifacts --insecure ghcr.io/appscode/kubectl:v1.31 $IMAGE_REGISTRY/appscode/kubectl:v1.31
 $CMD cp --allow-nondistributable-artifacts --insecure ghcr.io/voyagermesh/gateway-converter:v0.0.1 $IMAGE_REGISTRY/voyagermesh/gateway-converter:v0.0.1
 $CMD cp --allow-nondistributable-artifacts --insecure ghcr.io/voyagermesh/gateway:v1.4.1 $IMAGE_REGISTRY/voyagermesh/gateway:v1.4.1
-$CMD cp --allow-nondistributable-artifacts --insecure ghcr.io/voyagermesh/voyager:v17.3.0 $IMAGE_REGISTRY/voyagermesh/voyager:v17.3.0
+$CMD cp --allow-nondistributable-artifacts --insecure ghcr.io/voyagermesh/voyager:v17.4.0 $IMAGE_REGISTRY/voyagermesh/voyager:v17.4.0
