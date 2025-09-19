@@ -99,6 +99,8 @@ config:
       controllerName: gateway.envoyproxy.io/gatewayclass-controller
     provider:
       type: Kubernetes
+      kubernetes:
+        cleanupOffshootResources: true
     logging:
       level:
         default: info
