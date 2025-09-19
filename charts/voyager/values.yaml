@@ -44,7 +44,7 @@ cleaner:
   # Webhook cleaner container image
   repository: kubectl
   # Webhook cleaner container image tag
-  tag: v1.31
+  tag: v1.34
   # Skip generating cleaner YAML
   skip: false
 # Specify an array of imagePullSecrets.
