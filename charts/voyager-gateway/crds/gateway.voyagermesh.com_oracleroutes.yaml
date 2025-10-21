@@ -4,19 +4,19 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.16.1
-  name: mssqlserverroutes.gateway.voyagermesh.com
+  name: oracleroutes.gateway.voyagermesh.com
 spec:
   group: gateway.voyagermesh.com
   names:
     categories:
     - route
     - appscode
-    kind: MSSQLServerRoute
-    listKind: MSSQLServerRouteList
-    plural: mssqlserverroutes
+    kind: OracleRoute
+    listKind: OracleRouteList
+    plural: oracleroutes
     shortNames:
-    - msroute
-    singular: mssqlserverroute
+    - oraroute
+    singular: oracleroute
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -27,9 +27,9 @@ spec:
     schema:
       openAPIV3Schema:
         description: |-
-          MSSQLServerRoute provides a way to route TCP requests. When combined with a Gateway
+          OracleRoute provides a way to route TCP requests. When combined with a Gateway
           listener, it can be used to forward connections on the port specified by the
-          listener to a set of backends specified by the MSSQLServerRoute.
+          listener to a set of backends specified by the OracleRoute.
         properties:
           apiVersion:
             description: |-
@@ -49,7 +49,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: Spec defines the desired state of MSSQLServerRoute.
+            description: Spec defines the desired state of OracleRoute.
             properties:
               hostnames:
                 description: |-
@@ -61,27 +61,27 @@ spec:
                   2. A hostname may be prefixed with a wildcard label (`*.`). The wildcard
                      label must appear by itself as the first label.
 
-                  If a hostname is specified by both the Listener and MSSQLServerRoute, there
-                  must be at least one intersecting hostname for the MSSQLServerRoute to be
+                  If a hostname is specified by both the Listener and OracleRoute, there
+                  must be at least one intersecting hostname for the OracleRoute to be
                   attached to the Listener. For example:
 
-                  * A Listener with `test.example.com` as the hostname matches MSSQLServerRoutes
+                  * A Listener with `test.example.com` as the hostname matches OracleRoutes
                     that have either not specified any hostnames, or have specified at
                     least one of `test.example.com` or `*.example.com`.
-                  * A Listener with `*.example.com` as the hostname matches MSSQLServerRoutes
+                  * A Listener with `*.example.com` as the hostname matches OracleRoutes
                     that have either not specified any hostnames or have specified at least
                     one hostname that matches the Listener hostname. For example,
                     `test.example.com` and `*.example.com` would both match. On the other
                     hand, `example.com` and `test.example.net` would not match.
 
-                  If both the Listener and MSSQLServerRoute have specified hostnames, any
-                  MSSQLServerRoute hostnames that do not match the Listener hostname MUST be
+                  If both the Listener and OracleRoute have specified hostnames, any
+                  OracleRoute hostnames that do not match the Listener hostname MUST be
                   ignored. For example, if a Listener specified `*.example.com`, and the
-                  MSSQLServerRoute specified `test.example.com` and `test.example.net`,
+                  OracleRoute specified `test.example.com` and `test.example.net`,
                   `test.example.net` must not be considered for a match.
 
-                  If both the Listener and MSSQLServerRoute have specified hostnames, and none
-                  match with the criteria above, then the MSSQLServerRoute is not accepted. The
+                  If both the Listener and OracleRoute have specified hostnames, and none
+                  match with the criteria above, then the OracleRoute is not accepted. The
                   implementation must raise an 'Accepted' Condition with a status of
                   `False` in the corresponding RouteParentStatus.
 
@@ -329,8 +329,7 @@ spec:
               rules:
                 description: Rules are a list of TCP matchers and actions.
                 items:
-                  description: MSSQLServerRouteRule is the configuration for a given
-                    rule.
+                  description: OracleRouteRule is the configuration for a given rule.
                   properties:
                     backendRefs:
                       description: |-
@@ -521,7 +520,7 @@ spec:
             - rules
             type: object
           status:
-            description: Status defines the current state of MSSQLServerRoute.
+            description: Status defines the current state of OracleRoute.
             properties:
               parents:
                 description: |-

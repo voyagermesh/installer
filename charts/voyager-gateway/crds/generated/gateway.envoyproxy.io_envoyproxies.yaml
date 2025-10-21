@@ -436,6 +436,14 @@ spec:
                       and the log level is the value. If unspecified, defaults to "default: warn".
                     type: object
                 type: object
+              luaValidation:
+                description: |-
+                  LuaValidation determines strictness of the Lua script validation for Lua EnvoyExtensionPolicies
+                  Default: Strict
+                enum:
+                - Strict
+                - Disabled
+                type: string
               mergeGateways:
                 description: |-
                   MergeGateways defines if Gateway resources should be merged onto the same Envoy Proxy Infrastructure.
@@ -598,9 +606,24 @@ spec:
                                   type: object
                                 type: array
                               image:
-                                description: Image specifies the EnvoyProxy container
-                                  image to be used, instead of the default image.
+                                description: |-
+                                  Image specifies the EnvoyProxy container image to be used including a tag, instead of the default image.
+                                  This field is mutually exclusive with ImageRepository.
                                 type: string
+                                x-kubernetes-validations:
+                                - message: Image must include a tag and allowed characters
+                                    only (e.g., 'repo:tag').
+                                  rule: self.matches('^[a-zA-Z0-9._-]+(:[0-9]+)?(/[a-zA-Z0-9._/-]+)?(:[a-zA-Z0-9._-]+)?(@sha256:[a-z0-9]+)?$')
+                              imageRepository:
+                                description: |-
+                                  ImageRepository specifies the container image repository to be used without specifying a tag.
+                                  The default tag will be used.
+                                  This field is mutually exclusive with Image.
+                                type: string
+                                x-kubernetes-validations:
+                                - message: ImageRepository must contain only allowed
+                                    characters and must not include a tag.
+                                  rule: self.matches('^[a-zA-Z0-9._-]+(:[0-9]+)?[a-zA-Z0-9._/-]+$')
                               resources:
                                 description: |-
                                   Resources required by this container.
@@ -925,6 +948,9 @@ spec:
                                   type: object
                                 type: array
                             type: object
+                            x-kubernetes-validations:
+                            - message: Either image or imageRepository can be set.
+                              rule: '!has(self.image) || !has(self.imageRepository)'
                           name:
                             description: |-
                               Name of the daemonSet.
@@ -4425,9 +4451,24 @@ spec:
                                   type: object
                                 type: array
                               image:
-                                description: Image specifies the EnvoyProxy container
-                                  image to be used, instead of the default image.
+                                description: |-
+                                  Image specifies the EnvoyProxy container image to be used including a tag, instead of the default image.
+                                  This field is mutually exclusive with ImageRepository.
                                 type: string
+                                x-kubernetes-validations:
+                                - message: Image must include a tag and allowed characters
+                                    only (e.g., 'repo:tag').
+                                  rule: self.matches('^[a-zA-Z0-9._-]+(:[0-9]+)?(/[a-zA-Z0-9._/-]+)?(:[a-zA-Z0-9._-]+)?(@sha256:[a-z0-9]+)?$')
+                              imageRepository:
+                                description: |-
+                                  ImageRepository specifies the container image repository to be used without specifying a tag.
+                                  The default tag will be used.
+                                  This field is mutually exclusive with Image.
+                                type: string
+                                x-kubernetes-validations:
+                                - message: ImageRepository must contain only allowed
+                                    characters and must not include a tag.
+                                  rule: self.matches('^[a-zA-Z0-9._-]+(:[0-9]+)?[a-zA-Z0-9._/-]+$')
                               resources:
                                 description: |-
                                   Resources required by this container.
@@ -4752,6 +4793,9 @@ spec:
                                   type: object
                                 type: array
                             type: object
+                            x-kubernetes-validations:
+                            - message: Either image or imageRepository can be set.
+                              rule: '!has(self.image) || !has(self.imageRepository)'
                           initContainers:
                             description: |-
                               List of initialization containers belonging to the pod.
@@ -10230,6 +10274,11 @@ spec:
                             x-kubernetes-validations:
                             - message: minReplicas must be greater than 0
                               rule: self > 0
+                          name:
+                            description: |-
+                              Name of the horizontalPodAutoScaler.
+                              When unset, this defaults to an autogenerated name.
+                            type: string
                           patch:
                             description: Patch defines how to perform the patch operation
                               to the HorizontalPodAutoscaler
@@ -10275,6 +10324,11 @@ spec:
                               such as node drains or updates. This setting ensures that your envoy proxy maintains a certain level of availability
                               and resilience during maintenance operations. Cannot be combined with maxUnavailable.
                             x-kubernetes-int-or-string: true
+                          name:
+                            description: |-
+                              Name of the podDisruptionBudget.
+                              When unset, this defaults to an autogenerated name.
+                            type: string
                           patch:
                             description: Patch defines how to perform the patch operation
                               to the PodDisruptionBudget
@@ -10409,6 +10463,16 @@ spec:
                         - message: loadBalancerIP can only be set for LoadBalancer
                             type
                           rule: '!has(self.loadBalancerIP) || self.type == ''LoadBalancer'''
+                      envoyServiceAccount:
+                        description: EnvoyServiceAccount defines the desired state
+                          of the Envoy service account resource.
+                        properties:
+                          name:
+                            description: |-
+                              Name of the Service Account.
+                              When unset, this defaults to an autogenerated name.
+                            type: string
+                        type: object
                       useListenerPortAsContainerPort:
                         description: |-
                           UseListenerPortAsContainerPort disables the port shifting feature in the Envoy Proxy.
@@ -10451,11 +10515,13 @@ spec:
                     description: |-
                       DrainTimeout defines the graceful drain timeout. This should be less than the pod's terminationGracePeriodSeconds.
                       If unspecified, defaults to 60 seconds.
+                    pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                     type: string
                   minDrainDuration:
                     description: |-
                       MinDrainDuration defines the minimum drain duration allowing time for endpoint deprogramming to complete.
                       If unspecified, defaults to 10 seconds.
+                    pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                     type: string
                 type: object
               telemetry:
@@ -10809,6 +10875,7 @@ spec:
                                                 description: |-
                                                   DNSRefreshRate specifies the rate at which DNS records should be refreshed.
                                                   Defaults to 30 seconds.
+                                                pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                 type: string
                                               lookupFamily:
                                                 description: |-
@@ -10909,11 +10976,18 @@ spec:
                                                           description: HTTPStatus
                                                             defines the http status
                                                             code.
-                                                          exclusiveMaximum: true
-                                                          maximum: 600
+                                                          maximum: 599
                                                           minimum: 100
                                                           type: integer
                                                         type: array
+                                                      hostname:
+                                                        description: |-
+                                                          Hostname defines the HTTP host that will be requested during health checking.
+                                                          Default: HTTPRoute or GRPCRoute hostname.
+                                                        maxLength: 253
+                                                        minLength: 1
+                                                        pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
+                                                        type: string
                                                       method:
                                                         description: |-
                                                           Method defines the HTTP method used for health checking.
@@ -10930,12 +11004,18 @@ spec:
                                                     required:
                                                     - path
                                                     type: object
+                                                  initialJitter:
+                                                    description: |-
+                                                      InitialJitter defines the maximum time Envoy will wait before the first health check.
+                                                      Envoy will randomly select a value between 0 and the initial jitter value.
+                                                    pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
+                                                    type: string
                                                   interval:
                                                     default: 3s
                                                     description: Interval defines
                                                       the time between active health
                                                       checks.
-                                                    format: duration
+                                                    pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                     type: string
                                                   tcp:
                                                     description: |-
@@ -11024,7 +11104,7 @@ spec:
                                                     description: Timeout defines the
                                                       time to wait for a health check
                                                       response.
-                                                    format: duration
+                                                    pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                     type: string
                                                   type:
                                                     allOf:
@@ -11087,7 +11167,7 @@ spec:
                                                       defines the base duration for
                                                       which a host will be ejected
                                                       on consecutive failures.
-                                                    format: duration
+                                                    pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                     type: string
                                                   consecutive5XxErrors:
                                                     default: 5
@@ -11115,7 +11195,7 @@ spec:
                                                     description: Interval defines
                                                       the time between passive health
                                                       checks.
-                                                    format: duration
+                                                    pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                     type: string
                                                   maxEjectionPercent:
                                                     default: 10
@@ -11210,6 +11290,7 @@ spec:
                                                         description: |-
                                                           TTL of the generated cookie if the cookie is not present. This value sets the
                                                           Max-Age attribute value.
+                                                        pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                         type: string
                                                     required:
                                                     - name
@@ -11261,6 +11342,37 @@ spec:
                                                     be set.
                                                   rule: 'self.type == ''Cookie'' ?
                                                     has(self.cookie) : !has(self.cookie)'
+                                              endpointOverride:
+                                                description: |-
+                                                  EndpointOverride defines the configuration for endpoint override.
+                                                  When specified, the load balancer will attempt to route requests to endpoints
+                                                  based on the override information extracted from request headers or metadata.
+                                                   If the override endpoints are not available, the configured load balancer policy will be used as fallback.
+                                                properties:
+                                                  extractFrom:
+                                                    description: ExtractFrom defines
+                                                      the sources to extract endpoint
+                                                      override information from.
+                                                    items:
+                                                      description: EndpointOverrideExtractFrom
+                                                        defines a source to extract
+                                                        endpoint override information
+                                                        from.
+                                                      properties:
+                                                        header:
+                                                          description: |-
+                                                            Header defines the header to get the override endpoint addresses.
+                                                            The header value must specify at least one endpoint in `IP:Port` format or multiple endpoints in `IP:Port,IP:Port,...` format.
+                                                            For example `10.0.0.5:8080` or `[2600:4040:5204::1574:24ae]:80`.
+                                                            The IPv6 address is enclosed in square brackets.
+                                                          type: string
+                                                      type: object
+                                                    maxItems: 10
+                                                    minItems: 1
+                                                    type: array
+                                                required:
+                                                - extractFrom
+                                                type: object
                                               slowStart:
                                                 description: |-
                                                   SlowStart defines the configuration related to the slow start load balancer policy.
@@ -11273,6 +11385,7 @@ spec:
                                                       During slow start window, traffic sent to the newly added hosts will gradually increase.
                                                       Currently only supports linear growth of traffic. For additional details,
                                                       see https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/cluster.proto#config-cluster-v3-cluster-slowstartconfig
+                                                    pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                     type: string
                                                 required:
                                                 - window
@@ -11291,6 +11404,39 @@ spec:
                                                 - Random
                                                 - RoundRobin
                                                 type: string
+                                              zoneAware:
+                                                description: ZoneAware defines the
+                                                  configuration related to the distribution
+                                                  of requests between locality zones.
+                                                properties:
+                                                  preferLocal:
+                                                    description: PreferLocalZone configures
+                                                      zone-aware routing to prefer
+                                                      sending traffic to the local
+                                                      locality zone.
+                                                    properties:
+                                                      force:
+                                                        description: |-
+                                                          ForceLocalZone defines override configuration for forcing all traffic to stay within the local zone instead of the default behavior
+                                                          which maintains equal distribution among upstream endpoints while sending as much traffic as possible locally.
+                                                        properties:
+                                                          minEndpointsInZoneThreshold:
+                                                            description: |-
+                                                              MinEndpointsInZoneThreshold is the minimum number of upstream endpoints in the local zone required to honor the forceLocalZone
+                                                              override. This is useful for protecting zones with fewer endpoints.
+                                                            format: int32
+                                                            type: integer
+                                                        type: object
+                                                      minEndpointsThreshold:
+                                                        description: MinEndpointsThreshold
+                                                          is the minimum number of
+                                                          total upstream endpoints
+                                                          across all zones required
+                                                          to enable zone-aware routing.
+                                                        format: int64
+                                                        type: integer
+                                                    type: object
+                                                type: object
                                             required:
                                             - type
                                             type: object
@@ -11304,6 +11450,11 @@ spec:
                                                 load balancers.
                                               rule: 'self.type in [''Random'', ''ConsistentHash'']
                                                 ? !has(self.slowStart) : true '
+                                            - message: Currently ZoneAware is only
+                                                supported for LeastRequest, Random,
+                                                and RoundRobin load balancers.
+                                              rule: 'self.type == ''ConsistentHash''
+                                                ? !has(self.zoneAware) : true '
                                           proxyProtocol:
                                             description: ProxyProtocol enables the
                                               Proxy Protocol when communicating with
@@ -11327,6 +11478,13 @@ spec:
                                               Retry provides more advanced usage, allowing users to customize the number of retries, retry fallback strategy, and retry triggering conditions.
                                               If not set, retry will be disabled.
                                             properties:
+                                              numAttemptsPerPriority:
+                                                description: |-
+                                                  NumAttemptsPerPriority defines the number of requests (initial attempt + retries)
+                                                  that should be sent to the same priority before switching to a different one.
+                                                  If not specified or set to 0, all requests are sent to the highest priority that is healthy.
+                                                format: int32
+                                                type: integer
                                               numRetries:
                                                 default: 2
                                                 description: NumRetries is the number
@@ -11349,19 +11507,19 @@ spec:
                                                         description: BaseInterval
                                                           is the base interval between
                                                           retries.
-                                                        format: duration
+                                                        pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                         type: string
                                                       maxInterval:
                                                         description: |-
                                                           MaxInterval is the maximum interval between retries. This parameter is optional, but must be greater than or equal to the base_interval if set.
                                                           The default is 10 times the base_interval
-                                                        format: duration
+                                                        pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                         type: string
                                                     type: object
                                                   timeout:
                                                     description: Timeout is the timeout
                                                       per retry attempt.
-                                                    format: duration
+                                                    pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                     type: string
                                                 type: object
                                               retryOn:
@@ -11377,8 +11535,7 @@ spec:
                                                     items:
                                                       description: HTTPStatus defines
                                                         the http status code.
-                                                      exclusiveMaximum: true
-                                                      maximum: 600
+                                                      maximum: 599
                                                       minimum: 100
                                                       type: integer
                                                     type: array
@@ -11393,6 +11550,7 @@ spec:
                                                       - 5xx
                                                       - gateway-error
                                                       - reset
+                                                      - reset-before-request
                                                       - connect-failure
                                                       - retriable-4xx
                                                       - refused-stream
@@ -11828,6 +11986,7 @@ spec:
                                                 description: |-
                                                   DNSRefreshRate specifies the rate at which DNS records should be refreshed.
                                                   Defaults to 30 seconds.
+                                                pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                 type: string
                                               lookupFamily:
                                                 description: |-
@@ -11928,11 +12087,18 @@ spec:
                                                           description: HTTPStatus
                                                             defines the http status
                                                             code.
-                                                          exclusiveMaximum: true
-                                                          maximum: 600
+                                                          maximum: 599
                                                           minimum: 100
                                                           type: integer
                                                         type: array
+                                                      hostname:
+                                                        description: |-
+                                                          Hostname defines the HTTP host that will be requested during health checking.
+                                                          Default: HTTPRoute or GRPCRoute hostname.
+                                                        maxLength: 253
+                                                        minLength: 1
+                                                        pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
+                                                        type: string
                                                       method:
                                                         description: |-
                                                           Method defines the HTTP method used for health checking.
@@ -11949,12 +12115,18 @@ spec:
                                                     required:
                                                     - path
                                                     type: object
+                                                  initialJitter:
+                                                    description: |-
+                                                      InitialJitter defines the maximum time Envoy will wait before the first health check.
+                                                      Envoy will randomly select a value between 0 and the initial jitter value.
+                                                    pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
+                                                    type: string
                                                   interval:
                                                     default: 3s
                                                     description: Interval defines
                                                       the time between active health
                                                       checks.
-                                                    format: duration
+                                                    pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                     type: string
                                                   tcp:
                                                     description: |-
@@ -12043,7 +12215,7 @@ spec:
                                                     description: Timeout defines the
                                                       time to wait for a health check
                                                       response.
-                                                    format: duration
+                                                    pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                     type: string
                                                   type:
                                                     allOf:
@@ -12106,7 +12278,7 @@ spec:
                                                       defines the base duration for
                                                       which a host will be ejected
                                                       on consecutive failures.
-                                                    format: duration
+                                                    pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                     type: string
                                                   consecutive5XxErrors:
                                                     default: 5
@@ -12134,7 +12306,7 @@ spec:
                                                     description: Interval defines
                                                       the time between passive health
                                                       checks.
-                                                    format: duration
+                                                    pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                     type: string
                                                   maxEjectionPercent:
                                                     default: 10
@@ -12229,6 +12401,7 @@ spec:
                                                         description: |-
                                                           TTL of the generated cookie if the cookie is not present. This value sets the
                                                           Max-Age attribute value.
+                                                        pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                         type: string
                                                     required:
                                                     - name
@@ -12280,6 +12453,37 @@ spec:
                                                     be set.
                                                   rule: 'self.type == ''Cookie'' ?
                                                     has(self.cookie) : !has(self.cookie)'
+                                              endpointOverride:
+                                                description: |-
+                                                  EndpointOverride defines the configuration for endpoint override.
+                                                  When specified, the load balancer will attempt to route requests to endpoints
+                                                  based on the override information extracted from request headers or metadata.
+                                                   If the override endpoints are not available, the configured load balancer policy will be used as fallback.
+                                                properties:
+                                                  extractFrom:
+                                                    description: ExtractFrom defines
+                                                      the sources to extract endpoint
+                                                      override information from.
+                                                    items:
+                                                      description: EndpointOverrideExtractFrom
+                                                        defines a source to extract
+                                                        endpoint override information
+                                                        from.
+                                                      properties:
+                                                        header:
+                                                          description: |-
+                                                            Header defines the header to get the override endpoint addresses.
+                                                            The header value must specify at least one endpoint in `IP:Port` format or multiple endpoints in `IP:Port,IP:Port,...` format.
+                                                            For example `10.0.0.5:8080` or `[2600:4040:5204::1574:24ae]:80`.
+                                                            The IPv6 address is enclosed in square brackets.
+                                                          type: string
+                                                      type: object
+                                                    maxItems: 10
+                                                    minItems: 1
+                                                    type: array
+                                                required:
+                                                - extractFrom
+                                                type: object
                                               slowStart:
                                                 description: |-
                                                   SlowStart defines the configuration related to the slow start load balancer policy.
@@ -12292,6 +12496,7 @@ spec:
                                                       During slow start window, traffic sent to the newly added hosts will gradually increase.
                                                       Currently only supports linear growth of traffic. For additional details,
                                                       see https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/cluster.proto#config-cluster-v3-cluster-slowstartconfig
+                                                    pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                     type: string
                                                 required:
                                                 - window
@@ -12310,6 +12515,39 @@ spec:
                                                 - Random
                                                 - RoundRobin
                                                 type: string
+                                              zoneAware:
+                                                description: ZoneAware defines the
+                                                  configuration related to the distribution
+                                                  of requests between locality zones.
+                                                properties:
+                                                  preferLocal:
+                                                    description: PreferLocalZone configures
+                                                      zone-aware routing to prefer
+                                                      sending traffic to the local
+                                                      locality zone.
+                                                    properties:
+                                                      force:
+                                                        description: |-
+                                                          ForceLocalZone defines override configuration for forcing all traffic to stay within the local zone instead of the default behavior
+                                                          which maintains equal distribution among upstream endpoints while sending as much traffic as possible locally.
+                                                        properties:
+                                                          minEndpointsInZoneThreshold:
+                                                            description: |-
+                                                              MinEndpointsInZoneThreshold is the minimum number of upstream endpoints in the local zone required to honor the forceLocalZone
+                                                              override. This is useful for protecting zones with fewer endpoints.
+                                                            format: int32
+                                                            type: integer
+                                                        type: object
+                                                      minEndpointsThreshold:
+                                                        description: MinEndpointsThreshold
+                                                          is the minimum number of
+                                                          total upstream endpoints
+                                                          across all zones required
+                                                          to enable zone-aware routing.
+                                                        format: int64
+                                                        type: integer
+                                                    type: object
+                                                type: object
                                             required:
                                             - type
                                             type: object
@@ -12323,6 +12561,11 @@ spec:
                                                 load balancers.
                                               rule: 'self.type in [''Random'', ''ConsistentHash'']
                                                 ? !has(self.slowStart) : true '
+                                            - message: Currently ZoneAware is only
+                                                supported for LeastRequest, Random,
+                                                and RoundRobin load balancers.
+                                              rule: 'self.type == ''ConsistentHash''
+                                                ? !has(self.zoneAware) : true '
                                           proxyProtocol:
                                             description: ProxyProtocol enables the
                                               Proxy Protocol when communicating with
@@ -12346,6 +12589,13 @@ spec:
                                               Retry provides more advanced usage, allowing users to customize the number of retries, retry fallback strategy, and retry triggering conditions.
                                               If not set, retry will be disabled.
                                             properties:
+                                              numAttemptsPerPriority:
+                                                description: |-
+                                                  NumAttemptsPerPriority defines the number of requests (initial attempt + retries)
+                                                  that should be sent to the same priority before switching to a different one.
+                                                  If not specified or set to 0, all requests are sent to the highest priority that is healthy.
+                                                format: int32
+                                                type: integer
                                               numRetries:
                                                 default: 2
                                                 description: NumRetries is the number
@@ -12368,19 +12618,19 @@ spec:
                                                         description: BaseInterval
                                                           is the base interval between
                                                           retries.
-                                                        format: duration
+                                                        pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                         type: string
                                                       maxInterval:
                                                         description: |-
                                                           MaxInterval is the maximum interval between retries. This parameter is optional, but must be greater than or equal to the base_interval if set.
                                                           The default is 10 times the base_interval
-                                                        format: duration
+                                                        pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                         type: string
                                                     type: object
                                                   timeout:
                                                     description: Timeout is the timeout
                                                       per retry attempt.
-                                                    format: duration
+                                                    pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                     type: string
                                                 type: object
                                               retryOn:
@@ -12396,8 +12646,7 @@ spec:
                                                     items:
                                                       description: HTTPStatus defines
                                                         the http status code.
-                                                      exclusiveMaximum: true
-                                                      maximum: 600
+                                                      maximum: 599
                                                       minimum: 100
                                                       type: integer
                                                     type: array
@@ -12412,6 +12661,7 @@ spec:
                                                       - 5xx
                                                       - gateway-error
                                                       - reset
+                                                      - reset-before-request
                                                       - connect-failure
                                                       - retriable-4xx
                                                       - refused-stream
@@ -12577,6 +12827,21 @@ spec:
                     description: Metrics defines metrics configuration for managed
                       proxies.
                     properties:
+                      clusterStatName:
+                        description: |-
+                          ClusterStatName defines the value of cluster alt_stat_name, determining how cluster stats are named.
+                          For more details, see envoy docs: https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/cluster.proto.html
+                          The supported operators for this pattern are:
+                          %ROUTE_NAME%: name of Gateway API xRoute resource
+                          %ROUTE_NAMESPACE%: namespace of Gateway API xRoute resource
+                          %ROUTE_KIND%: kind of Gateway API xRoute resource
+                          %ROUTE_RULE_NAME%: name of the Gateway API xRoute section
+                          %ROUTE_RULE_NUMBER%: name of the Gateway API xRoute section
+                          %BACKEND_REFS%: names of all backends referenced in <NAMESPACE>/<NAME>|<NAMESPACE>/<NAME>|... format
+                          Only xDS Clusters created for HTTPRoute and GRPCRoute are currently supported.
+                          Default: %ROUTE_KIND%/%ROUTE_NAMESPACE%/%ROUTE_NAME%/rule/%ROUTE_RULE_NUMBER%
+                          Example: httproute/my-ns/my-route/rule/0
+                        type: string
                       enablePerEndpointStats:
                         description: |-
                           EnablePerEndpointStats enables per endpoint envoy stats metrics.
@@ -12940,6 +13205,7 @@ spec:
                                           description: |-
                                             DNSRefreshRate specifies the rate at which DNS records should be refreshed.
                                             Defaults to 30 seconds.
+                                          pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                           type: string
                                         lookupFamily:
                                           description: |-
@@ -13036,11 +13302,18 @@ spec:
                                                   items:
                                                     description: HTTPStatus defines
                                                       the http status code.
-                                                    exclusiveMaximum: true
-                                                    maximum: 600
+                                                    maximum: 599
                                                     minimum: 100
                                                     type: integer
                                                   type: array
+                                                hostname:
+                                                  description: |-
+                                                    Hostname defines the HTTP host that will be requested during health checking.
+                                                    Default: HTTPRoute or GRPCRoute hostname.
+                                                  maxLength: 253
+                                                  minLength: 1
+                                                  pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
+                                                  type: string
                                                 method:
                                                   description: |-
                                                     Method defines the HTTP method used for health checking.
@@ -13056,11 +13329,17 @@ spec:
                                               required:
                                               - path
                                               type: object
+                                            initialJitter:
+                                              description: |-
+                                                InitialJitter defines the maximum time Envoy will wait before the first health check.
+                                                Envoy will randomly select a value between 0 and the initial jitter value.
+                                              pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
+                                              type: string
                                             interval:
                                               default: 3s
                                               description: Interval defines the time
                                                 between active health checks.
-                                              format: duration
+                                              pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                               type: string
                                             tcp:
                                               description: |-
@@ -13144,7 +13423,7 @@ spec:
                                               default: 1s
                                               description: Timeout defines the time
                                                 to wait for a health check response.
-                                              format: duration
+                                              pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                               type: string
                                             type:
                                               allOf:
@@ -13202,7 +13481,7 @@ spec:
                                               description: BaseEjectionTime defines
                                                 the base duration for which a host
                                                 will be ejected on consecutive failures.
-                                              format: duration
+                                              pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                               type: string
                                             consecutive5XxErrors:
                                               default: 5
@@ -13229,7 +13508,7 @@ spec:
                                               default: 3s
                                               description: Interval defines the time
                                                 between passive health checks.
-                                              format: duration
+                                              pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                               type: string
                                             maxEjectionPercent:
                                               default: 10
@@ -13321,6 +13600,7 @@ spec:
                                                   description: |-
                                                     TTL of the generated cookie if the cookie is not present. This value sets the
                                                     Max-Age attribute value.
+                                                  pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                   type: string
                                               required:
                                               - name
@@ -13369,6 +13649,36 @@ spec:
                                               the cookie field must be set.
                                             rule: 'self.type == ''Cookie'' ? has(self.cookie)
                                               : !has(self.cookie)'
+                                        endpointOverride:
+                                          description: |-
+                                            EndpointOverride defines the configuration for endpoint override.
+                                            When specified, the load balancer will attempt to route requests to endpoints
+                                            based on the override information extracted from request headers or metadata.
+                                             If the override endpoints are not available, the configured load balancer policy will be used as fallback.
+                                          properties:
+                                            extractFrom:
+                                              description: ExtractFrom defines the
+                                                sources to extract endpoint override
+                                                information from.
+                                              items:
+                                                description: EndpointOverrideExtractFrom
+                                                  defines a source to extract endpoint
+                                                  override information from.
+                                                properties:
+                                                  header:
+                                                    description: |-
+                                                      Header defines the header to get the override endpoint addresses.
+                                                      The header value must specify at least one endpoint in `IP:Port` format or multiple endpoints in `IP:Port,IP:Port,...` format.
+                                                      For example `10.0.0.5:8080` or `[2600:4040:5204::1574:24ae]:80`.
+                                                      The IPv6 address is enclosed in square brackets.
+                                                    type: string
+                                                type: object
+                                              maxItems: 10
+                                              minItems: 1
+                                              type: array
+                                          required:
+                                          - extractFrom
+                                          type: object
                                         slowStart:
                                           description: |-
                                             SlowStart defines the configuration related to the slow start load balancer policy.
@@ -13381,6 +13691,7 @@ spec:
                                                 During slow start window, traffic sent to the newly added hosts will gradually increase.
                                                 Currently only supports linear growth of traffic. For additional details,
                                                 see https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/cluster.proto#config-cluster-v3-cluster-slowstartconfig
+                                              pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                               type: string
                                           required:
                                           - window
@@ -13399,6 +13710,38 @@ spec:
                                           - Random
                                           - RoundRobin
                                           type: string
+                                        zoneAware:
+                                          description: ZoneAware defines the configuration
+                                            related to the distribution of requests
+                                            between locality zones.
+                                          properties:
+                                            preferLocal:
+                                              description: PreferLocalZone configures
+                                                zone-aware routing to prefer sending
+                                                traffic to the local locality zone.
+                                              properties:
+                                                force:
+                                                  description: |-
+                                                    ForceLocalZone defines override configuration for forcing all traffic to stay within the local zone instead of the default behavior
+                                                    which maintains equal distribution among upstream endpoints while sending as much traffic as possible locally.
+                                                  properties:
+                                                    minEndpointsInZoneThreshold:
+                                                      description: |-
+                                                        MinEndpointsInZoneThreshold is the minimum number of upstream endpoints in the local zone required to honor the forceLocalZone
+                                                        override. This is useful for protecting zones with fewer endpoints.
+                                                      format: int32
+                                                      type: integer
+                                                  type: object
+                                                minEndpointsThreshold:
+                                                  description: MinEndpointsThreshold
+                                                    is the minimum number of total
+                                                    upstream endpoints across all
+                                                    zones required to enable zone-aware
+                                                    routing.
+                                                  format: int64
+                                                  type: integer
+                                              type: object
+                                          type: object
                                       required:
                                       - type
                                       type: object
@@ -13411,6 +13754,11 @@ spec:
                                           for RoundRobin and LeastRequest load balancers.
                                         rule: 'self.type in [''Random'', ''ConsistentHash'']
                                           ? !has(self.slowStart) : true '
+                                      - message: Currently ZoneAware is only supported
+                                          for LeastRequest, Random, and RoundRobin
+                                          load balancers.
+                                        rule: 'self.type == ''ConsistentHash'' ? !has(self.zoneAware)
+                                          : true '
                                     proxyProtocol:
                                       description: ProxyProtocol enables the Proxy
                                         Protocol when communicating with the backend.
@@ -13433,6 +13781,13 @@ spec:
                                         Retry provides more advanced usage, allowing users to customize the number of retries, retry fallback strategy, and retry triggering conditions.
                                         If not set, retry will be disabled.
                                       properties:
+                                        numAttemptsPerPriority:
+                                          description: |-
+                                            NumAttemptsPerPriority defines the number of requests (initial attempt + retries)
+                                            that should be sent to the same priority before switching to a different one.
+                                            If not specified or set to 0, all requests are sent to the highest priority that is healthy.
+                                          format: int32
+                                          type: integer
                                         numRetries:
                                           default: 2
                                           description: NumRetries is the number of
@@ -13453,19 +13808,19 @@ spec:
                                                 baseInterval:
                                                   description: BaseInterval is the
                                                     base interval between retries.
-                                                  format: duration
+                                                  pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                   type: string
                                                 maxInterval:
                                                   description: |-
                                                     MaxInterval is the maximum interval between retries. This parameter is optional, but must be greater than or equal to the base_interval if set.
                                                     The default is 10 times the base_interval
-                                                  format: duration
+                                                  pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                                   type: string
                                               type: object
                                             timeout:
                                               description: Timeout is the timeout
                                                 per retry attempt.
-                                              format: duration
+                                              pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                               type: string
                                           type: object
                                         retryOn:
@@ -13481,8 +13836,7 @@ spec:
                                               items:
                                                 description: HTTPStatus defines the
                                                   http status code.
-                                                exclusiveMaximum: true
-                                                maximum: 600
+                                                maximum: 599
                                                 minimum: 100
                                                 type: integer
                                               type: array
@@ -13496,6 +13850,7 @@ spec:
                                                 - 5xx
                                                 - gateway-error
                                                 - reset
+                                                - reset-before-request
                                                 - connect-failure
                                                 - retriable-4xx
                                                 - refused-stream
@@ -13966,6 +14321,7 @@ spec:
                                     description: |-
                                       DNSRefreshRate specifies the rate at which DNS records should be refreshed.
                                       Defaults to 30 seconds.
+                                    pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                     type: string
                                   lookupFamily:
                                     description: |-
@@ -14061,11 +14417,18 @@ spec:
                                             items:
                                               description: HTTPStatus defines the
                                                 http status code.
-                                              exclusiveMaximum: true
-                                              maximum: 600
+                                              maximum: 599
                                               minimum: 100
                                               type: integer
                                             type: array
+                                          hostname:
+                                            description: |-
+                                              Hostname defines the HTTP host that will be requested during health checking.
+                                              Default: HTTPRoute or GRPCRoute hostname.
+                                            maxLength: 253
+                                            minLength: 1
+                                            pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
+                                            type: string
                                           method:
                                             description: |-
                                               Method defines the HTTP method used for health checking.
@@ -14081,11 +14444,17 @@ spec:
                                         required:
                                         - path
                                         type: object
+                                      initialJitter:
+                                        description: |-
+                                          InitialJitter defines the maximum time Envoy will wait before the first health check.
+                                          Envoy will randomly select a value between 0 and the initial jitter value.
+                                        pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
+                                        type: string
                                       interval:
                                         default: 3s
                                         description: Interval defines the time between
                                           active health checks.
-                                        format: duration
+                                        pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                         type: string
                                       tcp:
                                         description: |-
@@ -14169,7 +14538,7 @@ spec:
                                         default: 1s
                                         description: Timeout defines the time to wait
                                           for a health check response.
-                                        format: duration
+                                        pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                         type: string
                                       type:
                                         allOf:
@@ -14226,7 +14595,7 @@ spec:
                                         description: BaseEjectionTime defines the
                                           base duration for which a host will be ejected
                                           on consecutive failures.
-                                        format: duration
+                                        pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                         type: string
                                       consecutive5XxErrors:
                                         default: 5
@@ -14253,7 +14622,7 @@ spec:
                                         default: 3s
                                         description: Interval defines the time between
                                           passive health checks.
-                                        format: duration
+                                        pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                         type: string
                                       maxEjectionPercent:
                                         default: 10
@@ -14345,6 +14714,7 @@ spec:
                                             description: |-
                                               TTL of the generated cookie if the cookie is not present. This value sets the
                                               Max-Age attribute value.
+                                            pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                             type: string
                                         required:
                                         - name
@@ -14392,6 +14762,36 @@ spec:
                                         the cookie field must be set.
                                       rule: 'self.type == ''Cookie'' ? has(self.cookie)
                                         : !has(self.cookie)'
+                                  endpointOverride:
+                                    description: |-
+                                      EndpointOverride defines the configuration for endpoint override.
+                                      When specified, the load balancer will attempt to route requests to endpoints
+                                      based on the override information extracted from request headers or metadata.
+                                       If the override endpoints are not available, the configured load balancer policy will be used as fallback.
+                                    properties:
+                                      extractFrom:
+                                        description: ExtractFrom defines the sources
+                                          to extract endpoint override information
+                                          from.
+                                        items:
+                                          description: EndpointOverrideExtractFrom
+                                            defines a source to extract endpoint override
+                                            information from.
+                                          properties:
+                                            header:
+                                              description: |-
+                                                Header defines the header to get the override endpoint addresses.
+                                                The header value must specify at least one endpoint in `IP:Port` format or multiple endpoints in `IP:Port,IP:Port,...` format.
+                                                For example `10.0.0.5:8080` or `[2600:4040:5204::1574:24ae]:80`.
+                                                The IPv6 address is enclosed in square brackets.
+                                              type: string
+                                          type: object
+                                        maxItems: 10
+                                        minItems: 1
+                                        type: array
+                                    required:
+                                    - extractFrom
+                                    type: object
                                   slowStart:
                                     description: |-
                                       SlowStart defines the configuration related to the slow start load balancer policy.
@@ -14404,6 +14804,7 @@ spec:
                                           During slow start window, traffic sent to the newly added hosts will gradually increase.
                                           Currently only supports linear growth of traffic. For additional details,
                                           see https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/cluster.proto#config-cluster-v3-cluster-slowstartconfig
+                                        pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                         type: string
                                     required:
                                     - window
@@ -14422,6 +14823,37 @@ spec:
                                     - Random
                                     - RoundRobin
                                     type: string
+                                  zoneAware:
+                                    description: ZoneAware defines the configuration
+                                      related to the distribution of requests between
+                                      locality zones.
+                                    properties:
+                                      preferLocal:
+                                        description: PreferLocalZone configures zone-aware
+                                          routing to prefer sending traffic to the
+                                          local locality zone.
+                                        properties:
+                                          force:
+                                            description: |-
+                                              ForceLocalZone defines override configuration for forcing all traffic to stay within the local zone instead of the default behavior
+                                              which maintains equal distribution among upstream endpoints while sending as much traffic as possible locally.
+                                            properties:
+                                              minEndpointsInZoneThreshold:
+                                                description: |-
+                                                  MinEndpointsInZoneThreshold is the minimum number of upstream endpoints in the local zone required to honor the forceLocalZone
+                                                  override. This is useful for protecting zones with fewer endpoints.
+                                                format: int32
+                                                type: integer
+                                            type: object
+                                          minEndpointsThreshold:
+                                            description: MinEndpointsThreshold is
+                                              the minimum number of total upstream
+                                              endpoints across all zones required
+                                              to enable zone-aware routing.
+                                            format: int64
+                                            type: integer
+                                        type: object
+                                    type: object
                                 required:
                                 - type
                                 type: object
@@ -14434,6 +14866,10 @@ spec:
                                     RoundRobin and LeastRequest load balancers.
                                   rule: 'self.type in [''Random'', ''ConsistentHash'']
                                     ? !has(self.slowStart) : true '
+                                - message: Currently ZoneAware is only supported for
+                                    LeastRequest, Random, and RoundRobin load balancers.
+                                  rule: 'self.type == ''ConsistentHash'' ? !has(self.zoneAware)
+                                    : true '
                               proxyProtocol:
                                 description: ProxyProtocol enables the Proxy Protocol
                                   when communicating with the backend.
@@ -14456,6 +14892,13 @@ spec:
                                   Retry provides more advanced usage, allowing users to customize the number of retries, retry fallback strategy, and retry triggering conditions.
                                   If not set, retry will be disabled.
                                 properties:
+                                  numAttemptsPerPriority:
+                                    description: |-
+                                      NumAttemptsPerPriority defines the number of requests (initial attempt + retries)
+                                      that should be sent to the same priority before switching to a different one.
+                                      If not specified or set to 0, all requests are sent to the highest priority that is healthy.
+                                    format: int32
+                                    type: integer
                                   numRetries:
                                     default: 2
                                     description: NumRetries is the number of retries
@@ -14476,19 +14919,19 @@ spec:
                                           baseInterval:
                                             description: BaseInterval is the base
                                               interval between retries.
-                                            format: duration
+                                            pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                             type: string
                                           maxInterval:
                                             description: |-
                                               MaxInterval is the maximum interval between retries. This parameter is optional, but must be greater than or equal to the base_interval if set.
                                               The default is 10 times the base_interval
-                                            format: duration
+                                            pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                             type: string
                                         type: object
                                       timeout:
                                         description: Timeout is the timeout per retry
                                           attempt.
-                                        format: duration
+                                        pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                                         type: string
                                     type: object
                                   retryOn:
@@ -14504,8 +14947,7 @@ spec:
                                         items:
                                           description: HTTPStatus defines the http
                                             status code.
-                                          exclusiveMaximum: true
-                                          maximum: 600
+                                          maximum: 599
                                           minimum: 100
                                           type: integer
                                         type: array
@@ -14519,6 +14961,7 @@ spec:
                                           - 5xx
                                           - gateway-error
                                           - reset
+                                          - reset-before-request
                                           - connect-failure
                                           - retriable-4xx
                                           - refused-stream
@@ -14609,6 +15052,18 @@ spec:
                             format: int32
                             minimum: 0
                             type: integer
+                          serviceName:
+                            description: |-
+                              ServiceName defines the service name to use in tracing configuration.
+                              If not set, Envoy Gateway will use a default service name set as
+                              "name.namespace" (e.g., "my-gateway.default").
+                              Note: This field is only supported for OpenTelemetry and Datadog tracing providers.
+                              For Zipkin, the service name in traces is always derived from the Envoy --service-cluster flag
+                              (typically "namespace/name" format). Setting this field has no effect for Zipkin.
+                            type: string
+                            x-kubernetes-validations:
+                            - message: serviceName cannot be empty if provided
+                              rule: self != ""
                           type:
                             default: OpenTelemetry
                             description: Type defines the tracing provider type.

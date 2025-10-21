@@ -206,6 +206,7 @@ verbs:
   verbs:
   - create
   - get
+  - list
   - delete
   - deletecollection
   - patch
@@ -229,9 +230,18 @@ verbs:
   verbs:
   - create
   - get
+  - list
   - delete
   - deletecollection
   - patch
+- apiGroups:
+  - certificates.k8s.io
+  resources:
+  - clustertrustbundles
+  verbs:
+  - list
+  - get
+  - watch
 {{- end }}
 
 {{- define "eg.rbac.infra.tokenreview" -}}
@@ -243,6 +253,7 @@ verbs:
   - create
 {{- end }}
 
+
 {{- define "eg.rbac.namespaced.gateway.voyagermesh" -}}
 apiGroups:
 - gateway.voyagermesh.com
@@ -253,6 +264,7 @@ resources:
 - mysqlroutes
 - postgresroutes
 - redisroutes
+- oracleroutes
 verbs:
 - get
 - list
@@ -271,6 +283,7 @@ resources:
 - mysqlroutes/status
 - postgresroutes/status
 - redisroutes/status
+- oracleroutes/status
 verbs:
 - update
 {{- end }}
