@@ -45,12 +45,11 @@ if [ "$#" -ne 1 ]; then
     crd_dir=${tmp_dir}/${repo_dir}/crds
 fi
 
-KMODULES_CUSTOM_RESOURCES_TAG=${KMODULES_CUSTOM_RESOURCES_TAG:-v0.32.0}
+KMODULES_CUSTOM_RESOURCES_TAG=${KMODULES_CUSTOM_RESOURCES_TAG:-v0.32.2}
 KUBERNETES_SIGS_GATEWAY_API_TAG=${KUBERNETES_SIGS_GATEWAY_API_TAG:-v1.3.2}
-VOYAGERMESH_GATEWAY_API_TAG=${VOYAGERMESH_GATEWAY_API_TAG:-v0.0.7}
+VOYAGERMESH_GATEWAY_API_TAG=${VOYAGERMESH_GATEWAY_API_TAG:-v0.0.8}
 
 crd-importer \
-    --input=${crd_dir} \
     --input=https://github.com/kmodules/custom-resources/raw/${KMODULES_CUSTOM_RESOURCES_TAG}/crds/metrics.appscode.com_metricsconfigurations.v1.yaml \
     --out=./charts/voyager-crds/crds
 
