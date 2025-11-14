@@ -3,19 +3,19 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.16.1
-  name: kafkaroutes.gateway.voyagermesh.com
+  name: oracleroutes.gateway.voyagermesh.com
 spec:
   group: gateway.voyagermesh.com
   names:
     categories:
     - route
     - appscode
-    kind: KafkaRoute
-    listKind: KafkaRouteList
-    plural: kafkaroutes
+    kind: OracleRoute
+    listKind: OracleRouteList
+    plural: oracleroutes
     shortNames:
-    - kfroute
-    singular: kafkaroute
+    - oraroute
+    singular: oracleroute
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -141,6 +141,11 @@ spec:
                 maxItems: 16
                 minItems: 1
                 type: array
+              telemetry:
+                properties:
+                  ref:
+                    type: string
+                type: object
             required:
             - rules
             type: object
