@@ -148,7 +148,6 @@ imagePullSecrets: {{ toYaml list }}
 {{- end }}
 {{- end }}
 
-
 {{/*
 The default Envoy Gateway configuration.
 */}}
@@ -158,7 +157,7 @@ provider:
   kubernetes:
     rateLimitDeployment:
       container:
-        image: {{ include "eg.ratelimit.image" . }}
+        image: {{ include "eg.ratelimit.image" . }}{{ include "operator.ubi" . }}
       {{- if (or .Values.global.imagePullSecrets .Values.global.images.ratelimit.pullSecrets) }}
       pod:
         {{- include "eg.ratelimit.image.pullSecrets" . | nindent 8 }}
@@ -175,7 +174,7 @@ provider:
                   imagePullPolicy: {{ . }}
       {{- end }}
     shutdownManager:
-      image: {{ include "eg.image" . }}
+      image: {{ include "eg.image" . }}{{ include "operator.ubi" . }}
 {{- with .Values.config.envoyGateway.extensionApis }}
 extensionApis:
   {{- toYaml . | nindent 2 }}
@@ -184,4 +183,18 @@ extensionApis:
 proxyTopologyInjector:
   disabled: true
 {{- end }}
+{{- end }}
+
+{{/*
+Returns whether the OpenShift distribution is used
+*/}}
+{{- define "distro.openshift" -}}
+{{- or (.Capabilities.APIVersions.Has "project.openshift.io/v1/Project") .Values.global.distro.openshift (and .Values.distro .Values.distro.openshift) -}}
+{{- end }}
+
+{{/*
+Returns if ubi images are to be used
+*/}}
+{{- define "operator.ubi" -}}
+{{ ternary "-ubi" "" (list "operator" "all" | has (default (dig "ubi" "" (default dict .Values.distro)) .Values.global.distro.ubi)) }}
 {{- end }}

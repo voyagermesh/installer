@@ -26,6 +26,12 @@ global:
       # List of secrets in the same namespace of the component that can be used to pull images from private repositories.
       pullSecrets: []
 
+  distro:
+    # Set true, if installed in OpenShift
+    openshift: false
+    # Set operator or all to use ubi images
+    ubi: ""
+
 podDisruptionBudget:
   minAvailable: 0
   # maxUnavailable: 1
@@ -143,7 +149,6 @@ certgen:
 topologyInjector:
   enabled: true
   annotations: {}
-
 
 gateway-converter:
    enabled: true

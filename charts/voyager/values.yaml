@@ -42,7 +42,7 @@ cleaner:
   # Docker registry used to pull Webhook cleaner image
   registry: appscode
   # Webhook cleaner container image
-  repository: kubectl
+  repository: kubectl-nonroot
   # Webhook cleaner container image tag
   tag: v1.34
   # Skip generating cleaner YAML
@@ -129,3 +129,9 @@ apiserver:
 templates:
   # Name of configmap with custom templates
   cfgmap:
+
+distro:
+  # Set true, if installed in OpenShift
+  openshift: false
+  # Set operator or all to use ubi images
+  ubi: ""
