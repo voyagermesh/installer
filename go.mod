@@ -1,6 +1,6 @@
 module voyagermesh.dev/installer
 
-go 1.23.0
+go 1.24.0
 
 toolchain go1.24.3
 
@@ -9,8 +9,8 @@ require (
 	github.com/google/gofuzz v1.2.0
 	k8s.io/api v0.32.3
 	k8s.io/apimachinery v0.32.3
-	kmodules.xyz/image-packer v0.0.0-20250528193538-0cb00550d6b5
-	kmodules.xyz/schema-checker v0.4.1
+	kmodules.xyz/image-packer v0.0.0-20251216152303-58b6b6db0d4f
+	kmodules.xyz/schema-checker v0.4.2
 )
 
 require (
@@ -43,7 +43,6 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
-	github.com/nxadm/tail v1.4.11 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
@@ -54,12 +53,12 @@ require (
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/yudai/gojsondiff v1.0.0 // indirect
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
-	golang.org/x/net v0.38.0 // indirect
+	golang.org/x/net v0.47.0 // indirect
 	golang.org/x/oauth2 v0.27.0 // indirect
-	golang.org/x/sync v0.12.0 // indirect
-	golang.org/x/sys v0.31.0 // indirect
-	golang.org/x/term v0.30.0 // indirect
-	golang.org/x/text v0.23.0 // indirect
+	golang.org/x/sync v0.18.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
+	golang.org/x/term v0.37.0 // indirect
+	golang.org/x/text v0.31.0 // indirect
 	golang.org/x/time v0.10.0 // indirect
 	gomodules.xyz/go-sh v0.1.0 // indirect
 	google.golang.org/protobuf v1.36.3 // indirect
@@ -69,7 +68,7 @@ require (
 	k8s.io/klog/v2 v2.130.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20250318172550-b98be4ee1595 // indirect
 	k8s.io/utils v0.0.0-20241210054802-24370beab758 // indirect
-	kmodules.xyz/client-go v0.32.4-0.20250513070944-c75b17fe7c82 // indirect
+	kmodules.xyz/client-go v0.32.11 // indirect
 	kubeops.dev/scanner v0.0.19 // indirect
 	sigs.k8s.io/controller-runtime v0.20.4 // indirect
 	sigs.k8s.io/json v0.0.0-20241014173422-cfa47c3a1cc8 // indirect
