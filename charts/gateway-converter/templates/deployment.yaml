@@ -52,10 +52,15 @@ spec:
       serviceAccountName: {{ include "gateway-converter.serviceAccountName" . }}
       containers:
       - name: webhook-server
-        image: "{{ include "server.registry" . }}/{{ .Values.server.repository }}:{{ .Values.server.tag | default .Chart.AppVersion }}"
+        image: {{ include "server.registry" . }}/{{ .Values.server.repository }}:{{ .Values.server.tag | default .Chart.AppVersion }}{{ include "operator.ubi" . }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
+        {{- if eq "true" ( include "distro.openshift" . ) }}
+        securityContext:
+          {{- toYaml (omit .Values.server.securityContext "runAsUser" "runAsGroup" "fsGroup" "supplementalGroups") | nindent 10 }}
+        {{- else }}
         securityContext:
           {{- toYaml .Values.server.securityContext | nindent 10 }}
+        {{- end }}
         args:
           - webhook
         ports:
@@ -102,8 +107,13 @@ spec:
         secret:
           defaultMode: 420
           secretName: {{ include "gateway-converter.fullname" . }}-webhook-cert
+      {{- if eq "true" ( include "distro.openshift" . ) }}
+      securityContext:
+        {{- toYaml (omit .Values.podSecurityContext "runAsUser" "runAsGroup" "fsGroup" "supplementalGroups") | nindent 8 }}
+      {{- else }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- end }}
     {{- if or $tolerations $criticalAddon }}
       tolerations:
       {{- with $tolerations }}

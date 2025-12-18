@@ -1353,6 +1353,17 @@ properties:
             additionalProperties:
               type: string
             type: object
+          pod:
+            properties:
+              annotations:
+                additionalProperties:
+                  type: string
+                type: object
+              labels:
+                additionalProperties:
+                  type: string
+                type: object
+            type: object
           resources:
             description: ResourceRequirements describes the compute resource requirements.
             properties:
@@ -1763,9 +1774,6 @@ properties:
             additionalProperties:
               type: string
             type: object
-        required:
-        - annotations
-        - labels
         type: object
     required:
     - job
@@ -1798,6 +1806,13 @@ properties:
             type: object
           provider:
             properties:
+              kubernetes:
+                properties:
+                  cleanupOffshootResources:
+                    type: boolean
+                required:
+                - cleanupOffshootResources
+                type: object
               type:
                 type: string
             required:
@@ -1813,6 +1828,10 @@ properties:
     type: boolean
   deployment:
     properties:
+      annotations:
+        additionalProperties:
+          type: string
+        type: object
       envoyGateway:
         properties:
           image:
@@ -5240,6 +5259,20 @@ properties:
         type: object
       criticalAddon:
         type: boolean
+      distro:
+        properties:
+          openshift:
+            type: boolean
+          ubi:
+            enum:
+            - all
+            - catalog
+            - operator
+            type: string
+        required:
+        - openshift
+        - ubi
+        type: object
       enabled:
         type: boolean
       fullnameOverride:
@@ -6057,6 +6090,20 @@ properties:
     type: object
   global:
     properties:
+      distro:
+        properties:
+          openshift:
+            type: boolean
+          ubi:
+            enum:
+            - all
+            - catalog
+            - operator
+            type: string
+        required:
+        - openshift
+        - ubi
+        type: object
       imagePullSecrets:
         items:
           type: string
@@ -6861,7 +6908,6 @@ properties:
       enabled:
         type: boolean
     required:
-    - annotations
     - enabled
     type: object
 required:

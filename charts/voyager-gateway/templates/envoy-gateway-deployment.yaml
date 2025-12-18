@@ -57,7 +57,7 @@ spec:
               fieldPath: metadata.namespace
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: {{ .Values.kubernetesClusterDomain }}
-        image: {{ include "eg.image" . }}
+        image: {{ include "eg.image" . }}{{ include "operator.ubi" . }}
         imagePullPolicy: {{ include "eg.image.pullPolicy" . }}
         livenessProbe:
           httpGet:
@@ -83,8 +83,14 @@ spec:
           periodSeconds: 10
         resources:
           {{- toYaml .Values.deployment.envoyGateway.resources | nindent 10 }}
+
+        {{- if eq "true" ( include "distro.openshift" . ) }}
+        securityContext:
+          {{- toYaml (omit .Values.deployment.envoyGateway.securityContext "runAsUser" "runAsGroup" "fsGroup" "supplementalGroups") | nindent 10 }}
+        {{- else }}
         securityContext:
           {{- toYaml .Values.deployment.envoyGateway.securityContext | nindent 10 }}
+        {{- end }}
         volumeMounts:
         - mountPath: /config
           name: envoy-gateway-config

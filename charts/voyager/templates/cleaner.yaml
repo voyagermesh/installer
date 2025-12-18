@@ -18,7 +18,7 @@ spec:
       serviceAccountName: {{ include "voyager.serviceAccountName" . }}
       containers:
       - name: kubectl
-        image: {{ include "cleaner.registry" . }}/{{ .Values.cleaner.repository }}:{{ .Values.cleaner.tag }}
+        image: {{ include "cleaner.registry" . }}/{{ .Values.cleaner.repository }}:{{ .Values.cleaner.tag }}{{ include "operator.ubi" . }}
         command:
           - sh
           - -c
@@ -26,5 +26,19 @@ spec:
           kubectl delete validatingwebhookconfigurations admission.voyager.appscode.com || true; \
           kubectl delete apiservice v1alpha1.admission.voyager.appscode.com || true"
         imagePullPolicy: {{ .Values.imagePullPolicy  }}
+        {{- if eq "true" ( include "distro.openshift" . ) }}
+        securityContext:
+          {{- toYaml (omit .Values.operator.securityContext "runAsUser" "runAsGroup" "fsGroup" "supplementalGroups") | nindent 10 }}
+        {{- else }}
+        securityContext:
+          {{- toYaml .Values.operator.securityContext | nindent 10 }}
+        {{- end }}
       restartPolicy: Never
+      {{- if eq "true" ( include "distro.openshift" . ) }}
+      securityContext:
+        {{- toYaml (omit .Values.podSecurityContext "runAsUser" "runAsGroup" "fsGroup" "supplementalGroups") | nindent 8 }}
+      {{- else }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- end }}
 {{ end }}
