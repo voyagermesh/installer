@@ -20,3 +20,7 @@ dependencies:
   repository: file://../gateway-converter
   condition: gateway-converter.enabled
   version: v2024.8.30
+- name: crd-manager
+  repository: file://../crd-manager
+  condition: crd-manager.enabled
+  version: v2026.1.15

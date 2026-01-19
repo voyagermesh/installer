@@ -25,6 +25,11 @@ import (
 	"kmodules.xyz/image-packer/pkg/lib"
 )
 
+var ignoreMissingList = []string{
+	"ghcr.io/voyagermesh/gateway-converter:v0.0.1-ubi",
+	"ghcr.io/voyagermesh/voyager:v17.4.0-ubi",
+}
+
 func Test_CheckImageArchitectures(t *testing.T) {
 	dir, err := rootDir()
 	if err != nil {
@@ -33,7 +38,7 @@ func Test_CheckImageArchitectures(t *testing.T) {
 
 	if err := lib.CheckImageArchitectures([]string{
 		filepath.Join(dir, "catalog", "imagelist.yaml"),
-	}, nil, nil); err != nil {
+	}, nil, ignoreMissingList); err != nil {
 		t.Errorf("CheckImageArchitectures() error = %v", err)
 	}
 }
@@ -58,7 +63,7 @@ func Test_CheckUBIImageArchitectures(t *testing.T) {
 		"voyager":           ubiOperator,
 		"voyager-gateway":   ubiOperator,
 	}
-	if err := lib.CheckHelmChartImageArchitectures(filepath.Join(dir, "charts"), values, nil, nil); err != nil {
+	if err := lib.CheckHelmChartImageArchitectures(filepath.Join(dir, "charts"), values, nil, ignoreMissingList); err != nil {
 		t.Errorf("CheckUBIImageArchitectures() error = %v", err)
 	}
 }

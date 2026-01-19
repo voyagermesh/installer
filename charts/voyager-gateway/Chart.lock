@@ -2,5 +2,8 @@ dependencies:
 - name: gateway-converter
   repository: file://../gateway-converter
   version: v2024.8.30
-digest: sha256:5852e4fe0da5484e6cd4087cad8d71aca3b59ecb9ee1bcacd70e1d7990aea6ee
-generated: "2024-09-13T22:54:46.748243-07:00"
+- name: crd-manager
+  repository: file://../crd-manager
+  version: v2026.1.15
+digest: sha256:6c2a2e21fe3d905bec01d4dd3ea31d1019a898ae289fe3de0b5c77fe4adb17f7
+generated: "2026-01-19T19:18:53.0857053+06:00"
