@@ -6887,9 +6887,12 @@ properties:
         type: object
       trafficDistribution:
         type: string
+      type:
+        type: string
     required:
     - annotations
     - trafficDistribution
+    - type
     type: object
   topologyInjector:
     properties:

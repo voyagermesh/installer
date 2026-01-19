@@ -32,9 +32,9 @@ mv /tmp/crane images
 
 CMD="./images/crane"
 
-$CMD pull --allow-nondistributable-artifacts --insecure ghcr.io/appscode/kubectl:v1.34 images/appscode-kubectl-v1.34.tar
+$CMD pull --allow-nondistributable-artifacts --insecure ghcr.io/appscode/kubectl-nonroot:v1.34 images/appscode-kubectl-nonroot-v1.34.tar
 $CMD pull --allow-nondistributable-artifacts --insecure ghcr.io/voyagermesh/gateway-converter:v0.0.1 images/voyagermesh-gateway-converter-v0.0.1.tar
-$CMD pull --allow-nondistributable-artifacts --insecure ghcr.io/voyagermesh/gateway:v1.5.4 images/voyagermesh-gateway-v1.5.4.tar
+$CMD pull --allow-nondistributable-artifacts --insecure ghcr.io/voyagermesh/gateway:v1.6.1 images/voyagermesh-gateway-v1.6.1.tar
 $CMD pull --allow-nondistributable-artifacts --insecure ghcr.io/voyagermesh/voyager:v17.4.0 images/voyagermesh-voyager-v17.4.0.tar
 
 tar -czvf images.tar.gz images
