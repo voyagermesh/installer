@@ -26,6 +26,7 @@ tar -zxvf $TARBALL
 
 CMD="./crane"
 
+$CMD push --allow-nondistributable-artifacts --insecure images/appscode-crd-manager-v0.1.0.tar $IMAGE_REGISTRY/appscode/crd-manager:v0.1.0
 $CMD push --allow-nondistributable-artifacts --insecure images/appscode-kubectl-nonroot-v1.34.tar $IMAGE_REGISTRY/appscode/kubectl-nonroot:v1.34
 $CMD push --allow-nondistributable-artifacts --insecure images/voyagermesh-gateway-converter-v0.0.1.tar $IMAGE_REGISTRY/voyagermesh/gateway-converter:v0.0.1
 $CMD push --allow-nondistributable-artifacts --insecure images/voyagermesh-gateway-v1.6.1.tar $IMAGE_REGISTRY/voyagermesh/gateway:v1.6.1

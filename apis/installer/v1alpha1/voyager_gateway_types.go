@@ -57,6 +57,7 @@ type VoyagerGatewaySpec struct {
 	Certgen                 *CertgenSpec             `json:"certgen,omitempty"`
 	TopologyInjector        *TopologyInjectorSpec    `json:"topologyInjector"`
 	GatewayConverter        *VoyagerGatewayConverter `json:"gateway-converter,omitempty"`
+	CRDManager              *CRDManagerConverter     `json:"crd-manager,omitempty"`
 }
 
 type VoyagerGatewayGlobal struct {
@@ -220,6 +221,11 @@ type TopologyInjectorSpec struct {
 type VoyagerGatewayConverter struct {
 	Enabled               bool `json:"enabled"`
 	*GatewayConverterSpec `json:",inline,omitempty"`
+}
+
+type CRDManagerConverter struct {
+	Enabled         bool `json:"enabled"`
+	*CrdManagerSpec `json:",inline,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

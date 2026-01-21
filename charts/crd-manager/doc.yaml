@@ -1,0 +1,18 @@
+project:
+  name: Voyagermesh CRD Manager by AppsCode
+  shortName: Voyagermesh CRD Manager
+  url: https://github.com/voyagermesh
+  description: Voyagermesh CRD Installer
+  app: a Voyagermesh CRD Manager operator
+repository:
+  url: https://charts.appscode.com/stable/
+  name: appscode
+chart:
+  name: crd-manager
+  values: -- generate from values file --
+  valuesExample: -- generate from values file --
+prerequisites:
+  - Kubernetes 1.20+
+release:
+  name: crd-manager
+  namespace: gw

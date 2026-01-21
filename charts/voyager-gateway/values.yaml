@@ -151,4 +151,7 @@ topologyInjector:
   annotations: {}
 
 gateway-converter:
-   enabled: true
+   enabled: false
+
+crd-manager:
+  enabled: true
