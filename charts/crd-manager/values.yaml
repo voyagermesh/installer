@@ -5,7 +5,7 @@ registryFQDN: ghcr.io
 # Docker registry containing app images
 image:
   # Docker registry used to pull app container image
-  registry: appscode
+  registry: voyagermesh
   # App container image
   repository: crd-manager
   # Overrides the image tag whose default is the chart appVersion.
