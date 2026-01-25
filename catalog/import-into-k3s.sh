@@ -24,8 +24,8 @@ fi
 TARBALL=${1:-}
 tar -zxvf $TARBALL
 
-k3s ctr images import images/appscode-crd-manager-v0.1.0.tar
 k3s ctr images import images/appscode-kubectl-nonroot-v1.34.tar
+k3s ctr images import images/voyagermesh-crd-manager-v0.1.0.tar
 k3s ctr images import images/voyagermesh-gateway-converter-v0.0.1.tar
-k3s ctr images import images/voyagermesh-gateway-v1.6.1.tar
+k3s ctr images import images/voyagermesh-gateway-v1.6.2.tar
 k3s ctr images import images/voyagermesh-voyager-v17.4.0.tar
