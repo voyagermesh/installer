@@ -50,9 +50,9 @@ func Test_CheckUBIImageArchitectures(t *testing.T) {
 	}
 
 	const (
-		//	ubiAll = `global:
-		// distro:
-		//  ubi: all`
+		ubiAll = `global:
+  distro:
+    ubi: all`
 		ubiOperator = `distro:
   ubi: operator`
 		//	ubiCatalog = `distro:
@@ -61,7 +61,7 @@ func Test_CheckUBIImageArchitectures(t *testing.T) {
 	values := map[string]string{
 		"gateway-converter": ubiOperator,
 		"voyager":           ubiOperator,
-		"voyager-gateway":   ubiOperator,
+		"voyager-gateway":   ubiAll,
 	}
 	if err := lib.CheckHelmChartImageArchitectures(filepath.Join(dir, "charts"), values, nil, ignoreMissingList); err != nil {
 		t.Errorf("CheckUBIImageArchitectures() error = %v", err)
