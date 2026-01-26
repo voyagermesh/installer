@@ -1,0 +1,64 @@
+{{- $nodeSelector := .Values.tester.pod.nodeSelector }}
+{{- if .Values.global }}
+  {{ $nodeSelector = default .Values.tester.pod.nodeSelector .Values.global.nodeSelector }}
+{{- end }}
+
+{{- $tolerations := .Values.tester.pod.tolerations }}
+{{- if .Values.global }}
+  {{ $tolerations = default .Values.tester.pod.tolerations .Values.global.tolerations }}
+{{- end }}
+
+{{- $affinity := .Values.tester.pod.affinity }}
+{{- if .Values.global }}
+  {{ $affinity = default .Values.tester.pod.affinity .Values.global.affinity }}
+{{- end }}
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: envoy-gateway-test-connection
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "eg.labels" . | nindent 4 }}
+    {{- with .Values.tester.pod.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  {{- include "eg.tester.image.pullSecrets" . | nindent 2 }}
+  {{- if eq "true" ( include "distro.openshift" . ) }}
+  securityContext:
+    {{- toYaml (omit .Values.tester.pod.securityContext "runAsUser" "runAsGroup" "fsGroup" "supplementalGroups") | nindent 4 }}
+  {{- else }}
+  securityContext:
+    {{- toYaml .Values.tester.pod.securityContext | nindent 4 }}
+  {{- end }}
+  containers:
+    - name: tester
+      image: {{ include "eg.tester.image" . }}{{ include "operator.ubi" . }}
+      imagePullPolicy: {{ include "eg.tester.pullPolicy" . }}
+      command: ['curl']
+      args: ['--silent', '--fail', 'envoy-gateway:8081/healthz']
+      {{- if eq "true" ( include "distro.openshift" . ) }}
+      securityContext:
+        {{- toYaml (omit .Values.tester.securityContext "runAsUser" "runAsGroup" "fsGroup" "supplementalGroups") | nindent 8 }}
+      {{- else }}
+      securityContext:
+        {{- toYaml .Values.tester.securityContext | nindent 8 }}
+      {{- end }}
+      resources:
+        {{- toYaml .Values.tester.resources | nindent 8 }}
+  {{- with $nodeSelector }}
+  nodeSelector:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with $affinity }}
+  affinity:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with $tolerations }}
+  tolerations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  restartPolicy: Never

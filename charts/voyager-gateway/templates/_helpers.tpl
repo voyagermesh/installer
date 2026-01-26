@@ -149,6 +149,42 @@ imagePullSecrets: {{ toYaml list }}
 {{- end }}
 
 {{/*
+The name of the Envoy Tester image.
+*/}}
+{{- define "eg.tester.image" -}}
+{{-   $imageParts := splitn "/" 2 .Values.tester.image -}}
+{{/*    if global.imageRegistry is defined, it takes precedence always */}}
+{{-   $registryName := default $imageParts._0 .Values.global.imageRegistry -}}
+{{-   $repositoryTag := $imageParts._1 -}}
+{{-   $repositoryParts := splitn ":" 2 $repositoryTag -}}
+{{-   $repositoryName := $repositoryParts._0 -}}
+{{-   $imageTag := default "master" $repositoryParts._1 -}}
+{{-   printf "%s/%s:%s" $registryName $repositoryName $imageTag -}}
+{{- end -}}
+
+{{/*
+Pull secrets for the Envoy Tester image.
+*/}}
+{{- define "eg.tester.image.pullSecrets" -}}
+{{- if .Values.global.imagePullSecrets }}
+imagePullSecrets:
+{{ toYaml .Values.global.imagePullSecrets }}
+{{- else if .Values.tester.pullSecrets -}}
+imagePullSecrets:
+{{ toYaml .Values.tester.pullSecrets }}
+{{- else }}
+imagePullSecrets: {{ toYaml list }}
+{{- end }}
+{{- end }}
+
+{{/*
+Pull policy for the Envoy Tester image.
+*/}}
+{{- define "eg.tester.pullPolicy" -}}
+{{- default "IfNotPresent" .Values.tester.pullPolicy -}}
+{{- end }}
+
+{{/*
 The default Envoy Gateway configuration.
 */}}
 {{- define "eg.default-envoy-gateway-config" -}}

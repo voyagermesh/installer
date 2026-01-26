@@ -146,6 +146,39 @@ certgen:
     annotations: {}
     labels: {}
 
+tester:
+  # This is the full image name including the hub, repo, and tag.
+  image: "ghcr.io/appscode/kubectl-nonroot:1.34"
+  # Specify image pull policy if default behavior isn't desired.
+  # Default behavior: latest images will be Always else IfNotPresent.
+  pullPolicy: IfNotPresent
+  # List of secrets in the same namespace of the component that can be used to pull images from private repositories.
+  pullSecrets: []
+  resources:
+    limits:
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  securityContext: # +doc-gen:break
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop: ["ALL"]
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsGroup: 65532
+    runAsUser: 65532
+    seccompProfile:
+      type: RuntimeDefault
+  pod:
+    affinity: {}
+    annotations: {}
+    labels: {}
+    topologySpreadConstraints: []
+    tolerations: []
+    nodeSelector: {}
+    securityContext: {}
+
 topologyInjector:
   enabled: true
   annotations: {}

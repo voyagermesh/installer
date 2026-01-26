@@ -22,6 +22,9 @@ spec:
     port: 9443
     targetPort: 9443
   {{- end }}
+  - name: probes
+    port: 8081
+    targetPort: 8081
   {{- with .Values.service.trafficDistribution }}
   trafficDistribution: {{ . }}
   {{- end }}
