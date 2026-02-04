@@ -4,7 +4,7 @@ description: The Helm chart for Voyager Gateway
 type: application
 version: v2026.1.15
 appVersion: v1.6.2
-kubeVersion: '>=1.28.0'
+kubeVersion: '>=1.28.0-0'
 annotations:
   charts.openshift.io/name: voyager-gateway
 maintainers:
