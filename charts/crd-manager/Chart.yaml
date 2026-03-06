@@ -2,8 +2,8 @@ apiVersion: v2
 name: crd-manager
 description: A Helm chart for AppsCode SaaS Calalog
 type: application
-version: v2026.1.15
-appVersion: v0.1.0
+version: v2026.3.6
+appVersion: v0.2.0
 home: https://github.com/appscode-cloud/crd-manager
 icon: https://cdn.appscode.com/images/products/searchlight/icons/android-icon-192x192.png
 sources:

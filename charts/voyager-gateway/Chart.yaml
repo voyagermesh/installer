@@ -26,4 +26,4 @@ dependencies:
 - name: crd-manager
   repository: file://../crd-manager
   condition: crd-manager.enabled
-  version: v2026.1.15
+  version: v2026.3.6
