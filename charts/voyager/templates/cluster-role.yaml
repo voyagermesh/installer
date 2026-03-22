@@ -59,6 +59,11 @@ rules:
   - configmaps
   verbs: ["*"]
 - apiGroups:
+  - discovery.k8s.io
+  resources:
+  - endpointslices
+  verbs: ["get", "list", "watch"]
+- apiGroups:
   - ""
   resources:
   - services/finalizers
