@@ -1,5 +1,6 @@
+- ghcr.io/appscode/kubectl-nonroot:1.34
 - ghcr.io/appscode/kubectl-nonroot:v1.34
-- ghcr.io/voyagermesh/crd-manager:v0.1.0
+- ghcr.io/voyagermesh/crd-manager:v0.2.0
 - ghcr.io/voyagermesh/gateway-converter:v0.0.1
 - ghcr.io/voyagermesh/gateway:v1.6.2
-- ghcr.io/voyagermesh/voyager:v17.4.0
+- ghcr.io/voyagermesh/voyager:v17.5.0

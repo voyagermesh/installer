@@ -129,7 +129,6 @@ apiserver:
 templates:
   # Name of configmap with custom templates
   cfgmap:
-
 distro:
   # Set true, if installed in OpenShift
   openshift: false

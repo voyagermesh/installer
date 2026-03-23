@@ -35,8 +35,9 @@ mv /tmp/crane .
 
 CMD="./crane"
 
+$CMD cp --allow-nondistributable-artifacts --insecure ghcr.io/appscode/kubectl-nonroot:1.34 $IMAGE_REGISTRY/appscode/kubectl-nonroot:1.34
 $CMD cp --allow-nondistributable-artifacts --insecure ghcr.io/appscode/kubectl-nonroot:v1.34 $IMAGE_REGISTRY/appscode/kubectl-nonroot:v1.34
-$CMD cp --allow-nondistributable-artifacts --insecure ghcr.io/voyagermesh/crd-manager:v0.1.0 $IMAGE_REGISTRY/voyagermesh/crd-manager:v0.1.0
+$CMD cp --allow-nondistributable-artifacts --insecure ghcr.io/voyagermesh/crd-manager:v0.2.0 $IMAGE_REGISTRY/voyagermesh/crd-manager:v0.2.0
 $CMD cp --allow-nondistributable-artifacts --insecure ghcr.io/voyagermesh/gateway-converter:v0.0.1 $IMAGE_REGISTRY/voyagermesh/gateway-converter:v0.0.1
 $CMD cp --allow-nondistributable-artifacts --insecure ghcr.io/voyagermesh/gateway:v1.6.2 $IMAGE_REGISTRY/voyagermesh/gateway:v1.6.2
-$CMD cp --allow-nondistributable-artifacts --insecure ghcr.io/voyagermesh/voyager:v17.4.0 $IMAGE_REGISTRY/voyagermesh/voyager:v17.4.0
+$CMD cp --allow-nondistributable-artifacts --insecure ghcr.io/voyagermesh/voyager:v17.5.0 $IMAGE_REGISTRY/voyagermesh/voyager:v17.5.0
