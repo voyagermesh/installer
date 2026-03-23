@@ -27,7 +27,7 @@ import (
 
 var ignoreMissingList = []string{
 	"ghcr.io/voyagermesh/gateway-converter:v0.0.1-ubi",
-	"ghcr.io/voyagermesh/voyager:v17.4.0-ubi",
+	"ghcr.io/voyagermesh/voyager:v17.5.0-ubi",
 }
 
 func Test_CheckImageArchitectures(t *testing.T) {
