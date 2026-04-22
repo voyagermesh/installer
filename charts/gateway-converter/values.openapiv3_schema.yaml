@@ -2038,8 +2038,6 @@ properties:
         type: boolean
       name:
         type: string
-    required:
-    - create
     type: object
   tolerations:
     description: If specified, the pod's tolerations.

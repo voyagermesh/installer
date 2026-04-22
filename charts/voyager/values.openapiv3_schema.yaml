@@ -2068,8 +2068,6 @@ properties:
         type: boolean
       name:
         type: string
-    required:
-    - create
     type: object
   templates:
     properties:
