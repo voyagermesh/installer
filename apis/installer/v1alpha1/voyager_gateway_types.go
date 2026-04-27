@@ -88,12 +88,13 @@ type PodDisruptionBudgetSpec struct {
 
 type DeploymentSpec struct {
 	// +optional
-	Annotations       map[string]string       `json:"annotations,omitempty"`
-	EnvoyGateway      *EnvoyGatewayDeployment `json:"envoyGateway,omitempty"`
-	Ports             []Port                  `json:"ports,omitempty"`
-	PriorityClassName *string                 `json:"priorityClassName"`
-	Replicas          *int                    `json:"replicas,omitempty"`
-	Pod               *PodTemplateSpec        `json:"pod,omitempty"`
+	Annotations  map[string]string       `json:"annotations,omitempty"`
+	EnvoyGateway *EnvoyGatewayDeployment `json:"envoyGateway,omitempty"`
+	Ports        []Port                  `json:"ports,omitempty"`
+	// +optional
+	PriorityClassName *string          `json:"priorityClassName,omitempty"`
+	Replicas          *int             `json:"replicas,omitempty"`
+	Pod               *PodTemplateSpec `json:"pod,omitempty"`
 }
 
 type ServiceSpec struct {
