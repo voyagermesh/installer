@@ -9,6 +9,8 @@ All namespaced resources for Envoy Gateway RBAC.
 - {{ include "eg.rbac.namespaced.gateway.envoyproxy.status" . | nindent 2 | trim }}
 - {{ include "eg.rbac.namespaced.gateway.networking" . | nindent 2 | trim }}
 - {{ include "eg.rbac.namespaced.gateway.networking.status" . | nindent 2 | trim }}
+- {{ include "eg.rbac.namespaced.autoscaling" . | nindent 2 | trim }}
+- {{ include "eg.rbac.namespaced.policy" . | nindent 2 | trim }}
 - {{ include "eg.rbac.namespaced.gateway.voyagermesh" . | nindent 2 | trim }}
 - {{ include "eg.rbac.namespaced.gateway.voyagermesh.status" . | nindent 2 | trim }}
 {{- if .Values.topologyInjector.enabled }}
@@ -117,6 +119,7 @@ apiGroups:
 - gateway.networking.k8s.io
 resources:
 - gateways
+- listenersets
 - grpcroutes
 - httproutes
 - referencegrants
@@ -135,6 +138,7 @@ apiGroups:
 - gateway.networking.k8s.io
 resources:
 - gateways/status
+- listenersets/status
 - grpcroutes/status
 - httproutes/status
 - tcproutes/status
@@ -251,6 +255,29 @@ verbs:
   - tokenreviews
   verbs:
   - create
+{{- end }}
+
+
+{{- define "eg.rbac.namespaced.autoscaling" -}}
+apiGroups:
+- autoscaling
+resources:
+- horizontalpodautoscalers
+verbs:
+- get
+- list
+- watch
+{{- end }}
+
+{{- define "eg.rbac.namespaced.policy" -}}
+apiGroups:
+- policy
+resources:
+- poddisruptionbudgets
+verbs:
+- get
+- list
+- watch
 {{- end }}
 
 
