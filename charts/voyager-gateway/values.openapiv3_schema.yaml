@@ -3882,6 +3882,8 @@ properties:
         type: array
       ttlSecondsAfterFinished:
         type: integer
+      updateExistingCRDs:
+        type: boolean
     required:
     - enabled
     type: object

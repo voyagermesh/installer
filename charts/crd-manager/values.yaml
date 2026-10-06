@@ -77,6 +77,10 @@ featureGates:
 
 removeUnusedCRDs: false
 
+# If false, existing GatewayOfficial and EnvoyOfficial CRDs are left untouched.
+# DatabaseRoute CRDs are always updated.
+updateExistingCRDs: true
+
 distro:
   openshift: false
   ubi: ""
