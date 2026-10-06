@@ -2029,4 +2029,6 @@ properties:
     type: array
   ttlSecondsAfterFinished:
     type: integer
+  updateExistingCRDs:
+    type: boolean
 type: object
