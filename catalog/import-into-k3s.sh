@@ -26,7 +26,8 @@ tar -zxvf $TARBALL
 
 k3s ctr images import images/appscode-kubectl-nonroot-1.34.tar
 k3s ctr images import images/appscode-kubectl-nonroot-v1.34.tar
-k3s ctr images import images/voyagermesh-crd-manager-v0.3.0.tar
+k3s ctr images import images/voyagermesh-crd-manager-v0.4.0.tar
 k3s ctr images import images/voyagermesh-gateway-converter-v0.0.1.tar
 k3s ctr images import images/voyagermesh-gateway-v1.8.2.tar
+k3s ctr images import images/voyagermesh-haproxy-3.3-alpine.tar
 k3s ctr images import images/voyagermesh-voyager-v17.5.0.tar

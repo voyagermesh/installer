@@ -4,6 +4,6 @@ dependencies:
   version: v2024.8.30
 - name: crd-manager
   repository: file://../crd-manager
-  version: v2026.7.21
-digest: sha256:383e2e97a837b7634a35e3093c413dbfd973942245b2a009ac934be5e4918ea7
-generated: "2026-07-21T16:04:58.273019182+06:00"
+  version: v2026.10.10
+digest: sha256:8b7d5238be000dea650609f7e2e9dc1644318c6cfd2e532e355d7516be87a8b5
+generated: "2026-10-06T16:23:43.462706309+06:00"
