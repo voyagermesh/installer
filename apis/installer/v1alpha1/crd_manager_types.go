@@ -82,7 +82,7 @@ type CrdManagerSpec struct {
 	RemoveUnusedCRDs        bool            `json:"removeUnusedCRDs,omitempty"`
 	TTLSecondsAfterFinished int             `json:"ttlSecondsAfterFinished,omitempty"`
 	// +optional
-	UpdateExistingCRDs bool `json:"updateExistingCRDs"`
+	UpdateExistingCRDs *bool `json:"updateExistingCRDs,omitempty"`
 	// +optional
 	Distro shared.DistroSpec `json:"distro"`
 }
